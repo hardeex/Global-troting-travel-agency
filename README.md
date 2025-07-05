@@ -6,6 +6,8 @@ A modern Laravel application for planning and booking travel services including 
 
 ## 📸 Booking Form UI Preview
 
+![alt text](<Screenshot from 2025-07-05 07-09-41.png>)
+
 ![Booking Form Preview](resources/screenshots/booking-ui.png)
 
 ---
