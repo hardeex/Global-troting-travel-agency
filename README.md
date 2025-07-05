@@ -1,10 +1,10 @@
-# 🌍 Globe Trotting - Laravel Travel Booking Platform
+# Globe Trotting - Laravel Travel Booking Platform
 
 A modern Laravel application for planning and booking travel services including **cars**, **flights**, **hotel stays**, and **activities**. Built with elegant UI and Tailwind CSS.
 
 ---
 
-## 📸 Booking Form UI Preview
+## Booking Form UI Preview
 
 ![alt text](<Screenshot from 2025-07-05 07-09-41.png>)
 
@@ -12,7 +12,7 @@ A modern Laravel application for planning and booking travel services including 
 
 ---
 
-## 🚀 Features
+## Features
 
 - ✈️ Flight Search with Cabin Class, Date Range, and Pax
 - 🚗 Car Rentals with Location & Driver Age Support
