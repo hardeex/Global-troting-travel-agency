@@ -26,7 +26,7 @@
 
 
 
-
+ @include('components.scroll-to-top')
     <!---- Go to Booking Section--->
     <script>
         document.getElementById('bookNowBtn').addEventListener('click', function(e) {
@@ -34,6 +34,10 @@
             document.getElementById('book-now-section').scrollIntoView({
                 behavior: 'smooth',
             });
+        });
+
+         document.getElementById("exploreBtn").addEventListener("click", function() {
+            document.getElementById("targetSection").scrollIntoView({ behavior: "smooth" });
         });
     </script>
 

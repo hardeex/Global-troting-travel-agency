@@ -11,6 +11,9 @@
     @include('components.about-us')
 
 
+    <!--- contact booking form-->
+    @include('components.contact-booking')
+    
     <!--- Book a trip-->
     @include('components.book-a-trip')
 

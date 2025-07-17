@@ -33,7 +33,7 @@
                     </span>
                 </h1>
                 <div class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-2">
-                    <strong>Nathaniel CopelandCampbell</strong>
+                    <strong>Nathaniel CC. </strong>
                 </div>
                 <div class="text-sm sm:text-base text-blue-200 mb-4">
                     Independent Travel Advisor

@@ -139,14 +139,14 @@ $destinations = [
         
         <!-- View All Button -->
         <div class="text-center">
-            <button class="group px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-sky-600 to-sky-500 text-white rounded-full font-semibold text-base md:text-lg hover:from-sky-700 hover:to-sky-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+            {{-- <button class="group px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-sky-600 to-sky-500 text-white rounded-full font-semibold text-base md:text-lg hover:from-sky-700 hover:to-sky-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
                 <span class="flex items-center space-x-2">
                     <span>View All Destinations</span>
                     <svg class="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>
                 </span>
-            </button>
+            </button> --}}
         </div>
     </div>
 </section>
