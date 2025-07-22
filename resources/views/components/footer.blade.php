@@ -69,36 +69,33 @@
                 <div>
                     <h4 class="text-lg font-semibold mb-6 text-white">Quick Links</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
+                         <li><a href="{{route('index')}}" class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
+                            <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            Home
+                        </a></li>
+
+                        <li><a href="#about-content" class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
                             <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
                             About Us
                         </a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
+                        <li><a href="#popular-destination" class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
                             <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
                             Destinations
                         </a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
+                        <li><a href="#book-now-section" class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
                             <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
-                            Tour Packages
+                            Plan a Trip
                         </a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
-                            <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
-                            Travel Guide
-                        </a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
-                            <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                            </svg>
-                            Blog
-                        </a></li>
+                       
+                       
                     </ul>
                 </div>
                 
@@ -187,7 +184,7 @@
             </div>
             
             <!-- Newsletter Signup -->
-            <div class="bg-gradient-to-r from-sky-500 to-sky-600 rounded-2xl p-6 md:p-8 mb-8">
+            {{-- <div class="bg-gradient-to-r from-sky-400 to-sky-500 rounded-2xl p-6 md:p-8 mb-8">
                 <div class="flex flex-col md:flex-row items-center justify-between">
                     <div class="mb-4 md:mb-0">
                         <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Stay Updated!</h3>
@@ -200,7 +197,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             
             <!-- Bottom Bar -->
             <div class="border-t border-gray-700 pt-8">

@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BookingController;
 
 // Public routes
-Route::get('/', fn () => view('welcome'));
-Route::view('/contact-booking', 'contact-booking');
+Route::get('/', fn () => view('welcome'))->name('index');
 Route::post('/submit-form', [BookingController::class, 'submit'])->name('form.submit');
 
 // Admin Login & Authentication

@@ -1,5 +1,5 @@
-@include('feedback')
-<section class="min-h-screen py-16 px-4 bg-gradient-to-br from-sky-50 via-white to-sky-100" x-data="{ type: 'contact', isLoading: false, showSuccess: false }">
+
+<section id="book-now-section"  class="min-h-screen py-16 px-4 bg-gradient-to-br from-sky-50 via-white to-sky-100" x-data="{ type: 'contact', isLoading: false, showSuccess: false }">
     <div class="max-w-7xl mx-auto">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             
@@ -48,7 +48,7 @@
                 </div>
                 
                 <!-- Stats -->
-                <div class="grid grid-cols-3 gap-4 text-center">
+                {{-- <div class="grid grid-cols-3 gap-4 text-center">
                     <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-md">
                         <div class="text-2xl font-bold text-sky-600">10K+</div>
                         <div class="text-sm text-gray-600">Happy Travelers</div>
@@ -61,7 +61,7 @@
                         <div class="text-2xl font-bold text-sky-600">24/7</div>
                         <div class="text-sm text-gray-600">Support</div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Right Side - Form -->

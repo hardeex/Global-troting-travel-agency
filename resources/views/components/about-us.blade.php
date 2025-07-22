@@ -1,4 +1,4 @@
-<section class="relative bg-gradient-to-br from-blue-500 to-blue-600 py-8 px-4 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
+<section class="relative bg-gradient-to-br from-blue-300 to-blue-500 py-8 px-4 sm:py-12 sm:px-6 lg:py-16 lg:px-8">
     <style>
         @keyframes float {
 
@@ -132,7 +132,7 @@
 
                 <!-- Why travel with us tab -->
                 <div id="why-content" class="tab-content hidden">
-                    <h2 class="text-xl sm:text-2xl font-bold gradient-text mb-4 sm:mb-6">Why Travel Globe Trotting?</h2>
+                  <h2 class="text-xl sm:text-2xl font-bold gradient-text mb-4 sm:mb-6">Why Choose Globe Trotting?</h2>
                     <div class="space-y-3 sm:space-y-4">
                         <div class="flex items-start gap-3 sm:gap-4">
                             <div

@@ -13,14 +13,14 @@
 
     <!--- contact booking form-->
     @include('components.contact-booking')
-    
+
     <!--- Book a trip-->
-    @include('components.book-a-trip')
+    {{-- @include('components.book-a-trip') --}}
 
  
 
-    <!--Blog--->
-    @include('components.blog')
+    {{-- <!--Blog--->
+    @include('components.blog') --}}
 
 
 @endsection

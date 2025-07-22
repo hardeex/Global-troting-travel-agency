@@ -60,17 +60,17 @@
                 </div>
 
                 <!-- Main Message -->
-                <div class="mb-6 sm:mb-8 stagger-2 fade-in">
-                    <p class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-4 leading-relaxed">
-                        Discover the world with Globe Trotting, your trusted travel partner. From breathtaking
-                        landscapes to bustling cities, we bring you closer to the wonders of the world. Let us handle
-                        the details while you create unforgettable memories.
-                    </p>
-                    <p class="text-base sm:text-lg text-blue-200 leading-relaxed">
-                        From exotic getaways to cultural explorations, we me handle every detail while you focus on the
-                        excitement of your next adventure.
-                    </p>
-                </div>
+               <div class="mb-6 sm:mb-8 stagger-2 fade-in">
+    <p class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-4 leading-relaxed">
+        Discover the world with Globe Trotting, your trusted travel partner. From breathtaking
+        landscapes to bustling cities, we bring you closer to the wonders of the world. Let us handle
+        the details while you create unforgettable memories.
+    </p>
+    <p class="text-base sm:text-lg text-blue-200 leading-relaxed">
+        From exotic getaways to cultural explorations, we handle every detail while you focus on the
+        excitement of your next adventure.
+    </p>
+</div>
 
 
                 <div
@@ -119,60 +119,66 @@
 
             <!-- Right Content - Search Card -->
             <div class="flex justify-center lg:justify-end fade-in stagger-2">
-                <div
-                    class="w-full max-w-md p-6 sm:p-8 rounded-3xl search-card transform hover:scale-105 transition-all duration-500">
-                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">Plan Your Journey</h3>
+<div class="w-full max-w-md p-6 sm:p-8 rounded-3xl search-card transform hover:scale-105 transition-all duration-500">
+    <h3 class="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">Discover Amazing Places</h3>
 
-                    <form class="space-y-4 sm:space-y-6">
-                        <div class="relative">
-                            <input type="text" placeholder="Where to?"
-                                class="w-full p-3 sm:p-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300">
-                            <svg class="absolute right-3 sm:right-4 top-3 sm:top-4 w-5 sm:w-6 h-5 sm:h-6 text-white/60"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </div>
+    <div class="space-y-4 sm:space-y-6">
+        <!-- Featured Destination Card -->
+        <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-400/20 border border-white/20 p-4 group hover:from-blue-500/30 hover:to-cyan-400/30 transition-all duration-300">
+            <div class="flex items-center space-x-3 mb-3">
+                <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <div>
+                   <h4 class="text-white font-semibold">Island Serenity</h4>
+<p class="text-white/60 text-sm">7 Days of Rejuvenation Amid Swaying Palms and Gentle Waves</p>
 
-                        <div class="grid grid-cols-2 gap-3 sm:gap-4">
-                            <input type="date"
-                                class="p-3 sm:p-4 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300">
-                            <input type="date"
-                                class="p-3 sm:p-4 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300">
-                        </div>
-
-                        <select
-                            class="w-full p-3 sm:p-4 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300">
-                            <option value="" class="text-gray-800">Select Travelers</option>
-                            <option value="1" class="text-gray-800">1 Traveler</option>
-                            <option value="2" class="text-gray-800">2 Travelers</option>
-                            <option value="3" class="text-gray-800">3 Travelers</option>
-                            <option value="4" class="text-gray-800">4+ Travelers</option>
-                        </select>
-
-                        <button type="submit"
-                            class="w-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-3 sm:p-4 rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 transform hover:scale-105 shadow-lg">
-                            Search Adventures
-                        </button>
-                    </form>
-
-                    <div class="mt-4 sm:mt-6 text-center">
-                        <p class="text-white/60 text-sm mb-3">Popular Destinations</p>
-                        <div class="flex flex-wrap gap-2 justify-center">
-                            <span
-                                class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">New
-                                York</span>
-                            <span
-                                class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">Jamaica</span>
-                            <span
-                                class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">Florida</span>
-                            <span
-                                class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">S-Africa</span>
-                        </div>
-                    </div>
                 </div>
+            </div>
+            <div class="flex items-center justify-between">
+                {{-- <span class="text-cyan-400 font-bold text-lg">$2,499</span> --}}
+                <div class="flex items-center space-x-1">
+                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="text-white/80 text-sm">4.9</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Destination Grid -->
+        <div class="grid grid-cols-2 gap-3 sm:gap-4">
+            <div class="bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition-all duration-300 group">
+                <svg class="w-8 h-8 text-orange-400 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+                <h4 class="text-white font-semibold text-sm mb-1">Beach Escapes</h4>
+                {{-- <p class="text-white/60 text-xs">Starting from $899</p> --}}
+            </div>
+            
+            <div class="bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition-all duration-300 group">
+                <svg class="w-8 h-8 text-green-400 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                </svg>
+                <h4 class="text-white font-semibold text-sm mb-1">Mountain Adventures</h4>
+                {{-- <p class="text-white/60 text-xs">Starting from $1,299</p> --}}
+            </div>
+        </div>
+
+       
+    </div>
+
+    <div class="mt-4 sm:mt-6 text-center">
+        <p class="text-white/60 text-sm mb-3">Popular Destinations</p>
+        <div class="flex flex-wrap gap-2 justify-center">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">New York</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">Jamaica</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">Florida</span>
+            <span class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">S-Africa</span>
+        </div>
+    </div>
+</div>
             </div>
         </div>
     </div>

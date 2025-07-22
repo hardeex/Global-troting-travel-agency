@@ -44,7 +44,7 @@ $destinations = [
 @endphp
 
 <!-- Popular Destinations Section -->
-<section class="relative py-12 md:py-20 bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
+<section id='popular-destination' class="relative py-12 md:py-20 bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
     <!-- Background Elements -->
     <div class="absolute inset-0">
         <!-- Floating Background Shapes -->
