@@ -2,15 +2,18 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <!-- Logo/Brand -->
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <h1 class="text-2xl font-bold">
-                        <a href="{{route('index')}}" class="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-                            Globe Trotting
-                        </a>
-                    </h1>
-                </div>
-            </div>
+            <div class="flex items-center space-x-2">
+    <div class="flex-shrink-0">
+        <img src="/images/global-throthlelogo.png" alt="Globe Trotting Logo" class="h-10 w-auto">
+    </div>
+    <div class="flex-shrink-0">
+        <h1 class="text-2xl font-bold">
+            <a href="{{ route('index') }}" class="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                Globe Trotting
+            </a>
+        </h1>
+    </div>
+</div>
 
             <!-- Desktop Navigation -->
             <div class="hidden md:block">
