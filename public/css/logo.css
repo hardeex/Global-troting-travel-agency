@@ -1,0 +1,8 @@
+ .logo {
+        position: absolute !important;
+        z-index: 5 !important;
+        top: 4px !important;
+        width: 200px !important;
+        margin-left: -64px !important;
+        height: auto !important;
+ }

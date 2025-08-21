@@ -80,7 +80,10 @@
         <!-- Footer -->
         <div class="text-center mt-8">
             <p class="text-sm text-gray-600">
-                Need help? <a href="#" class="text-sky-400 hover:text-sky-500 font-medium">Contact Support</a>
+                Need help? <a href="{{ route('index') }}#book-now-section" class="text-sky-400 hover:text-sky-500 font-medium">
+    Contact Support
+</a>
+
             </p>
         </div>
     </div>

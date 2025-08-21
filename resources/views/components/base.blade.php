@@ -13,6 +13,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="/js/base.js" defer></script>
+    <link rel="stylesheet" href="/css/logo.css">
 
 </head>
 
@@ -43,6 +44,8 @@
             document.getElementById("targetSection").scrollIntoView({ behavior: "smooth" });
         });
     </script>
+
+
 
 </body>
 

@@ -19,26 +19,28 @@
         <div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-blue-900/80 to-purple-900/85"></div>
     </div>
 
-   <!-- Main Content -->
-<div
-    class="relative z-20 container mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16 lg:py-20 flex flex-col justify-center min-h-screen pt-20 sm:pt-24">
-    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-        <!-- Left Content -->
-        <div class="text-center lg:text-left fade-in">
-            <!-- Brand Identity -->
-            <div class="mb-6 sm:mb-8 stagger-1 fade-in">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-2 sm:mb-4 leading-tight">
-                    <span class="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent float-animation">
-                        Globe Trotting
-                    </span>
-                </h1>
-                <div class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-2">
-                    <strong>Nathaniel CC. </strong>
-                </div>
-                <div class="text-sm sm:text-base text-blue-200 mb-4">
-                    Independent Travel Advisor
-                </div>
-                <!-- Contact Info -->
+    <!-- Main Content -->
+    <div
+        class="relative z-20 container mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16 lg:py-20 flex flex-col justify-center min-h-screen pt-20 sm:pt-24">
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <!-- Left Content -->
+            <div class="text-center lg:text-left fade-in">
+                <!-- Brand Identity -->
+                {{-- <div class="mb-6 sm:mb-8 stagger-1 fade-in">
+                    <h1
+                        class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-2 sm:mb-4 leading-tight">
+                        <span
+                            class="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent float-animation">
+                            Globe Trotting
+                        </span>
+                    </h1>
+                    <div class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-2 ">
+                        <strong>Nathaniel CC. </strong>
+                    </div>
+                    <div class="text-sm sm:text-base text-blue-200 mb-4">
+                        Independent Travel Advisor
+                    </div>
+                    <!-- Contact Info -->
                     <div
                         class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-6 text-xs sm:text-sm text-blue-200">
                         <div class="flex items-center gap-1">
@@ -53,24 +55,70 @@
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                            </svg>                            
+                            </svg>
                             +44 7368 818431
                         </div>
                     </div>
+                </div> --}}
+
+               <div class="flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 lg:gap-8">
+    <!-- Logo -->
+    <div class="mb-4 lg:mb-0">
+        <a href="{{ route('index') }}">
+            <img 
+                src="/images/global-throthlelogo-new.png" 
+                alt="Globe Trotting Logo"
+                class="h-28 sm:h-32 md:h-36 lg:h-40 w-auto object-contain mx-auto lg:mx-0 float-animation"
+            >
+        </a>
+    </div>
+
+    <!-- Info Block -->
+    <div class="text-center lg:text-left">
+        <div class="stagger-1 fade-in">
+            <div class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-2">
+                <strong>Nathaniel CC.</strong>
+            </div>
+            <div class="text-sm sm:text-base text-blue-200 mb-4">
+                Independent Travel Advisor
+            </div>
+
+            <!-- Contact Info -->
+            <div
+                class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 sm:gap-4 text-xs sm:text-sm text-blue-200">
+                <div class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Grays | UK
                 </div>
+             <a href="tel:+447368818431" class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                    +44 7368 818431
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
                 <!-- Main Message -->
-               <div class="mb-6 sm:mb-8 stagger-2 fade-in">
-    <p class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-4 leading-relaxed">
-        Discover the world with Globe Trotting, your trusted travel partner. From breathtaking
-        landscapes to bustling cities, we bring you closer to the wonders of the world. Let us handle
-        the details while you create unforgettable memories.
-    </p>
-    <p class="text-base sm:text-lg text-blue-200 leading-relaxed">
-        From exotic getaways to cultural explorations, we handle every detail while you focus on the
-        excitement of your next adventure.
-    </p>
-</div>
+              <div class="mb-6 sm:mb-8 mt-6 sm:mt-0 stagger-2 fade-in">
+
+                    <p class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-4 leading-relaxed">
+                        Discover the world with Globe Trotting, your trusted travel partner. From breathtaking
+                        landscapes to bustling cities, we bring you closer to the wonders of the world. Let us handle
+                        the details while you create unforgettable memories.
+                    </p>
+                    <p class="text-base sm:text-lg text-blue-200 leading-relaxed">
+                        From exotic getaways to cultural explorations, we handle every detail while you focus on the
+                        excitement of your next adventure.
+                    </p>
+                </div>
 
 
                 <div
@@ -107,7 +155,7 @@
                         <div class="text-blue-200 text-xs sm:text-sm">Destinations</div>
                     </div>
                     <div class="text-center">
-                        <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-white" data-count="15000">0</div>
+                        <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-white" data-count="500+">0</div>
                         <div class="text-blue-200 text-xs sm:text-sm">Happy Travelers</div>
                     </div>
                     <div class="text-center">
@@ -119,66 +167,85 @@
 
             <!-- Right Content - Search Card -->
             <div class="flex justify-center lg:justify-end fade-in stagger-2">
-<div class="w-full max-w-md p-6 sm:p-8 rounded-3xl search-card transform hover:scale-105 transition-all duration-500">
-    <h3 class="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">Discover Amazing Places</h3>
+                <div
+                    class="w-full max-w-md p-6 sm:p-8 rounded-3xl search-card transform hover:scale-105 transition-all duration-500">
+                    <h3 class="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">Discover Amazing
+                        Places</h3>
 
-    <div class="space-y-4 sm:space-y-6">
-        <!-- Featured Destination Card -->
-        <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-400/20 border border-white/20 p-4 group hover:from-blue-500/30 hover:to-cyan-400/30 transition-all duration-300">
-            <div class="flex items-center space-x-3 mb-3">
-                <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-                <div>
-                   <h4 class="text-white font-semibold">Island Serenity</h4>
-<p class="text-white/60 text-sm">7 Days of Rejuvenation Amid Swaying Palms and Gentle Waves</p>
+                    <div class="space-y-4 sm:space-y-6">
+                        <!-- Featured Destination Card -->
+                        <div
+                            class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-400/20 border border-white/20 p-4 group hover:from-blue-500/30 hover:to-cyan-400/30 transition-all duration-300">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <div>
+                                    <h4 class="text-white font-semibold">Island Serenity</h4>
+                                    <p class="text-white/60 text-sm">7 Days of Rejuvenation Amid Swaying Palms and
+                                        Gentle Waves</p>
 
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                {{-- <span class="text-cyan-400 font-bold text-lg">$2,499</span> --}}
+                                <div class="flex items-center space-x-1">
+                                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                    <span class="text-white/80 text-sm">4.9</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Destination Grid -->
+                        <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                            <div
+                                class="bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition-all duration-300 group">
+                                <svg class="w-8 h-8 text-orange-400 mb-3 group-hover:scale-110 transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                                <h4 class="text-white font-semibold text-sm mb-1">Beach Escapes</h4>
+                                {{-- <p class="text-white/60 text-xs">Starting from $899</p> --}}
+                            </div>
+
+                            <div
+                                class="bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition-all duration-300 group">
+                                <svg class="w-8 h-8 text-green-400 mb-3 group-hover:scale-110 transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                </svg>
+                                <h4 class="text-white font-semibold text-sm mb-1">Mountain Adventures</h4>
+                                {{-- <p class="text-white/60 text-xs">Starting from $1,299</p> --}}
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="mt-4 sm:mt-6 text-center">
+                        <p class="text-white/60 text-sm mb-3">Popular Destinations</p>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <span
+                                class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">New
+                                York</span>
+                            <span
+                                class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">Jamaica</span>
+                            <span
+                                class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">Florida</span>
+                            <span
+                                class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">S-Africa</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="flex items-center justify-between">
-                {{-- <span class="text-cyan-400 font-bold text-lg">$2,499</span> --}}
-                <div class="flex items-center space-x-1">
-                    <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <span class="text-white/80 text-sm">4.9</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Destination Grid -->
-        <div class="grid grid-cols-2 gap-3 sm:gap-4">
-            <div class="bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition-all duration-300 group">
-                <svg class="w-8 h-8 text-orange-400 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-                </svg>
-                <h4 class="text-white font-semibold text-sm mb-1">Beach Escapes</h4>
-                {{-- <p class="text-white/60 text-xs">Starting from $899</p> --}}
-            </div>
-            
-            <div class="bg-white/10 border border-white/20 rounded-xl p-4 hover:bg-white/20 transition-all duration-300 group">
-                <svg class="w-8 h-8 text-green-400 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-                </svg>
-                <h4 class="text-white font-semibold text-sm mb-1">Mountain Adventures</h4>
-                {{-- <p class="text-white/60 text-xs">Starting from $1,299</p> --}}
-            </div>
-        </div>
-
-       
-    </div>
-
-    <div class="mt-4 sm:mt-6 text-center">
-        <p class="text-white/60 text-sm mb-3">Popular Destinations</p>
-        <div class="flex flex-wrap gap-2 justify-center">
-            <span class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">New York</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">Jamaica</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">Florida</span>
-            <span class="px-3 py-1 bg-white/10 rounded-full text-white/80 text-sm hover:bg-white/20 cursor-pointer transition-colors duration-300">S-Africa</span>
-        </div>
-    </div>
-</div>
             </div>
         </div>
     </div>
