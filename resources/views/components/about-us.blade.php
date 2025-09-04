@@ -76,30 +76,20 @@
             <!-- Tab content -->
             <div
                 class="bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl min-h-[200px] sm:min-h-[250px]">
-                <!-- About tab -->
-                {{-- <div id="about-content" class="tab-content slide-in">
-                    <h2 class="text-xl sm:text-2xl font-bold gradient-text mb-4 sm:mb-6">About Globe Trotting</h2>
-                    <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
-                        At Globe Trotting, we believe travel is more than just a destination—it's a journey of
-                        discovery, connection, and inspiration. Our mission is to turn your travel dreams into reality
-                        with curated experiences that are as unique as you are.
-                    </p>
-                    <p class="text-gray-700 text-sm sm:text-base leading-relaxed">
-                        Whether you're dreaming of sun-soaked beaches, cultural adventures, or once-in-a-lifetime
-                        escapes, Globe Trotting is your trusted partner in travel. We turn your wanderlust into reality
-                        with zero stress and all the magic.
-                    </p>
-                </div> --}}
 
                 <div id="about-content" class="tab-content slide-in">
-    <h2 class="text-xl sm:text-2xl font-bold gradient-text mb-4 sm:mb-6">About Globe Trotting</h2>
-    <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
-        At Globe Trotting, we’re not just about booking flights—we’re about crafting experiences that spark joy, open minds, and create lifelong memories. Every journey we plan is backed by local insight, personalized service, and a passion for adventure.
-    </p>
-    <p class="text-gray-700 text-sm sm:text-base leading-relaxed">
-        From relaxing retreats to adrenaline-filled escapes, we help you travel smarter, deeper, and with confidence. Wherever you're headed, count on us to turn travel dreams into unforgettable realities—minus the hassle, plus the magic.
-    </p>
-</div>
+                    <h2 class="text-xl sm:text-2xl font-bold gradient-text mb-4 sm:mb-6">About Globe Trotting</h2>
+                    <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6">
+                        At Globe Trotting, we’re not just about booking flights—we’re about crafting experiences that
+                        spark joy, open minds, and create lifelong memories. Every journey we plan is backed by local
+                        insight, personalized service, and a passion for adventure.
+                    </p>
+                    <p class="text-gray-700 text-sm sm:text-base leading-relaxed">
+                        From relaxing retreats to adrenaline-filled escapes, we help you travel smarter, deeper, and
+                        with confidence. Wherever you're headed, count on us to turn travel dreams into unforgettable
+                        realities—minus the hassle, plus the magic.
+                    </p>
+                </div>
 
 
                 <!-- Services tab -->
@@ -143,7 +133,7 @@
 
                 <!-- Why travel with us tab -->
                 <div id="why-content" class="tab-content hidden">
-                  <h2 class="text-xl sm:text-2xl font-bold gradient-text mb-4 sm:mb-6">Why Choose Globe Trotting?</h2>
+                    <h2 class="text-xl sm:text-2xl font-bold gradient-text mb-4 sm:mb-6">Why Choose Globe Trotting?</h2>
                     <div class="space-y-3 sm:space-y-4">
                         <div class="flex items-start gap-3 sm:gap-4">
                             <div

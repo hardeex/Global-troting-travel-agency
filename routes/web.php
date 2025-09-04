@@ -6,6 +6,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BookingController;
 
+
+
+
+Route::get('/sitemap', function () {
+    return response()->file(resource_path('views/sitemap.xml'), [
+        'Content-Type' => 'application/xml'
+    ]);
+});
+
+
+
 // Public routes
 Route::get('/', fn () => view('welcome'))->name('index');
 Route::post('/submit-form', [BookingController::class, 'submit'])->name('form.submit');

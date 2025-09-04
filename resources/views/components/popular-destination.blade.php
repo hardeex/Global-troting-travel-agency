@@ -89,9 +89,7 @@
                     Destinations
                 </span>
             </h2>
-            {{-- <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
-               Whether you're dreaming of sun-soaked beaches, cultural adventures, or once-in-a-lifetime escapes, Globe Trotting is your trusted partner in travel. We turn your wanderlust into reality with zero stress and all the magic.
-            </p> --}}
+            
             <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4 mb-8">
                 Where will your passport take you next? From beach bliss to city buzz, these handpicked hotspots deliver
                 unforgettable vibes:
@@ -129,13 +127,13 @@
                         </div>
 
                         <!-- Heart Icon -->
-                        <button
+                        {{-- <button
                             class="absolute top-3 left-3 md:top-4 md:left-4 w-8 h-8 md:w-10 md:h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 heart-btn">
                             <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
-                        </button>
+                        </button> --}}
 
                         <!-- Gradient Overlay -->
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
@@ -145,7 +143,7 @@
                     <!-- Card Content -->
                     <div class="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white">
                         <div class="flex items-center mb-2">
-                            <div class="rating-stars flex space-x-1">
+                            {{-- <div class="rating-stars flex space-x-1">
                                 @for ($i = 1; $i <= 5; $i++)
                                     @if ($i <= floor($destination['rating']))
                                         <svg class="w-3 h-3 md:w-4 md:h-4 fill-current text-yellow-400"
@@ -161,20 +159,20 @@
                                         </svg>
                                     @endif
                                 @endfor
-                            </div>
-                            <span class="ml-2 text-xs md:text-sm text-white/90">{{ $destination['rating'] }}
-                                ({{ $destination['reviews'] }} reviews)</span>
+                            </div> --}}
+                            {{-- <span class="ml-2 text-xs md:text-sm text-white/90">{{ $destination['rating'] }}
+                                ({{ $destination['reviews'] }} reviews)</span> --}}
                         </div>
                         <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-2">{{ $destination['name'] }}</h3>
                         <p class="text-white/80 text-xs md:text-sm mb-3 line-clamp-2">{{ $destination['description'] }}
                         </p>
-                        <div class="flex items-center justify-between">
+                        {{-- <div class="flex items-center justify-between">
                             <span class="text-xs md:text-sm text-white/70">{{ $destination['duration'] }}</span>
                             <button
                                 class="px-3 py-1 md:px-4 md:py-2 bg-sky-500 hover:bg-sky-400 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 transform hover:scale-105">
                                 Book Now
                             </button>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             @endforeach
@@ -182,14 +180,7 @@
 
         <!-- View All Button -->
         <div class="text-center">
-            {{-- <button class="group px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-sky-600 to-sky-500 text-white rounded-full font-semibold text-base md:text-lg hover:from-sky-700 hover:to-sky-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
-                <span class="flex items-center space-x-2">
-                    <span>View All Destinations</span>
-                    <svg class="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                    </svg>
-                </span>
-            </button> --}}
+           
         </div>
     </div>
 </section>

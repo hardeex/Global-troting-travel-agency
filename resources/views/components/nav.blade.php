@@ -1,45 +1,16 @@
 <nav class="bg-slate-900/80 backdrop-blur-md shadow-lg fixed w-full z-50 border-b border-blue-900/50">
-    {{-- <nav class="bg-white/90 backdrop-blur-md shadow-lg fixed w-full h-20 z-50 border-b border-gray-200"> --}}
+
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-            <!-- Logo/Brand -->
-            {{-- <div class="flex items-center space-x-4">
-                <!-- Logo Image -->
-                <div class="flex-shrink-0">
-                    <img src="/images/global-throthlelogo.png" alt="Globe Trotting Logo" class="h-14 w-auto sm:h-16">
-                </div>
-
-                <!-- Title -->
-                <div>
-                    <h1 class="text-3xl font-extrabold tracking-tight">
-                        <a href="{{ route('index') }}"
-                            class="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent hover:underline">
-                            Globe Trotting
-                        </a>
-                    </h1>
-                </div>
-            </div> --}}
 
 
-            {{-- <div class="relative flex items-center h-20">
-
-                <a href="{{ route('index') }}" class="logo" 
-                   >
-                    <img src="/images/global-throthlelogo-new.png" alt="Globe Trotting Logo">
+            <div class="flex items-center h-16 sm:h-20 px-4 sm:px-6">
+                <a href="{{ route('index') }}" class="flex-shrink-0 transition-transform duration-200 hover:scale-105">
+                    <img src="/images/global-throthlelogo-new.png" alt="Globe Trotting Logo"
+                        class="h-10 sm:h-12 lg:h-16 w-auto object-contain">
                 </a>
-
-            </div> --}}
-
-<div class="flex items-center h-16 sm:h-20 px-4 sm:px-6">
-    <a href="{{ route('index') }}" class="flex-shrink-0 transition-transform duration-200 hover:scale-105">
-        <img 
-            src="/images/global-throthlelogo-new.png" 
-            alt="Globe Trotting Logo"
-            class="h-10 sm:h-12 lg:h-16 w-auto object-contain"
-        >
-    </a>
-</div>
+            </div>
 
 
             <!-- Desktop Navigation -->
