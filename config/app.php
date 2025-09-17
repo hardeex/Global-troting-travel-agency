@@ -53,6 +53,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'booking_admin_password_hash' => env('BOOKING_ADMIN_PASSWORD_HASH'),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -122,5 +124,8 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    'export_recipients' => explode(',', env('EXPORT_RECIPIENTS')),
+
 
 ];
