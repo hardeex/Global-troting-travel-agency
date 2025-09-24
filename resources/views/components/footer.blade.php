@@ -116,53 +116,53 @@
 
                 <!-- Services -->
                 <div class="text-center md:text-left">
-                    <h4 class="text-lg font-semibold mb-6 text-white">Services</h4>
+                    <h4 class="text-lg font-semibold mb-6 text-white">Planning Your Travel</h4>
                     <ul class="space-y-3 inline-block md:block text-left">
                         <li>
-                            <a href="#"
+                            <a href="https://www.flightview.com/" target="_blank"
                                 class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
                                 <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5l7 7-7 7" />
                                 </svg>
-                                Flight Booking
+                                Flight Tracker
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="https://www.worldtravelguide.net/" target="_blank"
                                 class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
                                 <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5l7 7-7 7" />
                                 </svg>
-                                Hotel Reservations
+                              Airports
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="https://www.farecompare.com/baggage-fees/" target="_blank"
                                 class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
                                 <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5l7 7-7 7" />
                                 </svg>
-                                Car Rentals
+                                Luggage Limit
                             </a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="https://www.worldtimeserver.com/current_time_in_US-NY.aspx" target="_blank"
                                 class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
                                 <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 5l7 7-7 7" />
                                 </svg>
-                                Travel Insurance
+                               World Clock
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="#"
                                 class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
                                 <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300"
@@ -172,7 +172,7 @@
                                 </svg>
                                 Visa Assistance
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
 
@@ -246,7 +246,7 @@
             <div class="border-t border-gray-700 pt-8">
                 <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
                     <div class="text-gray-400 text-sm mb-4 md:mb-0">
-                        <p>&copy; {{ date('Y') }} BDMS Global. All rights reserved.</p>
+                        <p>&copy; {{ date('Y') }} Powered by SM DIGITAL SYSTEM. All rights reserved.</p>
                     </div>
                     <div class="flex flex-wrap justify-center md:justify-end space-x-6 text-sm">
                         <a href="#"

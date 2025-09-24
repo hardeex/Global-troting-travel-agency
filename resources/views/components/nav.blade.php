@@ -16,7 +16,7 @@
             <!-- Desktop Navigation -->
             <div class="hidden md:block">
                 <div class="ml-10 flex items-center space-x-6">
-                    <a href="#about-content"
+                    <a href="{{route('about')}}"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">About</a>
                     <a href="#book-now-section"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Contact</a>
@@ -46,7 +46,7 @@
     <!-- Mobile Menu (hidden by default) -->
     <div class="md:hidden hidden bg-slate-900/95 backdrop-blur-lg" id="mobileMenu">
         <div class="px-2 pt-2 pb-4 space-y-1">
-            <a href="#about-content"
+            <a href="{{route('about')}}"
                 class="text-blue-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
             <a href="#book-now-section"
                 class="text-blue-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Plan Booking</a>

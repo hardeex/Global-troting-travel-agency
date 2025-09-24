@@ -70,7 +70,7 @@
 
         <h2 class="text-xl font-bold mb-4 text-gray-800">Add New Destination</h2>
 
-        <form action="#" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{ route('admin.destinations.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
             <div class="grid grid-cols-2 gap-4">
