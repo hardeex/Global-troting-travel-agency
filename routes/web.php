@@ -14,6 +14,23 @@ Route::get('/db-debug', function () {
     return config('database.connections.mysql');
 });
 
+
+
+
+Route::get('/debug-cloudinary', function () {
+    // Clear Laravel config and cache
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+
+    // Return Cloudinary env config values
+    return response()->json([
+        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+        'api_key'    => env('CLOUDINARY_API_KEY'),
+        'api_secret' => env('CLOUDINARY_API_SECRET') ? ' Set' : ' MISSING',
+    ]);
+});
+
 Route::get('/clear-config', function () {
     Artisan::call('config:clear');
     Artisan::call('cache:clear');
@@ -24,7 +41,7 @@ Route::get('/clear-config', function () {
 // email server test
 Route::get('test-email', function () {
     try {
-        Mail::raw('This is a test email.', function ($message) {
+        Mail::raw('This is a test email to confirm if the mail server is working.', function ($message) {
             $message->to('globetrottingtraveluk@gmail.com')->subject('Test Email');
         });
 
@@ -34,16 +51,45 @@ Route::get('test-email', function () {
     }
 });
 
+
+Route::get('/fucked', function () {
+    Mail::raw('Test email from Brevo SMTP setup!', function ($message) {
+        $message->to('webmasterjdd@email.com')
+                ->subject('Brevo SMTP Test');
+    });
+
+    return 'Email sent!';
+});
+
+Route::get('/test-brevo', function () {
+    try {
+        $emails = explode(',', env('RECEIVER_EMAILS', 'globetrottingtraveluk@gmail.com'));
+        $emails = array_filter(array_map('trim', $emails));
+        
+        Mail::raw('This is a test email for Brevo with multiple recipients.', function ($message) use ($emails) {
+            $message->to($emails)
+                    ->subject('Brevo Multi-Recipient Test')
+                    ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        });
+
+        return 'Test email sent to multiple recipients successfully.';
+    } catch (\Exception $e) {
+        return 'Failed to send test email: ' . $e->getMessage();
+    }
+});
+
+
 Route::get('/sitemap', function () {
     return response()->file(resource_path('views/sitemap.xml'), [
         'Content-Type' => 'application/xml',
     ]);
 });
 
-// Public routes
-// Route::get('/', fn() => view('welcome'))->name('index');
+
+
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/destinations', [HomeController::class, 'allDestinations'])->name('destinations');
 Route::post('/submit-form', [BookingController::class, 'submit'])->name('form.submit');
 Route::post('/send-interest', [HomeController::class, 'sendInterestEmail'])->name('send.interest');
 
@@ -131,7 +177,6 @@ Route::get('/admin/destinations', [DestinationController::class, 'index'])->name
 Route::get('/admin/destinations/recent', [DestinationController::class, 'recent'])->name('admin.destinations.recent');
 Route::get('/admin/destinations/{destination}/edit', [DestinationController::class, 'edit'])->name('admin.destinations.edit');
 Route::put('/admin/destinations/{destination}', [DestinationController::class, 'update'])->name('admin.destinations.update');
-
 Route::delete('/admin/destinations/{destination}', [DestinationController::class, 'destroy'])->name('admin.destinations.destroy');
 
 // Admin logout

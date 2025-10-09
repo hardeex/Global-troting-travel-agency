@@ -1,3 +1,5 @@
+<meta name="csrf-token" content="{{ csrf_token() }}">
+  @if($destinations && $destinations->count() > 0)
 <!-- Popular Destinations Section -->
 <section id='popular-destination'
     class="relative py-12 md:py-20 bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
@@ -46,7 +48,7 @@
             </p>
         </div>
 
-        @if($destinations && $destinations->count() > 0)
+      
             <!-- Destinations Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
                 @foreach ($destinations as $destination)
@@ -153,7 +155,7 @@
         <!-- View All Button -->
         @if($destinations && $destinations->count() > 0)
             <div class="text-center">
-                <a href="#" class="inline-flex items-center px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
+                <a href="{{route('destinations')}}" class="inline-flex items-center px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
                     View All Destinations
                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>

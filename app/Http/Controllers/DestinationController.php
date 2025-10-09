@@ -17,7 +17,7 @@ class DestinationController extends Controller
         $this->cloudinary = new Cloudinary([
             'cloud' => [
                 'cloud_name' => config('services.cloudinary.cloud_name'),
-                'api_key'    => config('services.cloudinary.api_key'),
+                'api_key' => config('services.cloudinary.api_key'),
                 'api_secret' => config('services.cloudinary.api_secret'),
             ],
             'url' => [
@@ -31,24 +31,19 @@ class DestinationController extends Controller
         Log::debug('Entering DestinationController@store');
 
         $validated = $request->validate([
-            'price'             => 'required|numeric',
-            'country'           => 'required|string|max:255',
-            'title'             => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'country' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'short_description' => 'required|string|max:255',
-            'details'           => 'required|string',
-            'image'             => 'required|image|max:5120',
-            'start_date'        => 'required|date',
-            'end_date'          => 'required|date|after_or_equal:start_date',
-            'adults'            => 'required|integer|min:1',
-            'nights'            => 'required|integer|min:1',
+            'details' => 'required|string',
+            'image' => 'required|image|max:5120',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'adults' => 'required|integer|min:1',
+            'nights' => 'required|integer|min:1',
         ]);
 
-        Log::debug('Validated data:', [
-            'price' => $validated['price'],
-            'country' => $validated['country'],
-            'title' => $validated['title'],
-            // maybe do not log sensitive fields, but here it's okay
-        ]);
+       
 
         $imageUrl = null;
         $retries = 3;
@@ -62,25 +57,22 @@ class DestinationController extends Controller
 
                 $file = $request->file('image');
                 if (!$file->isValid()) {
-                    throw new Exception("Uploaded file is not valid");
+                    throw new Exception('Uploaded file is not valid');
                 }
 
                 // Log file info
                 Log::debug('File info:', [
                     'originalName' => $file->getClientOriginalName(),
-                    'mimeType'     => $file->getClientMimeType(),
-                    'size'         => $file->getSize(),
+                    'mimeType' => $file->getClientMimeType(),
+                    'size' => $file->getSize(),
                 ]);
 
-                // Upload via Cloudinary API
-                $uploadResult = (new UploadApi())->upload(
-                    $file->getRealPath(),
-                    [
-                        'folder'        => 'destinations',
-                        'public_id'     => uniqid('dest_'),
-                        'resource_type' => 'image',
-                    ]
-                );
+                // Upload via Cloudinary API               
+                $uploadResult = (new UploadApi())->upload($file->getRealPath(), [
+                    'folder' => 'destinations',
+                    'public_id' => uniqid('dest_'),
+                    'resource_type' => 'image',
+                ]);
 
                 //Log::debug('Cloudinary upload response:', $uploadResult);
 
@@ -91,7 +83,6 @@ class DestinationController extends Controller
                 } else {
                     throw new Exception('Cloudinary upload did not return a secure_url');
                 }
-
             } catch (Exception $e) {
                 Log::error("Upload attempt #{$attempts} failed", [
                     'error' => $e->getMessage(),
@@ -99,8 +90,7 @@ class DestinationController extends Controller
                 ]);
 
                 if ($attempts < $retries) {
-                    Log::info("Retrying upload — attempt #".($attempts + 1));
-                    // optional delay
+                    Log::info('Retrying upload — attempt #' . ($attempts + 1));                    
                     sleep(1);
                 }
             }
@@ -115,16 +105,16 @@ class DestinationController extends Controller
         $destination = null;
         try {
             $destination = Destination::create([
-                'price'             => $validated['price'],
-                'country'           => $validated['country'],
-                'title'             => $validated['title'],
+                'price' => $validated['price'],
+                'country' => $validated['country'],
+                'title' => $validated['title'],
                 'short_description' => $validated['short_description'],
-                'details'           => $validated['details'],
-                'image_url'         => $imageUrl,
-                'start_date'        => $validated['start_date'],
-                'end_date'          => $validated['end_date'],
-                'adults'            => $validated['adults'],
-                'nights'            => $validated['nights'],
+                'details' => $validated['details'],
+                'image_url' => $imageUrl,
+                'start_date' => $validated['start_date'],
+                'end_date' => $validated['end_date'],
+                'adults' => $validated['adults'],
+                'nights' => $validated['nights'],
             ]);
             Log::info('Destination record created', ['destination_id' => $destination->id]);
         } catch (Exception $e) {
@@ -139,13 +129,13 @@ class DestinationController extends Controller
         return redirect()->back()->with('success', 'Destination added successfully.');
     }
 
-
-
     // List all destinations (paginated, for admin dashboard)
     public function index()
     {
-        // You can choose pagination
+        Log::info('The manage destination method is called');
         $destinations = Destination::orderBy('created_at', 'desc')->paginate(10);
+        // dd($destinations);
+        // exit();
 
         return view('admin.destinations.index', compact('destinations'));
     }
@@ -153,16 +143,12 @@ class DestinationController extends Controller
     // Recent 4
     public function recent()
     {
-        $destinations = Destination::orderBy('created_at', 'desc')
-                                   ->take(4)
-                                   ->get();
+        $destinations = Destination::orderBy('created_at', 'desc')->take(4)->get();
 
         return view('admin.destinations.recent', compact('destinations'));
-        // or return JSON if part of an API
     }
 
-
-     // Show the edit form
+    // Show the edit form
     public function edit(Destination $destination)
     {
         return view('admin.destinations.edit', compact('destination'));
@@ -172,16 +158,16 @@ class DestinationController extends Controller
     public function update(Request $request, Destination $destination)
     {
         $data = $request->validate([
-            'price'             => 'required|numeric',
-            'country'           => 'required|string|max:255',
-            'title'             => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'country' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'short_description' => 'required|string|max:255',
-            'details'           => 'required|string',
-            'image'             => 'nullable|image|max:5120', // image optional on update
-            'start_date'        => 'required|date',
-            'end_date'          => 'required|date|after_or_equal:start_date',
-            'adults'            => 'required|integer|min:1',
-            'nights'            => 'required|integer|min:1',
+            'details' => 'required|string',
+            'image' => 'nullable|image|max:5120', // image optional on update
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'adults' => 'required|integer|min:1',
+            'nights' => 'required|integer|min:1',
         ]);
 
         // If a new image was uploaded, upload to Cloudinary with retry, else keep old
@@ -198,26 +184,23 @@ class DestinationController extends Controller
 
                     $file = $request->file('image');
                     if (!$file->isValid()) {
-                        throw new Exception("Uploaded file is not valid");
+                        throw new Exception('Uploaded file is not valid');
                     }
 
                     // Log file info
                     Log::debug('Update file info:', [
                         'originalName' => $file->getClientOriginalName(),
-                        'mimeType'     => $file->getClientMimeType(),
-                        'size'         => $file->getSize(),
+                        'mimeType' => $file->getClientMimeType(),
+                        'size' => $file->getSize(),
                     ]);
 
-                    $uploadResult = (new UploadApi())->upload(
-                        $file->getRealPath(),
-                        [
-                            'folder'        => 'destinations',
-                            'public_id'     => uniqid('dest_update_'),
-                            'resource_type' => 'image',
-                        ]
-                    );
+                     $uploadResult = (new UploadApi())->upload($file->getRealPath(), [
+                        'folder' => 'destinations',
+                        'public_id' => uniqid('dest_update_'),
+                        'resource_type' => 'image',
+                    ]);
 
-                    Log::debug('Cloudinary upload response (update):', $uploadResult);
+                    //Log::debug('Cloudinary upload response (update):', $uploadResult);
 
                     if (!empty($uploadResult['secure_url'])) {
                         $imageUrl = $uploadResult['secure_url'];
@@ -256,8 +239,7 @@ class DestinationController extends Controller
             return back()->withInput()->with('error', 'Failed to update destination.');
         }
 
-        return redirect()->route('admin.destinations.index')
-                         ->with('success', 'Destination updated successfully.');
+        return redirect()->route('admin.destinations.index')->with('success', 'Destination updated successfully.');
     }
 
     // Delete
@@ -274,9 +256,6 @@ class DestinationController extends Controller
             return back()->with('error', 'Failed to delete destination.');
         }
 
-        return redirect()->route('admin.destinations.index')
-                         ->with('success', 'Destination deleted successfully.');
+        return redirect()->route('admin.destinations.index')->with('success', 'Destination deleted successfully.');
     }
-
-    
 }

@@ -18,4 +18,11 @@ class Destination extends Model
         'adults',
         'nights',
     ];
+
+
+    public function inquiries()
+{
+    return $this->hasMany(Inquiry::class);
+}
+
 }
