@@ -1,5 +1,111 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
-  @if($destinations && $destinations->count() > 0)
+
+<style>
+    /* CRITICAL: Force maximum image sharpness */
+    .destination-image {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        image-rendering: high-quality;
+        -ms-interpolation-mode: nearest-neighbor;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        transform: translateZ(0) scale(1.0001);
+        -webkit-transform: translateZ(0) scale(1.0001);
+        will-change: auto;
+    }
+    
+    /* Remove ALL blur effects */
+    .no-blur {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        filter: none !important;
+        -webkit-filter: none !important;
+    }
+    
+    /* Ensure crisp backgrounds */
+    .destination-card {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+    
+    /* Sharp text rendering */
+    .destination-card h3,
+    .destination-card p,
+    .destination-card span,
+    .price-tag {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        transform: translateZ(0);
+    }
+    
+    /* Solid price tag - NO blur */
+    .price-tag {
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+    
+    /* Smooth hover without blur */
+    .destination-card:hover .destination-image {
+        transform: scale(1.05) translateZ(0);
+        transition: transform 0.5s ease;
+        image-rendering: -webkit-optimize-contrast;
+    }
+    
+    .float-animation {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .modal-enter {
+        animation: modalEnter 0.3s ease-out;
+    }
+    
+    @keyframes modalEnter {
+        from {
+            opacity: 0;
+            transform: scale(0.9) translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 3px;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+    }
+    
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+    
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+
+@if($destinations && $destinations->count() > 0)
 <!-- Popular Destinations Section -->
 <section id='popular-destination'
     class="relative py-12 md:py-20 bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
@@ -48,126 +154,125 @@
             </p>
         </div>
 
-      
-            <!-- Destinations Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
-                @foreach ($destinations as $destination)
-                    <!-- Destination Card -->
-                    <div class="group relative overflow-hidden rounded-2xl md:rounded-3xl destination-card cursor-pointer" 
-                         onclick="openInterestModal(
-                             {{ $destination->id }}, 
-                             {{ json_encode($destination->title ?? '') }}, 
-                             {{ json_encode($destination->country ?? '') }}, 
-                             {{ $destination->price ?? 'null' }}, 
-                             {{ json_encode($destination->short_description ?? '') }},
-                             {{ json_encode($destination->details ?? '') }},
-                             {{ json_encode($destination->image_url ?? '') }},
-                             {{ json_encode($destination->start_date ?? '') }},
-                             {{ json_encode($destination->end_date ?? '') }},
-                             {{ $destination->adults ?? 'null' }},
-                             {{ $destination->nights ?? 'null' }}
-                         )">
-                        <div class="aspect-[4/5] bg-gradient-to-br {{ $destination->gradient ?? 'from-blue-400 to-indigo-500' }} destination-image relative"
-                            @if($destination->image_url)
-                                style="background-image: url('{{ $destination->image_url }}'); background-size: cover; background-position: center;"
-                            @endif>
-                            
-                            <!-- Enhanced Overlays for Better Text Readability -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                            
-                            @if($destination->image_url)
-                                <div class="absolute inset-0 bg-black/20"></div>
-                                <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                            @endif
-                            
-                            <!-- Price Tag -->
-                            @if($destination->price)
-                                <div class="absolute top-3 right-3 md:top-4 md:right-4 px-2 py-1 md:px-3 md:py-1 bg-white/95 backdrop-blur-md rounded-full text-sky-600 font-bold text-xs md:text-sm price-tag shadow-lg border border-white/20">
-                                    From £{{ number_format($destination->price) }}
-                                </div>
-                            @endif
+        <!-- Destinations Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
+            @foreach ($destinations as $destination)
+                <!-- Destination Card -->
+                <div class="group relative overflow-hidden rounded-2xl md:rounded-3xl destination-card cursor-pointer shadow-lg" 
+                     onclick="openInterestModal(
+                         {{ $destination->id }}, 
+                         {{ json_encode($destination->title ?? '') }}, 
+                         {{ json_encode($destination->country ?? '') }}, 
+                         {{ $destination->price ?? 'null' }}, 
+                         {{ json_encode($destination->short_description ?? '') }},
+                         {{ json_encode($destination->details ?? '') }},
+                         {{ json_encode($destination->image_url ?? '') }},
+                         {{ json_encode($destination->start_date ?? '') }},
+                         {{ json_encode($destination->end_date ?? '') }},
+                         {{ $destination->adults ?? 'null' }},
+                         {{ $destination->nights ?? 'null' }}
+                     )">
+                    <div class="aspect-[4/5] bg-gradient-to-br {{ $destination->gradient ?? 'from-blue-400 to-indigo-500' }} destination-image relative"
+                        @if($destination->image_url)
+                            style="background-image: url('{{ $destination->image_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+                        @endif>
+                        
+                        <!-- Enhanced Overlays for Better Text Readability -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent no-blur"></div>
+                        
+                        @if($destination->image_url)
+                            <div class="absolute inset-0 bg-black/20 no-blur"></div>
+                            <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent no-blur"></div>
+                        @endif
+                        
+                        <!-- Price Tag -->
+                        @if($destination->price)
+                            <div class="absolute top-3 right-3 md:top-4 md:right-4 px-2 py-1 md:px-3 md:py-1 price-tag no-blur rounded-full text-sky-600 font-bold text-xs md:text-sm shadow-lg border border-white/20">
+                                From £{{ number_format($destination->price) }}
+                            </div>
+                        @endif
 
-                            <!-- If no image, show destination initial -->
-                            @if(!$destination->image_url)
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <span class="text-white text-6xl font-bold opacity-30">
-                                        {{ substr($destination->title, 0, 1) }}
-                                    </span>
-                                </div>
-                            @endif
-                        </div>
-
-                        <!-- Card Content -->
-                        <div class="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white">
-                            <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-2 text-white drop-shadow-lg" 
-                                style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                                {{ $destination->title }}
-                            </h3>
-                            
-                            @if($destination->short_description)
-                                <p class="text-white/90 text-xs md:text-sm mb-3 line-clamp-2 drop-shadow-md" 
-                                   style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
-                                    {{ $destination->short_description }}
-                                </p>
-                            @endif
-
-                            @if($destination->country)
-                                <div class="flex items-center text-white/80 text-xs md:text-sm mb-2 drop-shadow-md" 
-                                     style="text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
-                                    <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    {{ $destination->country }}
-                                </div>
-                            @endif
-
-                            @if($destination->nights)
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs md:text-sm text-white/80 drop-shadow-md" 
-                                          style="text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
-                                        {{ $destination->nights }} Nights
-                                    </span>
-                                </div>
-                            @endif
-                        </div>
+                        <!-- If no image, show destination initial -->
+                        @if(!$destination->image_url)
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-white text-6xl font-bold opacity-30">
+                                    {{ substr($destination->title, 0, 1) }}
+                                </span>
+                            </div>
+                        @endif
                     </div>
-                @endforeach
-            </div>
-        @else
-            <!-- Empty State -->
-            <div class="text-center py-12">
-                <div class="mx-auto w-24 h-24 bg-gradient-to-br from-sky-400 to-sky-600 rounded-full flex items-center justify-center mb-6">
-                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-3">No Destinations Available</h3>
-                <p class="text-gray-600 mb-6">Add some amazing destinations to showcase here!</p>
-            </div>
-        @endif
 
-        <!-- View All Button -->
-        @if($destinations && $destinations->count() > 0)
-            <div class="text-center">
-                <a href="{{route('destinations')}}" class="inline-flex items-center px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
-                    View All Destinations
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                    </svg>
-                </a>
+                    <!-- Card Content -->
+                    <div class="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white">
+                        <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-2 text-white drop-shadow-lg" 
+                            style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                            {{ $destination->title }}
+                        </h3>
+                        
+                        @if($destination->short_description)
+                            <p class="text-white/90 text-xs md:text-sm mb-3 line-clamp-2 drop-shadow-md" 
+                               style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
+                                {{ $destination->short_description }}
+                            </p>
+                        @endif
+
+                        @if($destination->country)
+                            <div class="flex items-center text-white/80 text-xs md:text-sm mb-2 drop-shadow-md" 
+                                 style="text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
+                                <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                {{ $destination->country }}
+                            </div>
+                        @endif
+
+                        @if($destination->nights)
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs md:text-sm text-white/80 drop-shadow-md" 
+                                      style="text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
+                                    {{ $destination->nights }} Nights
+                                </span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <!-- Empty State -->
+        <div class="text-center py-12">
+            <div class="mx-auto w-24 h-24 bg-gradient-to-br from-sky-400 to-sky-600 rounded-full flex items-center justify-center mb-6">
+                <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
             </div>
-        @endif
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">No Destinations Available</h3>
+            <p class="text-gray-600 mb-6">Add some amazing destinations to showcase here!</p>
+        </div>
+    @endif
+
+    <!-- View All Button -->
+    @if($destinations && $destinations->count() > 0)
+        <div class="text-center">
+            <a href="{{route('destinations')}}" class="inline-flex items-center px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
+                View All Destinations
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
+            </a>
+        </div>
+    @endif
     </div>
 </section>
 
 <!-- Interest Modal -->
-<div id="interestModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm">
+<div id="interestModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black bg-opacity-50 no-blur">
     <div class="flex items-center justify-center min-h-screen px-4 py-8">
         <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl transform transition-all modal-enter">
             <!-- Modal Header -->
@@ -186,9 +291,9 @@
             <div class="max-h-[70vh] overflow-y-auto scrollbar-thin">
                 <!-- Destination Image -->
                 <div id="modalImageContainer" class="relative h-48 bg-gradient-to-br from-sky-400 to-sky-600 hidden">
-                    <img id="modalImage" class="w-full h-full object-cover" alt="" />
-                    <div class="absolute inset-0 bg-black/20"></div>
-                    <div id="modalPriceBadge" class="absolute top-4 right-4 px-3 py-2 bg-white/95 backdrop-blur-md rounded-full text-sky-600 font-bold text-sm shadow-lg border border-white/20 hidden">
+                    <img id="modalImage" class="w-full h-full object-cover destination-image" alt="" />
+                    <div class="absolute inset-0 bg-black/20 no-blur"></div>
+                    <div id="modalPriceBadge" class="absolute top-4 right-4 px-3 py-2 price-tag no-blur rounded-full text-sky-600 font-bold text-sm shadow-lg border border-white/20 hidden">
                     </div>
                 </div>
 
@@ -618,7 +723,6 @@
         // Additional safety check for form elements
         const form = document.getElementById('interestForm');
         if (form) {
-            // Form is ready
             console.log('Interest form loaded successfully');
         }
     });
@@ -630,45 +734,3 @@
         }
     });
 </script>
-
-<style>
-    .modal-enter {
-        animation: modalEnter 0.3s ease-out;
-    }
-    
-    @keyframes modalEnter {
-        from {
-            opacity: 0;
-            transform: scale(0.9) translateY(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-    }
-    
-    .scrollbar-thin::-webkit-scrollbar {
-        width: 6px;
-    }
-    
-    .scrollbar-thin::-webkit-scrollbar-track {
-        background: #f1f5f9;
-        border-radius: 3px;
-    }
-    
-    .scrollbar-thin::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 3px;
-    }
-    
-    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-    }
-    
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-</style>

@@ -1,12 +1,15 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Mail\BookingNotification;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\Destination;
 use Illuminate\Support\Facades\Log;
 use Cloudinary\Cloudinary;
 use Cloudinary\Api\Upload\UploadApi;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 
 class DestinationController extends Controller
 {
@@ -26,6 +29,104 @@ class DestinationController extends Controller
         ]);
     }
 
+    public function makeArequest()
+    {
+        return view('admin.destinations.make-a-request');
+    }
+
+    public function bookTravelRequest(Request $request)
+    {
+        Log::info('The book travel request is sent...');
+        Log::info('The incoming request', $request->all());
+
+        // Validate the form data
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'nationality' => 'required|string|max:100',
+            'nationality_other' => 'nullable|string|max:100',
+            'destination' => 'required|string|max:255',
+            'destination_other' => 'nullable|string|max:255',
+            'trip_type' => 'required|string|max:100',
+            'trip_type_other' => 'nullable|string|max:100',
+            'departure_date' => 'required|date|after_or_equal:today',
+            'return_date' => 'required|date|after:departure_date',
+            'adults' => 'required|integer|min:1',
+            'children' => 'nullable|integer|min:0',
+            'infants' => 'nullable|integer|min:0',
+            'accommodation' => 'required|string|max:100',
+            'accommodation_other' => 'nullable|string|max:100',
+            'budget' => 'required|string|max:50',
+            'services' => 'nullable|array',
+            'services.*' => 'string',
+            'special_requests' => 'nullable|string|max:1000',
+        ]);
+
+        // Handle "other" fields
+        if ($validated['nationality'] === 'other') {
+            $validated['nationality'] = $validated['nationality_other'] ?? 'Other';
+        }
+
+        if ($validated['destination'] === 'other') {
+            $validated['destination'] = $validated['destination_other'] ?? 'Other';
+        }
+
+        if ($validated['trip_type'] === 'other') {
+            $validated['trip_type'] = $validated['trip_type_other'] ?? 'Other';
+        }
+
+        if ($validated['accommodation'] === 'other') {
+            $validated['accommodation'] = $validated['accommodation_other'] ?? 'Other';
+        }
+
+        // Convert services array to JSON or comma-separated string
+        if (isset($validated['services'])) {
+            $validated['services'] = json_encode($validated['services']);
+        }
+
+        // Save to database
+        $booking = Booking::create($validated);
+
+        // Send email notifications
+        try {
+            $receiverEmails = explode(',', env('RECEIVER_EMAILS', 'support@globetrottingtraveluk.com,globetrottingtraveluk@gmail.com'));
+
+            foreach ($receiverEmails as $email) {
+                try {
+                    Mail::to(trim($email))->send(new BookingNotification($booking));
+                } catch (Exception $e) {
+                    //throw $th;
+                    Log::info('The mail server sends...', $e);
+                }
+            }
+
+            try {
+                // Send confirmation email to customer
+                Mail::to($validated['email'])->send(new BookingNotification($booking, true));
+            } catch (Exception $exception) {
+                //throw $th;
+                Log::info('Sending email notification to the customer failed', $exception);
+            }
+        } catch (\Exception $e) {
+            // Log the error but don't fail the booking
+            Log::error('Failed to send booking email: ' . $e->getMessage());
+        }
+
+        // return redirect()
+        //     ->back()
+        //     ->with([
+        //         'success' => 'Your booking has been submitted successfully! We will contact you shortly.',
+        //         'email_warning' => isset($e) ? 'However, we were unable to send a confirmation email. Please check back or contact us if needed.' : null,
+        //     ]);
+
+        return redirect()->route('index')->with([
+    'success' => 'Your booking has been submitted successfully! We will contact you shortly.',
+    'email_warning' => isset($e) ? 'However, we were unable to send a confirmation email. Please check back or contact us if needed.' : null,
+]);
+
+    }
+
     public function store(Request $request)
     {
         Log::debug('Entering DestinationController@store');
@@ -42,8 +143,6 @@ class DestinationController extends Controller
             'adults' => 'required|integer|min:1',
             'nights' => 'required|integer|min:1',
         ]);
-
-       
 
         $imageUrl = null;
         $retries = 3;
@@ -67,8 +166,8 @@ class DestinationController extends Controller
                     'size' => $file->getSize(),
                 ]);
 
-                // Upload via Cloudinary API               
-                $uploadResult = (new UploadApi())->upload($file->getRealPath(), [
+                // Upload via Cloudinary API
+                $uploadResult = new UploadApi()->upload($file->getRealPath(), [
                     'folder' => 'destinations',
                     'public_id' => uniqid('dest_'),
                     'resource_type' => 'image',
@@ -90,7 +189,7 @@ class DestinationController extends Controller
                 ]);
 
                 if ($attempts < $retries) {
-                    Log::info('Retrying upload — attempt #' . ($attempts + 1));                    
+                    Log::info('Retrying upload — attempt #' . ($attempts + 1));
                     sleep(1);
                 }
             }
@@ -163,14 +262,13 @@ class DestinationController extends Controller
             'title' => 'required|string|max:255',
             'short_description' => 'required|string|max:255',
             'details' => 'required|string',
-            'image' => 'nullable|image|max:5120', // image optional on update
+            'image' => 'nullable|image|max:5120',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'adults' => 'required|integer|min:1',
             'nights' => 'required|integer|min:1',
         ]);
 
-        // If a new image was uploaded, upload to Cloudinary with retry, else keep old
         if ($request->hasFile('image')) {
             $imageUrl = null;
             $retries = 3;
@@ -194,7 +292,7 @@ class DestinationController extends Controller
                         'size' => $file->getSize(),
                     ]);
 
-                     $uploadResult = (new UploadApi())->upload($file->getRealPath(), [
+                    $uploadResult = new UploadApi()->upload($file->getRealPath(), [
                         'folder' => 'destinations',
                         'public_id' => uniqid('dest_update_'),
                         'resource_type' => 'image',

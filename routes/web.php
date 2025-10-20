@@ -172,6 +172,8 @@ Route::get('/admin/export-contacts', function () {
 })->middleware('web');
 
 // destinations routes
+Route::get('/booking-inquiry', [DestinationController::class, 'makeArequest'])->name('make-a-request');
+Route::post('/book-travel-agency', [DestinationController::class, 'bookTravelRequest'])->name('book-travel-agency');
 Route::post('/admin/destinations', [DestinationController::class, 'store'])->name('admin.destinations.store');
 Route::get('/admin/destinations', [DestinationController::class, 'index'])->name('admin.destinations.index');
 Route::get('/admin/destinations/recent', [DestinationController::class, 'recent'])->name('admin.destinations.recent');

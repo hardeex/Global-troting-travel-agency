@@ -2,6 +2,7 @@
 
 @section('content')
        <!-- Hero Section -->
+       @include('components.second-hero')
     @include('components.hero')
 
     <!--- popular Destination-->
