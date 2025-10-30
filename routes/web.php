@@ -89,6 +89,7 @@ Route::get('/sitemap', function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/destinations', [HomeController::class, 'allDestinations'])->name('destinations');
 Route::post('/submit-form', [BookingController::class, 'submit'])->name('form.submit');
 Route::post('/send-interest', [HomeController::class, 'sendInterestEmail'])->name('send.interest');

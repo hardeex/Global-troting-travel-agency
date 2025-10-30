@@ -47,21 +47,7 @@
                     </div>
                 </div>
                 
-                <!-- Stats -->
-                {{-- <div class="grid grid-cols-3 gap-4 text-center">
-                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-md">
-                        <div class="text-2xl font-bold text-sky-600">10K+</div>
-                        <div class="text-sm text-gray-600">Happy Travelers</div>
-                    </div>
-                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-md">
-                        <div class="text-2xl font-bold text-sky-600">50+</div>
-                        <div class="text-sm text-gray-600">Destinations</div>
-                    </div>
-                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-md">
-                        <div class="text-2xl font-bold text-sky-600">24/7</div>
-                        <div class="text-sm text-gray-600">Support</div>
-                    </div>
-                </div> --}}
+              
             </div>
 
             <!-- Right Side - Form -->

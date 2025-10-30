@@ -1,5 +1,5 @@
 @extends('components.base')
-@section('title', 'About Nathaniel CC.')
+@section('title', 'About Global Throttinh.')
 
 @section('content')
 <style>
@@ -147,7 +147,7 @@
                 </div>
                 <div class="text-center lg:text-left">
                     <div class="text-2xl font-bold text-gray-800 mb-2">
-                        Nathaniel CC.
+                        Global Throtting.
                     </div>
                     <div class="text-lg text-gray-600 mb-4">
                         Independent Travel Advisor
@@ -234,7 +234,7 @@
     </div>
 </section>
 
-<!-- Services Section -->
+{{-- <!-- Services Section -->
 <section id="services" class="py-20 bg-white">
     <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-16 scroll-reveal">
@@ -278,8 +278,96 @@
             </div>
         </div>
     </div>
+</section> --}}
+
+
+<!-- Services Section -->
+<section id="services" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16 scroll-reveal">
+            <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-6">Our Services</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Comprehensive travel solutions tailored to your unique needs and desires.
+            </p>
+        </div>
+
+        <!-- Desktop Grid -->
+        <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-blue-200">
+                <h3 class="text-xl font-bold text-slate-800 mb-3">Personalized Itineraries</h3>
+                <p class="text-slate-600 leading-relaxed">Custom travel plans tailored to your interests, budget, and timeline.</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-purple-200">
+                <h3 class="text-xl font-bold text-slate-800 mb-3">Hassle-Free Planning</h3>
+                <p class="text-slate-600 leading-relaxed">Complete booking management from flights to accommodations.</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-green-200">
+                <h3 class="text-xl font-bold text-slate-800 mb-3">Exclusive Access</h3>
+                <p class="text-slate-600 leading-relaxed">Special deals and insider access to unique experiences.</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-orange-200">
+                <h3 class="text-xl font-bold text-slate-800 mb-3">Global Destinations</h3>
+                <p class="text-slate-600 leading-relaxed">Authentic experiences with deep local knowledge and insights.</p>
+            </div>
+        </div>
+
+        <!-- Mobile Horizontal Scroll -->
+        <div class="md:hidden overflow-x-auto scrollbar-hide -mx-4 px-4">
+            <div class="flex gap-6 pb-4">
+                <div class="flex-shrink-0 w-72 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 shadow-lg border border-blue-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Personalized Itineraries</h3>
+                    <p class="text-slate-600 leading-relaxed">Custom travel plans tailored to your interests, budget, and timeline.</p>
+                </div>
+
+                <div class="flex-shrink-0 w-72 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 shadow-lg border border-purple-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Hassle-Free Planning</h3>
+                    <p class="text-slate-600 leading-relaxed">Complete booking management from flights to accommodations.</p>
+                </div>
+
+                <div class="flex-shrink-0 w-72 bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 shadow-lg border border-green-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Exclusive Access</h3>
+                    <p class="text-slate-600 leading-relaxed">Special deals and insider access to unique experiences.</p>
+                </div>
+
+                <div class="flex-shrink-0 w-72 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 shadow-lg border border-orange-200">
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">Global Destinations</h3>
+                    <p class="text-slate-600 leading-relaxed">Authentic experiences with deep local knowledge and insights.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator for Mobile -->
+        <div class="md:hidden text-center mt-4">
+            <p class="text-sm text-slate-400 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                </svg>
+                Swipe to see more
+            </p>
+        </div>
+    </div>
 </section>
 
+<style>
+   
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Smooth scrolling */
+    .scrollbar-hide {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
 <script>
     // Scroll reveal animation
     const observerOptions = {

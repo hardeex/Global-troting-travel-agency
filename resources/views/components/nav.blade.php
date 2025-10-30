@@ -16,12 +16,18 @@
             <!-- Desktop Navigation -->
             <div class="hidden md:block">
                 <div class="ml-10 flex items-center space-x-6">
+                      <a href="{{route('index')}}"
+                        class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                      
                     <a href="{{route('about')}}"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">About</a>
-                    <a href="{{ route('index') }}#book-now-section"
+                    <a href="{{ route('contact') }}"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Contact</a>
                     <a href="{{route('destinations')}}"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Destinations</a>
+
+                        <a href="{{route('make-a-request')}}"
+                        class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Schedule With Us</a>
                     {{-- <a href="{{ route('admin.bookings') }}"
                         class="bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-cyan-500 transition-colors">
                         Manage Booking
@@ -46,12 +52,24 @@
     <!-- Mobile Menu (hidden by default) -->
     <div class="md:hidden hidden bg-slate-900/95 backdrop-blur-lg" id="mobileMenu">
         <div class="px-2 pt-2 pb-4 space-y-1">
+
+              <a href="{{route('index')}}"
+                class="text-blue-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
             <a href="{{route('about')}}"
                 class="text-blue-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
-            <a href="#book-now-section"
-                class="text-blue-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Plan Booking</a>
+
+              <a href="{{route('contact')}}"
+                class="text-blue-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+
+
+          
             <a href="{{route('destinations')}}"
                 class="text-blue-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Destinations</a>
+
+                  <a href="{{route('make-a-request')}}"
+                class="text-blue-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Plan Booking</a>
+
+
             {{-- <a href="{{ route('admin.bookings') }}"
                 class="bg-gradient-to-r from-blue-500 to-cyan-400 text-white block px-3 py-2 rounded-md text-base font-medium text-center mt-2">
                 Manage Booking

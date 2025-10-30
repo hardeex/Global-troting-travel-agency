@@ -108,7 +108,7 @@
 @if($destinations && $destinations->count() > 0)
 <!-- Popular Destinations Section -->
 <section id='popular-destination'
-    class="relative py-12 md:py-20 bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
+    class="relative py-12 md:py-20 bg-gradient-to-br from-blue-50 to-blue-50 overflow-hidden">
     <!-- Background Elements -->
     <div class="absolute inset-0">
         <!-- Floating Background Shapes -->
@@ -155,7 +155,7 @@
         </div>
 
         <!-- Destinations Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
+        {{-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
             @foreach ($destinations as $destination)
                 <!-- Destination Card -->
                 <div class="group relative overflow-hidden rounded-2xl md:rounded-3xl destination-card cursor-pointer shadow-lg" 
@@ -237,6 +237,110 @@
                                 </span>
                             </div>
                         @endif
+                    </div>
+                </div>
+            @endforeach
+        </div> --}}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
+            @foreach ($destinations as $destination)
+                <!-- Destination Card - Redesigned -->
+                <div class="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2" 
+                     onclick="openInterestModal(
+                         {{ $destination->id }}, 
+                         {{ json_encode($destination->title ?? '') }}, 
+                         {{ json_encode($destination->country ?? '') }}, 
+                         {{ $destination->price ?? 'null' }}, 
+                         {{ json_encode($destination->short_description ?? '') }},
+                         {{ json_encode($destination->details ?? '') }},
+                         {{ json_encode($destination->image_url ?? '') }},
+                         {{ json_encode($destination->start_date ?? '') }},
+                         {{ json_encode($destination->end_date ?? '') }},
+                         {{ $destination->adults ?? 'null' }},
+                         {{ $destination->nights ?? 'null' }}
+                     )">
+                    
+                    <!-- Image Section -->
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        @if($destination->image_url)
+                            <img src="{{ $destination->image_url }}" 
+                                 alt="{{ $destination->title }}" 
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        @else
+                            <!-- Fallback gradient if no image -->
+                            <div class="w-full h-full bg-gradient-to-br {{ $destination->gradient ?? 'from-blue-400 to-indigo-500' }} flex items-center justify-center">
+                                <span class="text-white text-6xl font-bold opacity-30">
+                                    {{ substr($destination->title, 0, 1) }}
+                                </span>
+                            </div>
+                        @endif
+                        
+                        <!-- Price Tag - Positioned on Image -->
+                        @if($destination->price)
+                            <div class="absolute top-4 right-4 bg-white px-3 py-2 rounded-full shadow-lg">
+                                <span class="text-sky-600 font-bold text-sm">From £{{ number_format($destination->price) }}</span>
+                            </div>
+                        @endif
+
+                        <!-- Hover Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+
+                    <!-- Content Section -->
+                    <div class="p-5">
+                        <!-- Country Location -->
+                        @if($destination->country)
+                            <div class="flex items-center text-blue-500 text-sm mb-2">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                {{ $destination->country }}
+                            </div>
+                        @endif
+
+                        <!-- Title -->
+                        <h3 class="text-xl font-bold text-slate-800 mb-2 line-clamp-2 group-hover:text-sky-600 transition-colors">
+                            {{ $destination->title }}
+                        </h3>
+                        
+                        <!-- Description -->
+                        @if($destination->short_description)
+                            <p class="text-slate-600 text-sm mb-4 line-clamp-2">
+                                {{ $destination->short_description }}
+                            </p>
+                        @endif
+
+                        <!-- Footer Info -->
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                            @if($destination->nights)
+                                <div class="flex items-center text-slate-500 text-sm">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    {{ $destination->nights }} Nights
+                                </div>
+                            @endif
+
+                            @if($destination->adults)
+                                <div class="flex items-center text-slate-500 text-sm">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    </svg>
+                                    {{ $destination->adults }} Adults
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- View Details Button -->
+                        <button class="mt-4 w-full bg-blue-800 hover:bg-sky-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center group-hover:bg-sky-600">
+                            <span>View Details</span>
+                            <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             @endforeach
