@@ -10,6 +10,7 @@ use Cloudinary\Cloudinary;
 use Cloudinary\Api\Upload\UploadApi;
 use Exception;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class DestinationController extends Controller
 {
@@ -34,98 +35,213 @@ class DestinationController extends Controller
         return view('admin.destinations.make-a-request');
     }
 
+    // public function bookTravelRequest(Request $request)
+    // {
+    //     Log::info('The book travel request is sent...');
+    //     Log::info('The incoming request', $request->all());
+
+    //     // Validate the form data
+    //     $validated = $request->validate([
+    //         'full_name' => 'required|string|max:255',
+    //         'email' => 'required|email|max:255',
+    //         'phone' => 'required|string|max:20',
+    //         'nationality' => 'required|string|max:100',
+    //         'nationality_other' => 'nullable|string|max:100',
+    //         'destination' => 'required|string|max:255',
+    //         'destination_other' => 'nullable|string|max:255',
+    //         'trip_type' => 'required|string|max:100',
+    //         'trip_type_other' => 'nullable|string|max:100',
+    //         'departure_date' => 'required|date|after_or_equal:today',
+    //         'return_date' => 'required|date|after:departure_date',
+    //         'adults' => 'required|integer|min:1',
+    //         'children' => 'nullable|integer|min:0',
+    //         'infants' => 'nullable|integer|min:0',
+    //         'accommodation' => 'required|string|max:100',
+    //         'accommodation_other' => 'nullable|string|max:100',
+    //         'budget' => 'required|string|max:50',
+    //         'services' => 'nullable|array',
+    //         'services.*' => 'string',
+    //         'special_requests' => 'nullable|string|max:1000',
+    //     ]);
+
+    //     // Handle "other" fields
+    //     if ($validated['nationality'] === 'other') {
+    //         $validated['nationality'] = $validated['nationality_other'] ?? 'Other';
+    //     }
+
+    //     if ($validated['destination'] === 'other') {
+    //         $validated['destination'] = $validated['destination_other'] ?? 'Other';
+    //     }
+
+    //     if ($validated['trip_type'] === 'other') {
+    //         $validated['trip_type'] = $validated['trip_type_other'] ?? 'Other';
+    //     }
+
+    //     if ($validated['accommodation'] === 'other') {
+    //         $validated['accommodation'] = $validated['accommodation_other'] ?? 'Other';
+    //     }
+
+    //     // Convert services array to JSON or comma-separated string
+    //     if (isset($validated['services'])) {
+    //         $validated['services'] = json_encode($validated['services']);
+    //     }
+
+    //     // Save to database
+    //     $booking = Booking::create($validated);
+
+    //     // Send email notifications
+    //     try {
+    //         $receiverEmails = explode(',', env('RECEIVER_EMAILS', 'support@globetrottingtraveluk.com,globetrottingtraveluk@gmail.com'));
+
+    //         foreach ($receiverEmails as $email) {
+    //             try {
+    //                 Mail::to(trim($email))->send(new BookingNotification($booking));
+    //             } catch (Exception $e) {
+    //                 //throw $th;
+    //                 Log::error('The mail server sends: ' . $e->getMessage());
+    //             }
+    //         }
+
+    //         try {
+    //             // Send confirmation email to customer
+    //             Mail::to($validated['email'])->send(new BookingNotification($booking, true));
+    //         } catch (Exception $exception) {
+    //             //throw $th;
+    //             Log::error('Sending email notification to the customer failed', [
+    //                 'exception' => $exception,
+    //                 'trace' => $exception->getTraceAsString(),
+    //             ]);
+    //         }
+    //     } catch (\Exception $e) {
+    //         // Log the error but don't fail the booking
+    //         Log::error('Failed to send booking email: ' . $e->getMessage());
+    //     }
+
+    //     return redirect()
+    //         ->route('index')
+    //         ->with([
+    //             'success' => 'Your booking has been submitted successfully! We will contact you shortly.',
+    //             'email_warning' => isset($e) ? 'However, we were unable to send a confirmation email. Please check back or contact us if needed.' : null,
+    //         ]);
+    // }
+
+
+
     public function bookTravelRequest(Request $request)
-    {
-        Log::info('The book travel request is sent...');
-        Log::info('The incoming request', $request->all());
+{
+    Log::info('Book travel request received...');
+    Log::info('Incoming request data:', $request->all());
 
-        // Validate the form data
-        $validated = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
-            'nationality' => 'required|string|max:100',
-            'nationality_other' => 'nullable|string|max:100',
-            'destination' => 'required|string|max:255',
-            'destination_other' => 'nullable|string|max:255',
-            'trip_type' => 'required|string|max:100',
-            'trip_type_other' => 'nullable|string|max:100',
-            'departure_date' => 'required|date|after_or_equal:today',
-            'return_date' => 'required|date|after:departure_date',
-            'adults' => 'required|integer|min:1',
-            'children' => 'nullable|integer|min:0',
-            'infants' => 'nullable|integer|min:0',
-            'accommodation' => 'required|string|max:100',
-            'accommodation_other' => 'nullable|string|max:100',
-            'budget' => 'required|string|max:50',
-            'services' => 'nullable|array',
-            'services.*' => 'string',
-            'special_requests' => 'nullable|string|max:1000',
-        ]);
+   
+    $rules = [
+        'full_name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|string|max:20',
+        'nationality' => 'nullable|string|max:100',
+        'nationality_other' => 'nullable|string|max:100',
+        'destination' => 'required|string|max:255',
+        'destination_other' => 'nullable|string|max:255',
+        'trip_type' => 'nullable|string|max:100',
+        'trip_type_other' => 'nullable|string|max:100',
+        'departure_date' => 'nullable|date|after_or_equal:today',
+        'return_date' => 'nullable|date|after:departure_date',
+        'adults' => 'nullable|integer|min:1',
+        'children' => 'nullable|integer|min:0',
+        'infants' => 'nullable|integer|min:0',
+        'accommodation' => 'nullable|string|max:100',
+        'accommodation_other' => 'nullable|string|max:100',
+        'budget' => 'nullable|string|max:50',
+        'services' => 'nullable|array',
+        'services.*' => 'string',
+        'special_requests' => 'nullable|string|max:1000',
+    ];
 
-        // Handle "other" fields
-        if ($validated['nationality'] === 'other') {
-            $validated['nationality'] = $validated['nationality_other'] ?? 'Other';
-        }
 
-        if ($validated['destination'] === 'other') {
-            $validated['destination'] = $validated['destination_other'] ?? 'Other';
-        }
+    $validator = Validator::make($request->all(), $rules);
 
-        if ($validated['trip_type'] === 'other') {
-            $validated['trip_type'] = $validated['trip_type_other'] ?? 'Other';
-        }
+    if ($validator->fails()) {
+        Log::error('Validation failed with errors:', $validator->errors()->toArray());
+        Log::error('Invalid input data:', $request->all());
 
-        if ($validated['accommodation'] === 'other') {
-            $validated['accommodation'] = $validated['accommodation_other'] ?? 'Other';
-        }
-
-        // Convert services array to JSON or comma-separated string
-        if (isset($validated['services'])) {
-            $validated['services'] = json_encode($validated['services']);
-        }
-
-        // Save to database
-        $booking = Booking::create($validated);
-
-        // Send email notifications
-        try {
-            $receiverEmails = explode(',', env('RECEIVER_EMAILS', 'support@globetrottingtraveluk.com,globetrottingtraveluk@gmail.com'));
-
-            foreach ($receiverEmails as $email) {
-                try {
-                    Mail::to(trim($email))->send(new BookingNotification($booking));
-                } catch (Exception $e) {
-                    //throw $th;
-                    Log::info('The mail server sends...', $e);
-                }
-            }
-
-            try {
-                // Send confirmation email to customer
-                Mail::to($validated['email'])->send(new BookingNotification($booking, true));
-            } catch (Exception $exception) {
-                //throw $th;
-                Log::info('Sending email notification to the customer failed', $exception);
-            }
-        } catch (\Exception $e) {
-            // Log the error but don't fail the booking
-            Log::error('Failed to send booking email: ' . $e->getMessage());
-        }
-
-        // return redirect()
-        //     ->back()
-        //     ->with([
-        //         'success' => 'Your booking has been submitted successfully! We will contact you shortly.',
-        //         'email_warning' => isset($e) ? 'However, we were unable to send a confirmation email. Please check back or contact us if needed.' : null,
-        //     ]);
-
-        return redirect()->route('index')->with([
-    'success' => 'Your booking has been submitted successfully! We will contact you shortly.',
-    'email_warning' => isset($e) ? 'However, we were unable to send a confirmation email. Please check back or contact us if needed.' : null,
-]);
-
+        // You can redirect back with errors or return JSON
+        return redirect()
+            ->back()
+            ->withErrors($validator)
+            ->withInput()
+            ->with('error', 'Please check the form and fix the highlighted errors.');
     }
+
+    $validated = $validator->validated();
+    Log::info('Validation passed successfully:', $validated);
+
+   
+    if (($validated['nationality'] ?? '') === 'other') {
+        $validated['nationality'] = $validated['nationality_other'] ?? 'Other';
+    }
+
+    if (($validated['destination'] ?? '') === 'other') {
+        $validated['destination'] = $validated['destination_other'] ?? 'Other';
+    }
+
+    if (($validated['trip_type'] ?? '') === 'other') {
+        $validated['trip_type'] = $validated['trip_type_other'] ?? 'Other';
+    }
+
+    if (($validated['accommodation'] ?? '') === 'other') {
+        $validated['accommodation'] = $validated['accommodation_other'] ?? 'Other';
+    }
+
+
+    if (isset($validated['services'])) {
+        $validated['services'] = json_encode($validated['services']);
+    }
+
+    try {
+        $booking = Booking::create($validated);
+        Log::info('Booking created successfully with ID: ' . $booking->id);
+    } catch (Exception $e) {
+        Log::error('Failed to save booking to database: ' . $e->getMessage());
+        return redirect()
+            ->back()
+            ->with('error', 'Something went wrong while saving your booking. Please try again later.');
+    }
+
+  
+    try {
+        $receiverEmails = explode(',', env('RECEIVER_EMAILS', 'support@globetrottingtraveluk.com,globetrottingtraveluk@gmail.com'));
+
+        foreach ($receiverEmails as $email) {
+            try {
+                Mail::to(trim($email))->send(new BookingNotification($booking));
+            } catch (Exception $e) {
+                Log::error('Failed to send admin notification email: ' . $e->getMessage());
+            }
+        }
+
+        try {
+            Mail::to($validated['email'] ?? null)->send(new BookingNotification($booking, true));
+        } catch (Exception $exception) {
+            Log::error('Failed to send confirmation email to customer:', [
+                'exception' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString(),
+            ]);
+        }
+
+    } catch (Exception $e) {
+        Log::error('Mail process failed: ' . $e->getMessage());
+    }
+
+
+    return redirect()
+        ->route('index')
+        ->with([
+            'success' => 'Your booking has been submitted successfully! We will contact you shortly.',
+            'email_warning' => isset($exception)
+                ? 'However, we were unable to send a confirmation email. Please check back or contact us if needed.'
+                : null,
+        ]);
+}
+
 
     public function store(Request $request)
     {

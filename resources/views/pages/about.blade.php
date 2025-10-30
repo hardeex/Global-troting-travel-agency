@@ -147,7 +147,7 @@
                 </div>
                 <div class="text-center lg:text-left">
                     <div class="text-2xl font-bold text-gray-800 mb-2">
-                        Global Throtting.
+                        Global Trotting
                     </div>
                     <div class="text-lg text-gray-600 mb-4">
                         Independent Travel Advisor

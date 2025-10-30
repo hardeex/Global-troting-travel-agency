@@ -347,8 +347,7 @@
                     <h4 class="font-semibold text-blue-800 mb-2">Secure Payment Processing</h4>
                     <p class="text-blue-700 mb-2">Your payments always go directly to the travel supplier (hotel,
                         cruise line, airline, etc.) or Globe Trotting.</p>
-                    <p class="text-blue-700"><strong>If you are asked for cash or personal payments, call +44 7368
-                            818431.</strong></p>
+                    <a href="tel=+44 1375 481962" class="text-blue-700"><strong>If you are asked for cash or personal payments, call +44 1375 481962</strong></a>
                 </div>
 
                 <!-- ATOL Section -->
