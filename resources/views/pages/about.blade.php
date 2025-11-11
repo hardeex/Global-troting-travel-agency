@@ -135,7 +135,7 @@
                 Explore the World with Confidence
             </p>
             <p class="text-lg md:text-xl text-white/80 max-w-4xl mx-auto mb-12 fade-in stagger-3 leading-relaxed">
-                We're not just about booking flights—we're about crafting experiences that spark joy, open minds, and create lifelong memories.
+                We're not just about booking flights, we're about crafting experiences that spark joy, open minds, and create lifelong memories.
             </p>
         </div>
 
@@ -194,7 +194,7 @@
             <div class="scroll-reveal">
                 <h2 class="text-4xl font-bold gradient-text mb-6">About Globe Trotting</h2>
                 <p class="text-lg text-gray-700 leading-relaxed mb-8">
-                    At Globe Trotting, we're not just about booking flights—we're about crafting experiences that spark joy, open minds, and create lifelong memories. Every journey we plan is backed by local insight, personalized service, and a passion for adventure.
+                    At Globe Trotting, we're not just about booking flights, we're about crafting experiences that spark joy, open minds, and create lifelong memories. Every journey we plan is backed by local insight, personalized service, and a passion for adventure.
                 </p>
                 <p class="text-lg text-gray-700 leading-relaxed">
                     From relaxing retreats to adrenaline-filled escapes, we help you travel smarter, deeper, and with confidence. Wherever you're headed, count on us to turn travel dreams into unforgettable realities—minus the hassle, plus the magic.

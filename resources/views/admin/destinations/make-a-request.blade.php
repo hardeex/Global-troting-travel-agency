@@ -335,7 +335,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-3">Plan Your Perfect Escape</h1>
+                        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-3">Plan Your Perfect Trip</h1>
                         <p class="text-lg text-slate-600 max-w-2xl mx-auto">Tell us about your dream trip and we'll create a tailored experience just for you</p>
                     </div>
 
@@ -579,7 +579,7 @@
                                 <input type="checkbox" name="services[]" value="airport-transfer" class="w-5 h-5 text-blue-500 border-slate-300 rounded focus:ring-blue-500">
                                 <div class="ml-4">
                                     <div class="flex items-center gap-2">
-                                        <span class="text-2xl">🚗</span>
+                                        {{-- <span class="text-2xl">🚗</span> --}}
                                         <span class="font-semibold text-slate-800">Airport Transfer</span>
                                     </div>
                                     <p class="text-sm text-slate-500 mt-1">Door-to-door service</p>
@@ -590,7 +590,7 @@
                                 <input type="checkbox" name="services[]" value="travel-insurance" class="w-5 h-5 text-blue-500 border-slate-300 rounded focus:ring-blue-500">
                                 <div class="ml-4">
                                     <div class="flex items-center gap-2">
-                                        <span class="text-2xl">🛡️</span>
+                                        {{-- <span class="text-2xl">🛡️</span> --}}
                                         <span class="font-semibold text-slate-800">Travel Insurance</span>
                                     </div>
                                     <p class="text-sm text-slate-500 mt-1">Peace of mind coverage</p>
@@ -601,7 +601,7 @@
                                 <input type="checkbox" name="services[]" value="guided-tours" class="w-5 h-5 text-blue-500 border-slate-300 rounded focus:ring-blue-500">
                                 <div class="ml-4">
                                     <div class="flex items-center gap-2">
-                                        <span class="text-2xl">🗺️</span>
+                                        {{-- <span class="text-2xl">🗺️</span> --}}
                                         <span class="font-semibold text-slate-800">Guided Tours</span>
                                     </div>
                                     <p class="text-sm text-slate-500 mt-1">Expert local guides</p>
@@ -612,7 +612,7 @@
                                 <input type="checkbox" name="services[]" value="car-rental" class="w-5 h-5 text-blue-500 border-slate-300 rounded focus:ring-blue-500">
                                 <div class="ml-4">
                                     <div class="flex items-center gap-2">
-                                        <span class="text-2xl">🚘</span>
+                                        {{-- <span class="text-2xl">🚘</span> --}}
                                         <span class="font-semibold text-slate-800">Car Rental</span>
                                     </div>
                                     <p class="text-sm text-slate-500 mt-1">Explore at your pace</p>
@@ -662,7 +662,7 @@
             </div>
 
             <!-- Trust Badges -->
-            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {{-- <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                 <div class="bg-white rounded-xl p-4 shadow-sm">
                     <div class="text-3xl mb-2">⚡</div>
                     <div class="text-sm font-semibold text-slate-800">Quick Response</div>
@@ -683,7 +683,7 @@
                     <div class="text-sm font-semibold text-slate-800">Expert Support</div>
                     <div class="text-xs text-slate-500">24/7 assistance</div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

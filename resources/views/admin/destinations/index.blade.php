@@ -179,7 +179,7 @@
     <div class="bg-white rounded-xl shadow-xl max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
         <div class="p-6">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-semibold text-gray-900">Edit Destination</h3>
+                <h3 class="text-xl font-semibold text-gray-900">Edit Destination </h3>
                 <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -222,12 +222,19 @@
                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
                     
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">New Image (Optional)</label>
-                        <input type="file" name="image" accept="image/*"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <p class="text-xs text-gray-500 mt-1">Leave empty to keep current image</p>
-                    </div>
+                  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Current Image</label>
+    <div id="edit_image_preview_container" class="mb-3">
+        <img id="edit_image_preview" src="" alt="Current destination image" 
+             class="w-full h-48 object-cover rounded-lg border border-gray-300">
+    </div>
+
+    <label class="block text-sm font-medium text-gray-700 mb-2">New Image (Optional)</label>
+    <input type="file" name="image" accept="image/*"
+           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+    <p class="text-xs text-gray-500 mt-1">Leave empty to keep current image</p>
+</div>
+
                     
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
@@ -381,13 +388,21 @@ function showEditModal(destination) {
     document.getElementById('edit_end_date').value = destination.end_date;
     document.getElementById('edit_short_description').value = destination.short_description;
     document.getElementById('edit_details').value = destination.details;
-    
+
+    //  Set current image preview
+    const imageElement = document.getElementById('edit_image_preview');
+    imageElement.src = destination.image_url 
+        ? destination.image_url 
+        : '/images/placeholder.jpg'; // fallback placeholder if no image
+
     // Set form action
     document.getElementById('editForm').action = `/admin/destinations/${destination.id}`;
-    
+
+    // Show modal
     document.getElementById('editModal').classList.remove('hidden');
     document.getElementById('editModal').classList.add('flex');
 }
+
 
 function closeEditModal() {
     document.getElementById('editModal').classList.add('hidden');

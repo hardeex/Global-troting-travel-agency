@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'Edit Destination')
-@section('header', 'Edit Destination')
+@section('header', 'Edit Destination ')
 
 @section('content')
     <form action="{{ route('admin.destinations.update', $destination->id) }}"
