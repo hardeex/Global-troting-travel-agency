@@ -243,21 +243,22 @@
             </div>
 
             <!-- Main Message -->
-            <div class="mb-8 sm:mb-10 stagger-2 fade-in max-w-3xl">
-                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                    Create Memories That Last a Lifetime
-                </h1>
-                
-                <p class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-4 leading-relaxed">
-                    At Globe Trotting, we're all about real experiences. Whether you're chasing sunsets on a quiet
-                    beach or exploring the chaos of a new city, we'll help you get there.
-                </p>
+          <div class="mb-8 sm:mb-10 stagger-2 fade-in max-w-3xl">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+        Create Memories That Last a Lifetime
+    </h1>
+    
+    <p class="text-lg sm:text-xl md:text-2xl text-blue-100 mb-4 leading-relaxed">
+        At Globe Trotting, we're all about genuine experiences. Whether you're chasing sunsets on a quiet
+        beach or exploring the bustle of a new city, we'll help you get there.
+    </p>
 
-                <p class="text-base sm:text-lg text-blue-200 leading-relaxed">
-                    From exotic getaways to cultural explorations, we handle every detail while you focus on the
-                    excitement of your next adventure.
-                </p>
-            </div>
+    <p class="text-base sm:text-lg text-blue-200 leading-relaxed">
+        From exotic getaways to cultural explorations, we handle every detail while you focus on the
+        excitement of your next adventure.
+    </p>
+</div>
+
 
             <!-- CTA Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start stagger-3 fade-in">

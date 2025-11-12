@@ -124,6 +124,17 @@
                                 Plan a Trip
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('privacy.policy') }}"
+                                class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
+                                <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                                Privacy Policy
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
@@ -153,17 +164,6 @@
                                 Airports
                             </a>
                         </li>
-                        {{-- <li>
-                            <a href="https://www.farecompare.com/" target="_blank"
-                                class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
-                                <svg class="w-4 h-4 mr-2 group-hover:translate-x-1 transition-transform duration-300"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                                Luggage Limit
-                            </a>
-                        </li> --}}
                         <li>
                             <a href="https://www.worldtimeserver.com/current_time_in_US-NY.aspx" target="_blank"
                                 class="text-gray-300 hover:text-sky-400 transition-colors duration-300 flex items-center group">
@@ -208,10 +208,10 @@
                                 </svg>
                             </div>
 
-                            <a href="tel:+44 1375 481962"
+                            <a href="tel:+441375481962"
                                 class="text-gray-300 hover:text-sky-400 transition-colors duration-300">+44 1375 481962
                             </a>
-                            <a href="tel: +44 7368 818431"
+                            <a href="tel:+447368818431"
                                 class="text-gray-300 hover:text-sky-400 transition-colors duration-300"> +44 7368
                                 818431
                             </a>
@@ -245,93 +245,202 @@
                 </div>
             </div>
 
-            <!-- Bottom Bar -->
-            {{-- <div class="border-t border-gray-700 pt-8">
-                <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-                    <div class="text-gray-400 text-sm mb-4 md:mb-0">
-                        <p>&copy; {{ date('Y') }} Powered by SM DIGITAL SYSTEM. All rights reserved.</p>
-                    </div>
-                    <div class="flex flex-wrap justify-center md:justify-end space-x-6 text-sm">
-                      
-
-                        <button onclick="openProtectionModal()"
-                            class="">
-
-                            <img src="/images/atol-abta-removebg-preview.png" alt="ATOL & ABTA Protected" class="w-45 h-32" />
-
-                           
-                        </button>
-
+            <!-- Consumer Protection Section -->
+            <div class="border-t border-gray-700 pt-12 mb-8">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-bold text-white mb-4 flex items-center justify-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.031 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        Consumer Protection
+                    </h3>
+                    <div class="flex justify-center items-center gap-6 mb-8">
+                        <a href="/images/InT_UK-ABTA.webp" target="_blank" class="transition-transform hover:scale-110 duration-300">
+                            <img src="/images/InT_UK-ABTA.webp" alt="ABTA Protected" class="w-32 h-auto cursor-pointer" />
+                        </a>
+                        <a href="/images/InT_Color_ATOL.webp" target="_blank" class="transition-transform hover:scale-110 duration-300">
+                            <img src="/images/InT_Color_ATOL.webp" alt="ATOL Protected" class="w-32 h-auto cursor-pointer" />
+                        </a>
                     </div>
                 </div>
-            </div> --}}
+
+                <div class="grid md:grid-cols-2 gap-6 text-sm">
+                    <!-- ATOL -->
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-sky-500/20 hover:border-sky-500/40 transition-all duration-300">
+                        <h4 class="text-lg font-semibold text-sky-400 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                            ATOL – Air Travel Organisers Licence
+                        </h4>
+                        <div class="text-gray-300 leading-relaxed space-y-3">
+                            <p>
+                                Many of the flights and flight-inclusive holidays on this website are financially protected by the ATOL financial protection scheme through our supplier partners (travel brands).
+                            </p>
+                            <p>
+                                But ATOL protection does not apply to all holiday and travel services listed on this website. Please ask your agent to confirm what protection may apply to your booking.
+                            </p>
+                            <p>
+                                If you do not receive an ATOL Certificate then the booking will not be ATOL protected. Please see our booking condition information or for more about financial protection and the ATOL certificate go to 
+                                <a href="https://www.atol.org.uk/ATOLCertificate" target="_blank" class="text-sky-400 hover:text-sky-300 underline font-medium">www.atol.org.uk/ATOLCertificate</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ABTA -->
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
+                        <h4 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                                </path>
+                            </svg>
+                            ABTA – The Travel Association
+                        </h4>
+                        <div class="text-gray-300 leading-relaxed space-y-3">
+                            <p>
+                                <strong class="text-white">Book with Confidence.</strong> We are a member of ABTA which means you have the benefit of ABTA's assistance and Code of Conduct.
+                            </p>
+                            <p>
+                                All the package holidays we sell are covered by a scheme protecting your money if the supplier fails. Other services such as hotels or flights on their own may not be protected and you should ask us what protection is available.
+                            </p>
+                            <p>
+                                Find out more at 
+                                <a href="http://abta.com/go-travel/before-you-travel/travel-tips/financial-protection-3" target="_blank" class="text-purple-400 hover:text-purple-300 underline font-medium">ABTA Financial Protection</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Travel Advice -->
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300">
+                        <h4 class="text-lg font-semibold text-yellow-400 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
+                                </path>
+                            </svg>
+                            Travel and Destination Advice
+                        </h4>
+                        <p class="text-gray-300 leading-relaxed">
+                            For the latest travel advice from the Foreign, Commonwealth and Development Office including security and local laws, plus passport and visa information, click here 
+                            <a href="https://www.gov.uk/foreign-travel-advice" target="_blank" class="text-yellow-400 hover:text-yellow-300 underline font-medium">www.gov.uk/foreign-travel-advice</a>
+                        </p>
+                    </div>
+
+                    <!-- Complaint Resolution -->
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-red-500/20 hover:border-red-500/40 transition-all duration-300">
+                        <h4 class="text-lg font-semibold text-red-400 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z">
+                                </path>
+                            </svg>
+                            Complaint Dispute Resolution
+                        </h4>
+                        <div class="text-gray-300 leading-relaxed space-y-3">
+                            <p>
+                                Because the contract(s) for your travel arrangements is between you and the principal(s) or supplier(s), any queries or concerns relating to the travel arrangements should be addressed to them. If you have a problem whilst on holiday, this must be reported to the principal/supplier or their local supplier or agent immediately.
+                            </p>
+                            <p>
+                                If you fail to follow this procedure there will be less opportunity to investigate and rectify your complaint. The amount of compensation you may be entitled to may be reduced or you may not receive any at all depending upon the circumstances.
+                            </p>
+                            <p>
+                                If you wish to complain when you return home, write to the principal/supplier. You will see the name and address plus contact details in any confirmation documents we send you. We will of course assist you with this if you wish – please contact your GlobeTrottingTravelUK agent and copy Customer Services at 
+                                <a href="mailto:support@globetrottingtraveluk.com" class="text-red-400 hover:text-red-300 underline font-medium">support@globetrottingtraveluk.com</a>
+                            </p>
+                            <p>
+                                If the matter cannot be resolved and it involves us or another ABTA Member then you have the option to use ABTA's ADR scheme, approved by the Chartered Trading Standards Institute, see 
+                                <a href="https://abta.com" target="_blank" class="text-red-400 hover:text-red-300 underline font-medium">abta.com</a>
+                            </p>
+                            <p>
+                                You can also access the European Commission Online Dispute (ODR) Resolution platform at 
+                                <a href="http://ec.europa.eu/consumers/odr" target="_blank" class="text-red-400 hover:text-red-300 underline font-medium">ec.europa.eu/consumers/odr</a>. 
+                                This ODR platform is a means of notifying us of your complaint; it will not determine how your complaint should be resolved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ABTA Membership Details -->
+                <div class="mt-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-purple-500/20">
+                    <h4 class="text-xl font-semibold text-purple-400 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
+                            </path>
+                        </svg>
+                        ABTA Membership
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-6 text-sm">
+                        <div class="text-gray-300 leading-relaxed space-y-3">
+                            <p>
+                                Find out more 
+                                <a href="http://abta.com/find-a-member" target="_blank" class="text-purple-400 hover:text-purple-300 underline font-medium">HERE</a>
+                            </p>
+                            <p>
+                                GlobeTrottingTravelUK is a Member of ABTA. ABTA and ABTA Members help holidaymakers to get the most from their travel and assist them when things do not go according to plan.
+                            </p>
+                            <p>
+                                We are obliged to maintain a high standard of service to you by ABTA's Code of Conduct.
+                            </p>
+                        </div>
+                        <div class="text-gray-300 leading-relaxed space-y-2">
+                            <p class="font-semibold text-white mb-2">Contact ABTA:</p>
+                            <p>30 Park Street, London SE1 9EQ</p>
+                            <p>Tel: 020 3117 0500</p>
+                            <p>
+                                <a href="https://www.abta.com" target="_blank" class="text-purple-400 hover:text-purple-300 underline font-medium">www.abta.com</a>
+                            </p>
+                            <p>
+                                For further information about ABTA, the Code of Conduct and the arbitration scheme available to you if you have a complaint, contact ABTA at the address above.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="mt-6 grid md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-gray-700/50">
+                        <h4 class="text-lg font-semibold text-gray-100 mb-3 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
+                                </path>
+                            </svg>
+                            Links to Other Websites
+                        </h4>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            On this site you will find links to other third party websites. These are for your convenience only and GlobeTrottingTravelUK is not responsible for the content of the third party site.
+                        </p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-gray-700/50">
+                        <h4 class="text-lg font-semibold text-gray-100 mb-3 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                </path>
+                            </svg>
+                            Data Protection, Cookie & Privacy Policy
+                        </h4>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Please see link to our <a href="{{ route('privacy.policy') }}" class="text-indigo-400 hover:text-indigo-300 underline font-medium">Privacy Policy</a> stating what data we collect and what the personal information will be used for, who it will be passed to, etc. You have the right to see the personal data we hold about you, and to request modification or deletion. This site uses cookies, as explained in our Privacy Policy. If you use this site without adjusting your cookies settings, you agree to our use of cookies.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
             <div class="border-t border-gray-700 pt-8">
-                <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-4">
-                    <div class="text-gray-400 text-sm">
-                        <p>&copy; {{ date('Y') }} Powered by SM DIGITAL SYSTEM. All rights reserved.</p>
-                    </div>
-                    
-                    <div class="flex flex-wrap justify-center md:justify-end items-center gap-4">
-                        <!-- ATOL & ABTA Protection Button -->
-                        <button onclick="openProtectionModal()"
-                            class="group relative bg-white hover:bg-gray-50 rounded-xl p-3 transition-all duration-300 hover:shadow-lg border-2 border-gray-200 hover:border-blue-400 cursor-pointer">
-                            
-                            <!-- Hover effect overlay -->
-                            <div class="absolute inset-0 bg-blue-500 opacity-0 group-hover:opacity-5 rounded-xl transition-opacity duration-300"></div>
-                            
-                            <div class="relative flex flex-col items-center gap-2">
-                                <img src="/images/atol-abta-removebg-preview.png" 
-                                     alt="ATOL & ABTA Protected" 
-                                     class="w-32 h-auto transform group-hover:scale-105 transition-transform duration-300" />
-                                
-                                <span class="text-xs font-semibold text-gray-600 group-hover:text-blue-600 transition-colors duration-300 flex items-center gap-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    Click for Details
-                                </span>
-                            </div>
-                        </button>
-                    </div>
+                <div class="text-center text-gray-400 text-sm">
+                    <p>&copy; {{ date('Y') }} Powered by SM DIGITAL SYSTEM. All rights reserved.</p>
                 </div>
             </div>
         </div>
     </div>
 </footer>
-
-<!-- ATOL & ABTA Protection Modal -->
-@include('components.abta-atol')
-
-
-<script>
-    // Protection Modal Functions
-    function openProtectionModal() {
-        document.getElementById('protectionModal').classList.remove('hidden');
-        document.getElementById('protectionModal').classList.add('flex');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-    }
-
-    function closeProtectionModal() {
-        document.getElementById('protectionModal').classList.add('hidden');
-        document.getElementById('protectionModal').classList.remove('flex');
-        document.body.style.overflow = 'auto'; // Restore scrolling
-    }
-
-    // Close modal when clicking outside
-    document.addEventListener('click', function(event) {
-        const modal = document.getElementById('protectionModal');
-        if (event.target === modal) {
-            closeProtectionModal();
-        }
-    });
-
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeProtectionModal();
-        }
-    });
-</script>
 
 <style>
     .footer-scrollbar::-webkit-scrollbar {
@@ -351,22 +460,4 @@
     .footer-scrollbar::-webkit-scrollbar-thumb:hover {
         background: #0284C7;
     }
-
-    /* Modal scrollbar styling */
-    #protectionModal .overflow-y-auto::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    #protectionModal .overflow-y-auto::-webkit-scrollbar-track {
-        background: #f1f5f9;
-        border-radius: 3px;
-    }
-
-    #protectionModal .overflow-y-auto::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 3px;
-    }
-
-    #protectionModal .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-    }
+</style>

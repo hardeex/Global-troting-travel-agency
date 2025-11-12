@@ -1,5 +1,5 @@
 @extends('components.base')
-@section('title', 'About Global Throttinh.')
+@section('title', 'About Global Throtting.')
 
 @section('content')
 <style>
@@ -139,7 +139,7 @@
             </p>
         </div>
 
-        <!-- Travel Advisor Info -->
+        <!-- Travel Adviser Info -->
         <div class="glass-card rounded-2xl p-6 md:p-8 max-w-2xl mx-auto fade-in stagger-4">
             <div class="flex flex-col lg:flex-row items-center gap-6">
                 <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
@@ -180,13 +180,13 @@
                 <div class="bg-gradient-to-br from-blue-600 to-purple-700 rounded-2xl p-8 text-white">
                     <h3 class="text-3xl font-bold mb-6">Our Mission</h3>
                     <p class="text-lg leading-relaxed mb-6">
-                        Every journey we plan is backed by local insight, personalized service, and a passion for adventure. From relaxing retreats to adrenaline-filled escapes, we help you travel smarter, deeper, and with confidence.
+                        Every journey we plan is backed by local insight, personalised service, and a passion for adventure. From relaxing retreats to adrenaline-filled escapes, we help you travel smarter, deeper, and with confidence.
                     </p>
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                        {{-- <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
                             <span class="text-2xl">🎯</span>
-                        </div>
-                        <span class="font-semibold">Wherever you're headed, count on us to turn travel dreams into unforgettable realities—minus the hassle, plus the magic.</span>
+                        </div> --}}
+                        <span class="font-semibold">Wherever you're headed, count on us to turn travel dreams into unforgettable realities, minus the hassle, plus the magic.</span>
                     </div>
                 </div>
             </div>
@@ -194,10 +194,10 @@
             <div class="scroll-reveal">
                 <h2 class="text-4xl font-bold gradient-text mb-6">About Globe Trotting</h2>
                 <p class="text-lg text-gray-700 leading-relaxed mb-8">
-                    At Globe Trotting, we're not just about booking flights, we're about crafting experiences that spark joy, open minds, and create lifelong memories. Every journey we plan is backed by local insight, personalized service, and a passion for adventure.
+                    At Globe Trotting, we're not just about booking flights, we're about crafting experiences that spark joy, open minds, and create lifelong memories. Every journey we plan is backed by local insight, personalised service, and a passion for adventure.
                 </p>
                 <p class="text-lg text-gray-700 leading-relaxed">
-                    From relaxing retreats to adrenaline-filled escapes, we help you travel smarter, deeper, and with confidence. Wherever you're headed, count on us to turn travel dreams into unforgettable realities—minus the hassle, plus the magic.
+                    From relaxing retreats to adrenaline-filled escapes, we help you travel smarter, deeper, and with confidence. Wherever you're headed, count on us to turn travel dreams into unforgettable realities, minus the hassle, plus the magic.
                 </p>
             </div>
         </div>
@@ -208,23 +208,23 @@
                 <h3 class="text-3xl md:text-4xl font-bold mb-8 text-center">Why Choose Globe Trotting?</h3>
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="text-center">
-                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        {{-- <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl">🎯</span>
-                        </div>
+                        </div> --}}
                         <h4 class="text-xl font-bold mb-3">Expert Local Knowledge</h4>
                         <p class="text-white/90">Our team provides insider access and authentic local experiences you won't find elsewhere.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        {{-- <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl">🛟</span>
-                        </div>
+                        </div> --}}
                         <h4 class="text-xl font-bold mb-3">24/7 Support</h4>
                         <p class="text-white/90">We're here for you every step of the way, from planning to your safe return home.</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        {{-- <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl">🌱</span>
-                        </div>
+                        </div> --}}
                         <h4 class="text-xl font-bold mb-3">Sustainable Travel</h4>
                         <p class="text-white/90">We're committed to responsible tourism that benefits local communities and preserves destinations.</p>
                     </div>
@@ -249,7 +249,7 @@
                 <div class="service-icon w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="text-3xl">✨</span>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-3">Personalized Itineraries</h3>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">personalised Itineraries</h3>
                 <p class="text-gray-600">Custom travel plans tailored to your interests, budget, and timeline.</p>
             </div>
 
@@ -294,7 +294,7 @@
         <!-- Desktop Grid -->
         <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-blue-200">
-                <h3 class="text-xl font-bold text-slate-800 mb-3">Personalized Itineraries</h3>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">personalised Itineraries</h3>
                 <p class="text-slate-600 leading-relaxed">Custom travel plans tailored to your interests, budget, and timeline.</p>
             </div>
 
@@ -318,7 +318,7 @@
         <div class="md:hidden overflow-x-auto scrollbar-hide -mx-4 px-4">
             <div class="flex gap-6 pb-4">
                 <div class="flex-shrink-0 w-72 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 shadow-lg border border-blue-200">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">Personalized Itineraries</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">personalised Itineraries</h3>
                     <p class="text-slate-600 leading-relaxed">Custom travel plans tailored to your interests, budget, and timeline.</p>
                 </div>
 

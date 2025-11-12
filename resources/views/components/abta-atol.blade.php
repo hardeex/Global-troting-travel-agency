@@ -11,8 +11,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Consumer Protection</h2>
-                        <p class="text-gray-600">Your travel bookings are protected</p>
+                        <h2 class="text-2xl font-bold text-gray-900">CONSUMER PROTECTION</h2>
                     </div>
                 </div>
                 <button onclick="closeProtectionModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold">
@@ -25,29 +24,6 @@
 
             <!-- Modal Content -->
             <div class="space-y-6 text-gray-700">
-                <!-- Protection Notice -->
-                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
-                    <div class="flex items-center mb-2">
-                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <h3 class="font-semibold text-green-800">Your Money is Protected</h3>
-                    </div>
-                    <p class="text-green-700">Your Globe Trotting Agent protects you by never accepting cash or travel
-                        payments to PayPal or other personal accounts. Purchase travel through Globe Trotting with peace
-                        of mind - your money and your dream trip are protected and secure.</p>
-                </div>
-
-                <!-- Payment Security -->
-                <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                    <h4 class="font-semibold text-blue-800 mb-2">Secure Payment Processing</h4>
-                    <p class="text-blue-700 mb-2">Your payments always go directly to the travel supplier (hotel,
-                        cruise line, airline, etc.) or Globe Trotting.</p>
-                    <a href="tel=+44 1375 481962" class="text-blue-700"><strong>If you are asked for cash or personal payments, call +44 1375 481962</strong></a>
-                </div>
-
                 <!-- ATOL Section -->
                 <div class="border border-gray-200 p-6 rounded-lg">
                     <div class="flex items-center mb-4">
@@ -57,64 +33,44 @@
                                     d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900">ATOL 12022 – Air Travel Organisers Licence</h3>
+                        <h3 class="text-xl font-bold text-gray-900">ATOL – Air Travel Organisers Licence</h3>
                     </div>
-                    <div class="space-y-3 text-gray-700">
-                        <p>All the flight-inclusive holidays on this website are financially protected by the ATOL
-                            scheme. When you pay you will be supplied with an <strong>ATOL Certificate</strong>.</p>
-                        <p>Please ask for it and check to ensure that everything you booked (flights, hotels and other
-                            services) is listed on it. If you do receive an ATOL Certificate but all the parts of your
-                            trip are not listed on it, those parts will not be ATOL protected.</p>
-                        <p>Some of the flights on this website are also financially protected by the ATOL scheme, but
-                            ATOL protection does not apply to all flights. This website will provide you with
-                            information on the protection that applies in the case of each flight before you make your
-                            booking.</p>
-                        <p><strong>If you do not receive an ATOL Certificate then the booking will not be ATOL
-                                protected.</strong></p>
-                        <div class="bg-gray-50 p-3 rounded-lg mt-3">
-                            <p class="text-sm">For further information about ATOL, contact the ATOL Protection at: <a
-                                    href="https://www.caa.co.uk/atol-protection/"
-                                    target="_blank" class="text-blue-600 hover:underline">https://www.caa.co.uk/atol-protection/</a></p>
-                        </div>
+                    <div class="text-gray-700 leading-relaxed">
+                        <p class="mb-3">Many of the flights and flight-inclusive holidays on this website are financially protected by the ATOL financial protection scheme through our supplier partners (travel brands).</p>
+                        
+                        <p class="mb-3">But ATOL protection does not apply to all holiday and travel services listed on this website. Please ask your agent to confirm what protection may apply to your booking.</p>
+                        
+                        <p class="mb-3">If you do not receive an ATOL Certificate then the booking will not be ATOL protected.</p>
+                        
+                        <p>Please see our booking condition information or for more about financial protection and the ATOL certificate go to <a href="https://www.atol.org.uk/ATOLCertificate" target="_blank" class="text-blue-600 hover:underline font-medium">www.atol.org.uk/ATOLCertificate</a></p>
                     </div>
                 </div>
 
-                <!-- ABTA Membership -->
+                <!-- ABTA Section -->
                 <div class="border border-gray-200 p-6 rounded-lg">
                     <div class="flex items-center mb-4">
-                        <div
-                            class="w-10 h-10 bg-purple-600 text-white rounded-lg flex items-center justify-center mr-3">
+                        <div class="w-10 h-10 bg-purple-600 text-white rounded-lg flex items-center justify-center mr-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900">ABTA Membership</h3>
+                        <h3 class="text-xl font-bold text-gray-900">ABTA – The Travel Association</h3>
                     </div>
-                    <div class="space-y-3 text-gray-700">
-                        <p>Globe Trotting.uk is a Member of ABTA. ABTA and ABTA Members help holidaymakers to get the
-                            most from their travel and assist them when things do not go according to plan.</p>
-                        <p>We are obliged to maintain a high standard of service to you by ABTA's Code of Conduct.</p>
-                        <div class="bg-gray-50 p-3 rounded-lg mt-3">
-                            <p class="text-sm mb-2">For further information about ABTA, the Code of Conduct and the
-                                arbitration scheme available to you if you have a complaint, contact:</p>
-                            <div class="text-sm">
-                                <p><strong>ABTA</strong></p>
-                                <p>30 Park Street, London SE1 9EQ</p>
-                                <p>Tel: 020 3117 0500</p>
-                                <p><a href="https://abta.com" target="_blank"
-                                        class="text-blue-600 hover:underline">www.abta.com</a></p>
-                            </div>
-                        </div>
+                    <div class="text-gray-700 leading-relaxed">
+                        <p class="mb-3"><strong>Book with Confidence.</strong> We are a member of ABTA which means you have the benefit of ABTA's assistance and Code of Conduct.</p>
+                        
+                        <p class="mb-3">All the package holidays we sell are covered by a scheme protecting your money if the supplier fails. Other services such as hotels or flights on their own may not be protected and you should ask us what protection is available.</p>
+                        
+                        <p>Find out more at <a href="http://abta.com/go-travel/before-you-travel/travel-tips/financial-protection-3" target="_blank" class="text-blue-600 hover:underline font-medium">abta.com/go-travel/before-you-travel/travel-tips/financial-protection-3</a></p>
                     </div>
                 </div>
 
                 <!-- Travel Advice -->
                 <div class="border border-gray-200 p-6 rounded-lg">
                     <div class="flex items-center mb-4">
-                        <div
-                            class="w-10 h-10 bg-yellow-600 text-white rounded-lg flex items-center justify-center mr-3">
+                        <div class="w-10 h-10 bg-yellow-600 text-white rounded-lg flex items-center justify-center mr-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
@@ -123,13 +79,9 @@
                         </div>
                         <h3 class="text-xl font-bold text-gray-900">Travel and Destination Advice</h3>
                     </div>
-                    <div class="space-y-3 text-gray-700">
-                        <p>For the latest travel advice from the Foreign, Commonwealth and Development Office including
-                            security and local laws, plus passport and visa information:</p>
-                        <div class="bg-gray-50 p-3 rounded-lg">
-                            <p class="text-sm"><a href="https://www.gov.uk/foreign-travel-advice" target="_blank"
-                                    class="text-blue-600 hover:underline">UK Government Travel Advice</a></p>
-                        </div>
+                    <div class="text-gray-700 leading-relaxed">
+                        <p>For the latest travel advice from the Foreign, Commonwealth and Development Office including security and local laws, plus passport and visa information, click here:</p>
+                        <p class="mt-2"><a href="https://www.gov.uk/foreign-travel-advice" target="_blank" class="text-blue-600 hover:underline font-medium">www.gov.uk/foreign-travel-advice</a></p>
                     </div>
                 </div>
 
@@ -143,30 +95,61 @@
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900">Complaint &amp; Dispute Resolution</h3>
+                        <h3 class="text-xl font-bold text-gray-900">Complaint Dispute Resolution</h3>
                     </div>
-                    <div class="space-y-3 text-gray-700">
+                    <div class="text-gray-700 leading-relaxed space-y-3">
+                        <p>Because the contract(s) for your travel arrangements is between you and the principal(s) or supplier(s), any queries or concerns relating to the travel arrangements should be addressed to them.</p>
+                        
                         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
-                            <p class="font-semibold text-yellow-800">Important:</p>
-                            <p class="text-yellow-700">If you have a problem whilst on holiday, this must be reported
-                                to the relevant principal/supplier or their local supplier or agent immediately.</p>
+                            <p class="font-semibold text-yellow-800 mb-2">Important:</p>
+                            <p class="text-yellow-700">If you have a problem whilst on holiday, this must be reported to the principal/supplier or their local supplier or agent immediately.</p>
                         </div>
-                        <p>If you fail to follow this procedure there will be less opportunity to investigate and
-                            rectify your complaint. The amount of compensation you may be entitled to may be reduced or
-                            you may not receive any at all depending upon the circumstances.</p>
-                        <p>If you wish to complain when you return home, write to the principal/supplier. You will see
-                            the name and address plus contact details in any confirmation documents we send you.</p>
-                        <p>We will of course assist you with this if you wish - please contact your Globe Trotting agent
-                            and copy Customer Services at <a href="mailto:support@globetrotting.co.uk"
-                                class="text-blue-600 hover:underline">support@globetrotting.co.uk</a></p>
-                        <p>If the matter cannot be resolved and it involves us or another ABTA Member, you have the
-                            option to use ABTA's alternative dispute resolution (ADR) scheme, approved by the Chartered Trading Standards Institute. <a
-                                href="https://www.abta.com" target="_blank"
-                                class="text-blue-600 hover:underline">Learn more at www.abta.com</a></p>
+                        
+                        <p>If you fail to follow this procedure there will be less opportunity to investigate and rectify your complaint. The amount of compensation you may be entitled to may be reduced or you may not receive any at all depending upon the circumstances.</p>
+                        
+                        <p>If you wish to complain when you return home, write to the principal/supplier. You will see the name and address plus contact details in any confirmation documents we send you.</p>
+                        
+                        <p>We will of course assist you with this if you wish – please contact your GlobeTrottingTravelUK agent and copy Customer Services at <a href="mailto:support@globetrottingtraveluk.com/" class="text-blue-600 hover:underline font-medium">support@globetrottingtraveluk.com</a></p>
+                        
+                        <p>If the matter cannot be resolved and it involves us or another ABTA Member then you have the option to use ABTA's ADR scheme, approved by the Chartered Trading Standards Institute, see <a href="https://abta.com" target="_blank" class="text-blue-600 hover:underline font-medium">abta.com</a></p>
+                        
+                        <p>You can also access the European Commission Online Dispute (ODR) Resolution platform at <a href="http://ec.europa.eu/consumers/odr" target="_blank" class="text-blue-600 hover:underline font-medium">ec.europa.eu/consumers/odr</a>. This ODR platform is a means of notifying us of your complaint; it will not determine how your complaint should be resolved.</p>
                     </div>
                 </div>
 
-                <!-- Additional Information -->
+                <!-- ABTA Membership Details -->
+                <div class="border border-gray-200 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-purple-600 text-white rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">ABTA Membership</h3>
+                    </div>
+                    <div class="text-gray-700 leading-relaxed space-y-3">
+                        <p>Find out more HERE: <a href="http://abta.com/find-a-member" target="_blank" class="text-blue-600 hover:underline font-medium">abta.com/find-a-member</a></p>
+                        
+                        <p>GlobeTrottingTravelUK is a Member of ABTA. ABTA and ABTA Members help holidaymakers to get the most from their travel and assist them when things do not go according to plan.</p>
+                        
+                        <p>We are obliged to maintain a high standard of service to you by ABTA's Code of Conduct.</p>
+                        
+                        <div class="bg-gray-50 p-4 rounded-lg mt-3">
+                            <p class="mb-3">For further information about ABTA, the Code of Conduct and the arbitration scheme available to you if you have a complaint, contact:</p>
+                            <div class="space-y-1">
+                                <p><strong>ABTA</strong></p>
+                                <p>30 Park Street</p>
+                                <p>London SE1 9EQ</p>
+                                <p>Tel: 020 3117 0500</p>
+                                <p><a href="https://www.abta.com" target="_blank" class="text-blue-600 hover:underline font-medium">www.abta.com</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Links to Other Websites -->
                 <div class="border border-gray-200 p-6 rounded-lg">
                     <div class="flex items-center mb-4">
                         <div class="w-10 h-10 bg-gray-600 text-white rounded-lg flex items-center justify-center mr-3">
@@ -176,27 +159,31 @@
                                 </path>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900">Additional Information</h3>
+                        <h3 class="text-xl font-bold text-gray-900">Links to Other Websites</h3>
                     </div>
-                    <div class="space-y-3 text-gray-700">
-                        <div>
-                            <h4 class="font-semibold mb-2">Links to Other Websites</h4>
-                            <p class="text-sm">On this site you will find links to other third party websites. These
-                                are for your convenience only and Globe Trotting.uk is not responsible for the content
-                                of the third party site.</p>
+                    <div class="text-gray-700 leading-relaxed">
+                        <p>On this site you will find links to other third party websites. These are for your convenience only and GlobeTrottingTravelUK is not responsible for the content of the third party site.</p>
+                    </div>
+                </div>
+
+                <!-- Data Protection & Privacy -->
+                <div class="border border-gray-200 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-indigo-600 text-white rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                </path>
+                            </svg>
                         </div>
-                        <div>
-                            <h4 class="font-semibold mb-2">Data Protection &amp; Privacy</h4>
-                            <p class="text-sm">Please see our Privacy Policy for information about what data we collect
-                                and how personal information will be used, who it will be passed to, etc. You have the
-                                right to see the personal data we hold about you, and to request modification or
-                                deletion.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold mb-2">Cookies</h4>
-                            <p class="text-sm">This site uses cookies as explained in our Privacy Policy. If you use
-                                this site without adjusting your cookies settings, you agree to our use of cookies.</p>
-                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Data Protection, Cookie & Privacy Policy</h3>
+                    </div>
+                    <div class="text-gray-700 leading-relaxed space-y-3">
+                        <p>Please see link to our <a href="#" class="text-blue-600 hover:underline font-medium">Privacy Policy</a> stating what data we collect and what the personal information will be used for, who it will be passed to, etc.</p>
+                        
+                        <p>You have the right to see the personal data we hold about you, and to request modification or deletion.</p>
+                        
+                        <p>This site uses cookies, as explained in our <a href="{{route('privacy.policy')}}" class="text-blue-600 hover:underline font-medium">Privacy Policy</a>. If you use this site without adjusting your cookies settings, you agree to our use of cookies.</p>
                     </div>
                 </div>
             </div>

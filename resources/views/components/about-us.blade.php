@@ -367,9 +367,9 @@
                         </svg>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-800 mb-3">Expert Planning</h3>
+<h3 class="text-2xl font-bold text-slate-800 mb-3">Expert Planning</h3>
 <p class="text-slate-600 leading-relaxed">
-    Experienced travel specialists crafting personalized itineraries that perfectly match your dreams and budget.
+    Experienced travel specialists crafting personalised itineraries that perfectly match your dreams and budget.
 </p>
 
             </div>
@@ -383,10 +383,11 @@
                         </svg>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-800 mb-3">24/7 Support</h3>
-                <p class="text-slate-600 leading-relaxed">
-                    Round-the-clock assistance wherever you are. From booking to landing, we've got your back every step.
-                </p>
+               <h3 class="text-2xl font-bold text-slate-800 mb-3">24/7 Support</h3>
+<p class="text-slate-600 leading-relaxed">
+    Round-the-clock assistance wherever you are. From booking to landing, we’ve got you covered every step of the way.
+</p>
+
             </div>
 
             <!-- Card 3 -->
@@ -398,10 +399,11 @@
                         </svg>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-800 mb-3">Best Value</h3>
-                <p class="text-slate-600 leading-relaxed">
-                    Exclusive deals and competitive rates. Get premium experiences without the premium price tag.
-                </p>
+             <h3 class="text-2xl font-bold text-slate-800 mb-3">Best Value</h3>
+<p class="text-slate-600 leading-relaxed">
+    Exclusive offers and competitive rates. Enjoy premium experiences without the premium price tag.
+</p>
+
             </div>
         </div>
 
@@ -430,15 +432,16 @@
 
                 <!-- Content Side -->
                 <div class="p-8 lg:p-12 flex flex-col justify-center">
-                    <h3 class="text-3xl lg:text-4xl font-bold text-slate-900 mb-6">
-                        More Than Just a Travel Agency
-                    </h3>
-                    <p class="text-lg text-slate-600 mb-6 leading-relaxed">
-                        At Globe Trotting, we're passionate about turning your travel dreams into reality. Whether you're seeking adventure, relaxation, or cultural immersion, we craft experiences that resonate with your soul.
-                    </p>
-                    <p class="text-base text-slate-600 mb-8 leading-relaxed">
-                        From hidden gems to iconic destinations, we bring local insights and global expertise to every journey.
-                    </p>
+                   <h3 class="text-3xl lg:text-4xl font-bold text-slate-900 mb-6">
+    More Than Just a Travel Agency
+</h3>
+<p class="text-lg text-slate-600 mb-6 leading-relaxed">
+    At Globe Trotting, we’re passionate about turning your travel dreams into reality. Whether you’re seeking adventure, relaxation, or cultural discovery, we craft experiences that truly resonate with you.
+</p>
+<p class="text-base text-slate-600 mb-8 leading-relaxed">
+    From hidden gems to iconic destinations, we bring local insight and global expertise to every journey.
+</p>
+
 
                     <!-- Quick Stats -->
                     {{-- <div class="grid grid-cols-3 gap-6 mb-8 pb-8 border-b border-slate-200">

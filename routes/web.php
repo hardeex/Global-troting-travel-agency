@@ -93,6 +93,7 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/destinations', [HomeController::class, 'allDestinations'])->name('destinations');
 Route::post('/submit-form', [BookingController::class, 'submit'])->name('form.submit');
 Route::post('/send-interest', [HomeController::class, 'sendInterestEmail'])->name('send.interest');
+Route::get('/privacy/policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
 
 Route::match(['get', 'post'], '/admin/bookings', function (Request $request) {
     if (!$request->session()->has('is_admin')) {
