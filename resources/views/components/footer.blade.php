@@ -33,10 +33,11 @@
                                 class="w-24 h-auto mx-auto">
                         </a>
                     </div>
-                    <p class="text-gray-300 mb-6 leading-relaxed">
-                        Your trusted travel partner for unforgettable adventures worldwide. We create personalized
-                        journeys that turn your travel dreams into reality.
-                    </p>
+                   <p class="text-grey-300 mb-6 leading-relaxed">
+    Your trusted travel partner for unforgettable adventures around the world. We create personalised
+    journeys that turn your travel dreams into reality.
+</p>
+
                     <div class="flex justify-center space-x-4">
 
                         <a href="https://www.facebook.com/share/173Y6corbL/"
@@ -269,10 +270,10 @@
                     <!-- ATOL -->
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-sky-500/20 hover:border-sky-500/40 transition-all duration-300">
                         <h4 class="text-lg font-semibold text-sky-400 mb-4 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {{-- <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                            </svg>
+                            </svg> --}}
                             ATOL – Air Travel Organisers Licence
                         </h4>
                         <div class="text-gray-300 leading-relaxed space-y-3">
@@ -292,11 +293,11 @@
                     <!-- ABTA -->
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
                         <h4 class="text-lg font-semibold text-purple-400 mb-4 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {{-- <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
                                 </path>
-                            </svg>
+                            </svg> --}}
                             ABTA – The Travel Association
                         </h4>
                         <div class="text-gray-300 leading-relaxed space-y-3">
@@ -316,11 +317,11 @@
                     <!-- Travel Advice -->
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300">
                         <h4 class="text-lg font-semibold text-yellow-400 mb-4 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {{-- <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
                                 </path>
-                            </svg>
+                            </svg> --}}
                             Travel and Destination Advice
                         </h4>
                         <p class="text-gray-300 leading-relaxed">
@@ -332,11 +333,11 @@
                     <!-- Complaint Resolution -->
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-red-500/20 hover:border-red-500/40 transition-all duration-300">
                         <h4 class="text-lg font-semibold text-red-400 mb-4 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {{-- <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z">
                                 </path>
-                            </svg>
+                            </svg> --}}
                             Complaint Dispute Resolution
                         </h4>
                         <div class="text-gray-300 leading-relaxed space-y-3">
@@ -366,11 +367,11 @@
                 <!-- ABTA Membership Details -->
                 <div class="mt-6 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-purple-500/20">
                     <h4 class="text-xl font-semibold text-purple-400 mb-4 flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        {{-- <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
                             </path>
-                        </svg>
+                        </svg> --}}
                         ABTA Membership
                     </h4>
                     <div class="grid md:grid-cols-2 gap-6 text-sm">
@@ -404,11 +405,11 @@
                 <div class="mt-6 grid md:grid-cols-2 gap-6">
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-gray-700/50">
                         <h4 class="text-lg font-semibold text-gray-100 mb-3 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {{-- <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
                                 </path>
-                            </svg>
+                            </svg> --}}
                             Links to Other Websites
                         </h4>
                         <p class="text-gray-300 text-sm leading-relaxed">
@@ -418,11 +419,11 @@
 
                     <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-gray-700/50">
                         <h4 class="text-lg font-semibold text-gray-100 mb-3 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {{-- <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
                                 </path>
-                            </svg>
+                            </svg> --}}
                             Data Protection, Cookie & Privacy Policy
                         </h4>
                         <p class="text-gray-300 text-sm leading-relaxed">

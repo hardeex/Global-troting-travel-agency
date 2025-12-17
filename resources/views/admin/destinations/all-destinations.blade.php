@@ -787,6 +787,24 @@
             }
         }
 
+
+
+   #interestDetails {
+    white-space: pre-line;   /* preserves line breaks from backend */
+    word-break: break-word;  /* wraps long words or URLs */
+    line-height: 1.6;        /* improves readability */
+    overflow-wrap: break-word; /* fallback for older browsers */
+    max-height: 400px;       /* optional: limits huge content */
+    overflow: hidden;        /* hides scrollbars */
+}
+
+#detailsSection .p-4 {
+    max-height: 400px;    /* limits the container size */
+    overflow: hidden;     /* removes scroll arrow */
+}
+
+
+
         .float-animation {
             animation: float-animation 6s ease-in-out infinite;
         }

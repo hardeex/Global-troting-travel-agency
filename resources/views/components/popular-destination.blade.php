@@ -58,7 +58,23 @@
     .float-animation {
         animation: float 6s ease-in-out infinite;
     }
-    
+
+   #interestDetails {
+    white-space: pre-line;   /* preserves line breaks from backend */
+    word-break: break-word;  /* wraps long words or URLs */
+    line-height: 1.6;        /* improves readability */
+    overflow-wrap: break-word; /* fallback for older browsers */
+    max-height: 400px;       /* optional: limits huge content */
+    overflow: hidden;        /* hides scrollbars */
+}
+
+#detailsSection .p-4 {
+    max-height: 400px;    /* limits the container size */
+    overflow: hidden;     /* removes scroll arrow */
+}
+
+
+
     @keyframes float {
         0%, 100% { transform: translateY(0px); }
         50% { transform: translateY(-20px); }
@@ -155,93 +171,6 @@
         </div>
 
         <!-- Destinations Grid -->
-        {{-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
-            @foreach ($destinations as $destination)
-                <!-- Destination Card -->
-                <div class="group relative overflow-hidden rounded-2xl md:rounded-3xl destination-card cursor-pointer shadow-lg" 
-                     onclick="openInterestModal(
-                         {{ $destination->id }}, 
-                         {{ json_encode($destination->title ?? '') }}, 
-                         {{ json_encode($destination->country ?? '') }}, 
-                         {{ $destination->price ?? 'null' }}, 
-                         {{ json_encode($destination->short_description ?? '') }},
-                         {{ json_encode($destination->details ?? '') }},
-                         {{ json_encode($destination->image_url ?? '') }},
-                         {{ json_encode($destination->start_date ?? '') }},
-                         {{ json_encode($destination->end_date ?? '') }},
-                         {{ $destination->adults ?? 'null' }},
-                         {{ $destination->nights ?? 'null' }}
-                     )">
-                    <div class="aspect-[4/5] bg-gradient-to-br {{ $destination->gradient ?? 'from-blue-400 to-indigo-500' }} destination-image relative"
-                        @if($destination->image_url)
-                            style="background-image: url('{{ $destination->image_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat;"
-                        @endif>
-                        
-                        <!-- Enhanced Overlays for Better Text Readability -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent no-blur"></div>
-                        
-                        @if($destination->image_url)
-                            <div class="absolute inset-0 bg-black/20 no-blur"></div>
-                            <div class="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent no-blur"></div>
-                        @endif
-                        
-                        <!-- Price Tag -->
-                        @if($destination->price)
-                            <div class="absolute top-3 right-3 md:top-4 md:right-4 px-2 py-1 md:px-3 md:py-1 price-tag no-blur rounded-full text-sky-600 font-bold text-xs md:text-sm shadow-lg border border-white/20">
-                                From £{{ number_format($destination->price) }}
-                            </div>
-                        @endif
-
-                        <!-- If no image, show destination initial -->
-                        @if(!$destination->image_url)
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <span class="text-white text-6xl font-bold opacity-30">
-                                    {{ substr($destination->title, 0, 1) }}
-                                </span>
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- Card Content -->
-                    <div class="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white">
-                        <h3 class="text-lg md:text-xl lg:text-2xl font-bold mb-2 text-white drop-shadow-lg" 
-                            style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
-                            {{ $destination->title }}
-                        </h3>
-                        
-                        @if($destination->short_description)
-                            <p class="text-white/90 text-xs md:text-sm mb-3 line-clamp-2 drop-shadow-md" 
-                               style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
-                                {{ $destination->short_description }}
-                            </p>
-                        @endif
-
-                        @if($destination->country)
-                            <div class="flex items-center text-white/80 text-xs md:text-sm mb-2 drop-shadow-md" 
-                                 style="text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
-                                <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                {{ $destination->country }}
-                            </div>
-                        @endif
-
-                        @if($destination->nights)
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs md:text-sm text-white/80 drop-shadow-md" 
-                                      style="text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
-                                    {{ $destination->nights }} Nights
-                                </span>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endforeach
-        </div> --}}
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
             @foreach ($destinations as $destination)
                 <!-- Destination Card - Redesigned -->
@@ -479,7 +408,7 @@
                     </div>
 
                     <!-- Full Description -->
-                    <div id="detailsSection" class="mb-6 hidden">
+                    {{-- <div id="detailsSection" class="mb-6 hidden">
                         <h4 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
                             <svg class="w-5 h-5 mr-2 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -489,7 +418,20 @@
                         <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
                             <p id="interestDetails" class="text-gray-700 leading-relaxed"></p>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    <div id="detailsSection" class="mb-6 hidden">
+    <h4 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+        <svg class="w-5 h-5 mr-2 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Trip Details
+    </h4>
+    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <p id="interestDetails" class="text-gray-700 leading-relaxed"></p>
+    </div>
+</div>
+
 
                     <!-- User Information Form -->
                     <div class="bg-blue-50 p-6 rounded-lg border border-blue-200 mb-6">
