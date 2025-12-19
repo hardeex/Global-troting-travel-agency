@@ -226,130 +226,275 @@ class HomeController extends Controller
         }
     }
 
+    // public function sendInterestEmail(Request $request)
+    // {
+    //     try {
+    //         // Validate the request
+    //         $validated = $request->validate([
+    //             'destination_id' => 'required|integer|exists:destinations,id',
+    //             'first_name' => 'required|string|max:255',
+    //             'last_name' => 'required|string|max:255',
+    //             'email' => 'required|email|max:255',
+    //             'phone' => 'nullable|string|max:20',
+    //             'message' => 'nullable|string|max:1000',
+    //         ]);
+
+    //         $destination = Destination::findOrFail($validated['destination_id']);
+
+    //         $recipients = config('app.export_recipients', ['webmasterjdd@gmail.com', 'support@globetrottingtraveluk.com']);
+
+    //         $subject = 'New Travel Interest: ' . $destination->title;
+
+    //         // Compose the message
+    //         $message = "New Travel Interest Received\n";
+    //         $message .= "=================================\n\n";
+    //         $message .= "CUSTOMER DETAILS:\n";
+    //         $message .= "Name: {$validated['first_name']} {$validated['last_name']}\n";
+    //         $message .= "Email: {$validated['email']}\n";
+    //         $message .= 'Phone: ' . ($validated['phone'] ?? 'Not provided') . "\n\n";
+
+    //         $message .= "DESTINATION INTEREST:\n";
+    //         $message .= "Destination: {$destination->title}\n";
+    //         $message .= "Country: {$destination->country}\n";
+    //         if ($destination->price) {
+    //             $message .= 'Price: £' . number_format($destination->price) . "\n";
+    //         }
+    //         if ($destination->nights) {
+    //             $message .= "Duration: {$destination->nights} nights\n";
+    //         }
+    //         if ($destination->adults) {
+    //             $message .= "Group Size: {$destination->adults} adults\n";
+    //         }
+    //         if ($destination->start_date && $destination->end_date) {
+    //             $message .= 'Travel Dates: ' . date('d/m/Y', strtotime($destination->start_date)) . ' - ' . date('d/m/Y', strtotime($destination->end_date)) . "\n";
+    //         }
+    //         if ($destination->short_description) {
+    //             $message .= "Description: {$destination->short_description}\n";
+    //         }
+
+    //         if (!empty($validated['message'])) {
+    //             $message .= "\nCUSTOMER MESSAGE:\n" . $validated['message'] . "\n";
+    //         }
+
+    //         $message .= "\nADDITIONAL INFO:\n";
+    //         $message .= 'Inquiry Date: ' . now()->format('d/m/Y H:i:s') . "\n";
+    //         $message .= 'IP Address: ' . $request->ip() . "\n";
+    //         $message .= 'User Agent: ' . $request->userAgent() . "\n";
+
+    //         if ($destination->details) {
+    //             $message .= "\nFULL DESTINATION DETAILS:\n" . $destination->details . "\n";
+    //         }
+
+    //         $message .= "\n=================================\n";
+    //         $message .= "Please follow up with this customer within 24 hours.\n";
+    //         $message .= "Customer Email: {$validated['email']}\n";
+    //         $message .= 'Customer Phone: ' . ($validated['phone'] ?? 'Not provided') . "\n";
+
+    //         // Send email
+    //         foreach ($recipients as $recipient) {
+    //             Mail::raw($message, function ($mail) use ($recipient, $subject, $validated) {
+    //                 $mail
+    //                     ->to(trim($recipient))
+    //                     ->subject($subject)
+    //                     ->replyTo($validated['email'], $validated['first_name'] . ' ' . $validated['last_name']);
+    //             });
+    //         }
+
+    //         // Save inquiry to DB using Eloquent
+    //         Inquiry::create([
+    //             'destination_id' => $destination->id,
+    //             'first_name' => $validated['first_name'],
+    //             'last_name' => $validated['last_name'],
+    //             'email' => $validated['email'],
+    //             'phone' => $validated['phone'],
+    //             'message' => $validated['message'],
+    //             'ip_address' => $request->ip(),
+    //             'user_agent' => $request->userAgent(),
+    //         ]);
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'Interest sent successfully! Our travel experts will contact you soon.',
+    //         ]);
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         return response()->json(
+    //             [
+    //                 'success' => false,
+    //                 'message' => 'Please check your information and try again.',
+    //                 'errors' => $e->errors(),
+    //             ],
+    //             422,
+    //         );
+    //     } catch (ModelNotFoundException $e) {
+    //         return response()->json(
+    //             [
+    //                 'success' => false,
+    //                 'message' => 'The selected destination was not found.',
+    //             ],
+    //             404,
+    //         );
+    //     } catch (\Exception $e) {
+    //         Log::error('Error sending interest email: ' . $e->getMessage(), [
+    //             'destination_id' => $request->input('destination_id'),
+    //             'email' => $request->input('email'),
+    //             'error' => $e->getMessage(),
+    //             'trace' => $e->getTraceAsString(),
+    //         ]);
+
+    //         return response()->json(
+    //             [
+    //                 'success' => false,
+    //                 'message' => 'Failed to send interest. Please try again later.',
+    //             ],
+    //             500,
+    //         );
+    //     }
+    // }
+
+
     public function sendInterestEmail(Request $request)
-    {
+{
+    try {
+        // Validate the request
+        $validated = $request->validate([
+            'destination_id' => 'required|integer|exists:destinations,id',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'message' => 'nullable|string|max:1000',
+        ]);
+
+        $destination = Destination::findOrFail($validated['destination_id']);
+
+        $recipients = config(
+            'app.export_recipients',
+            ['webmasterjdd@gmail.com', 'support@globetrottingtraveluk.com']
+        );
+
+        $subject = 'New Travel Interest: ' . $destination->title;
+
+        // Compose the message
+        $message = "New Travel Interest Received\n";
+        $message .= "=================================\n\n";
+        $message .= "CUSTOMER DETAILS:\n";
+        $message .= "Name: {$validated['first_name']} {$validated['last_name']}\n";
+        $message .= "Email: {$validated['email']}\n";
+        $message .= 'Phone: ' . ($validated['phone'] ?? 'Not provided') . "\n\n";
+
+        $message .= "DESTINATION INTEREST:\n";
+        $message .= "Destination: {$destination->title}\n";
+        $message .= "Country: {$destination->country}\n";
+
+        if ($destination->price) {
+            $message .= 'Price: £' . number_format($destination->price) . "\n";
+        }
+
+        if ($destination->nights) {
+            $message .= "Duration: {$destination->nights} nights\n";
+        }
+
+        if ($destination->adults) {
+            $message .= "Group Size: {$destination->adults} adults\n";
+        }
+
+        if ($destination->start_date && $destination->end_date) {
+            $message .= 'Travel Dates: ' .
+                date('d/m/Y', strtotime($destination->start_date)) .
+                ' - ' .
+                date('d/m/Y', strtotime($destination->end_date)) . "\n";
+        }
+
+        if ($destination->short_description) {
+            $message .= "Description: {$destination->short_description}\n";
+        }
+
+        if (!empty($validated['message'])) {
+            $message .= "\nCUSTOMER MESSAGE:\n{$validated['message']}\n";
+        }
+
+        $message .= "\nADDITIONAL INFO:\n";
+        $message .= 'Inquiry Date: ' . now()->format('d/m/Y H:i:s') . "\n";
+        $message .= 'IP Address: ' . $request->ip() . "\n";
+        $message .= 'User Agent: ' . $request->userAgent() . "\n";
+
+        if ($destination->details) {
+            $message .= "\nFULL DESTINATION DETAILS:\n{$destination->details}\n";
+        }
+
+        $message .= "\n=================================\n";
+        $message .= "Please follow up with this customer within 24 hours.\n";
+        $message .= "Customer Email: {$validated['email']}\n";
+        $message .= 'Customer Phone: ' . ($validated['phone'] ?? 'Not provided') . "\n";
+
+        // 🔹 SAVE INQUIRY FIRST (ALWAYS)
+        $inquiry = Inquiry::create([
+            'destination_id' => $destination->id,
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'message' => $validated['message'],
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
+        // 🔹 ATTEMPT TO SEND EMAIL (NON-BLOCKING)
         try {
-            // Validate the request
-            $validated = $request->validate([
-                'destination_id' => 'required|integer|exists:destinations,id',
-                'first_name' => 'required|string|max:255',
-                'last_name' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-                'phone' => 'nullable|string|max:20',
-                'message' => 'nullable|string|max:1000',
-            ]);
-
-            $destination = Destination::findOrFail($validated['destination_id']);
-
-            $recipients = config('app.export_recipients', ['webmasterjdd@gmail.com', 'support@globetrottingtraveluk.com']);
-
-            $subject = 'New Travel Interest: ' . $destination->title;
-
-            // Compose the message
-            $message = "New Travel Interest Received\n";
-            $message .= "=================================\n\n";
-            $message .= "CUSTOMER DETAILS:\n";
-            $message .= "Name: {$validated['first_name']} {$validated['last_name']}\n";
-            $message .= "Email: {$validated['email']}\n";
-            $message .= 'Phone: ' . ($validated['phone'] ?? 'Not provided') . "\n\n";
-
-            $message .= "DESTINATION INTEREST:\n";
-            $message .= "Destination: {$destination->title}\n";
-            $message .= "Country: {$destination->country}\n";
-            if ($destination->price) {
-                $message .= 'Price: £' . number_format($destination->price) . "\n";
-            }
-            if ($destination->nights) {
-                $message .= "Duration: {$destination->nights} nights\n";
-            }
-            if ($destination->adults) {
-                $message .= "Group Size: {$destination->adults} adults\n";
-            }
-            if ($destination->start_date && $destination->end_date) {
-                $message .= 'Travel Dates: ' . date('d/m/Y', strtotime($destination->start_date)) . ' - ' . date('d/m/Y', strtotime($destination->end_date)) . "\n";
-            }
-            if ($destination->short_description) {
-                $message .= "Description: {$destination->short_description}\n";
-            }
-
-            if (!empty($validated['message'])) {
-                $message .= "\nCUSTOMER MESSAGE:\n" . $validated['message'] . "\n";
-            }
-
-            $message .= "\nADDITIONAL INFO:\n";
-            $message .= 'Inquiry Date: ' . now()->format('d/m/Y H:i:s') . "\n";
-            $message .= 'IP Address: ' . $request->ip() . "\n";
-            $message .= 'User Agent: ' . $request->userAgent() . "\n";
-
-            if ($destination->details) {
-                $message .= "\nFULL DESTINATION DETAILS:\n" . $destination->details . "\n";
-            }
-
-            $message .= "\n=================================\n";
-            $message .= "Please follow up with this customer within 24 hours.\n";
-            $message .= "Customer Email: {$validated['email']}\n";
-            $message .= 'Customer Phone: ' . ($validated['phone'] ?? 'Not provided') . "\n";
-
-            // Send email
             foreach ($recipients as $recipient) {
                 Mail::raw($message, function ($mail) use ($recipient, $subject, $validated) {
                     $mail
                         ->to(trim($recipient))
                         ->subject($subject)
-                        ->replyTo($validated['email'], $validated['first_name'] . ' ' . $validated['last_name']);
+                        ->replyTo(
+                            $validated['email'],
+                            $validated['first_name'] . ' ' . $validated['last_name']
+                        );
                 });
             }
-
-            // Save inquiry to DB using Eloquent
-            Inquiry::create([
+        } catch (\Throwable $mailException) {
+            // Log mail failure but DO NOT fail request
+            Log::error('Interest email failed to send', [
                 'destination_id' => $destination->id,
-                'first_name' => $validated['first_name'],
-                'last_name' => $validated['last_name'],
                 'email' => $validated['email'],
-                'phone' => $validated['phone'],
-                'message' => $validated['message'],
-                'ip_address' => $request->ip(),
-                'user_agent' => $request->userAgent(),
+                'error' => $mailException->getMessage(),
             ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Interest sent successfully! Our travel experts will contact you soon.',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => 'Please check your information and try again.',
-                    'errors' => $e->errors(),
-                ],
-                422,
-            );
-        } catch (ModelNotFoundException $e) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => 'The selected destination was not found.',
-                ],
-                404,
-            );
-        } catch (\Exception $e) {
-            Log::error('Error sending interest email: ' . $e->getMessage(), [
-                'destination_id' => $request->input('destination_id'),
-                'email' => $request->input('email'),
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => 'Failed to send interest. Please try again later.',
-                ],
-                500,
-            );
         }
+
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Interest sent successfully! Our travel experts will contact you soon.',
+        ]);
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Please check your information and try again.',
+            'errors' => $e->errors(),
+        ], 422);
+
+    } catch (ModelNotFoundException $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'The selected destination was not found.',
+        ], 404);
+
+    } catch (\Throwable $e) {
+        Log::error('Unexpected error in sendInterestEmail', [
+            'destination_id' => $request->input('destination_id'),
+            'email' => $request->input('email'),
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'An unexpected error occurred. Please try again later.',
+        ], 500);
     }
+}
+
 
     public function about()
     {

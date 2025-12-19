@@ -790,17 +790,17 @@
 
 
    #interestDetails {
-    white-space: pre-line;   /* preserves line breaks from backend */
-    word-break: break-word;  /* wraps long words or URLs */
-    line-height: 1.6;        /* improves readability */
-    overflow-wrap: break-word; /* fallback for older browsers */
-    max-height: 400px;       /* optional: limits huge content */
-    overflow: hidden;        /* hides scrollbars */
+    white-space: pre-line;  
+    word-break: break-word;  
+    line-height: 1.6;        
+    overflow-wrap: break-word; 
+    max-height: 400px;      
+    overflow: hidden;       
 }
 
 #detailsSection .p-4 {
-    max-height: 400px;    /* limits the container size */
-    overflow: hidden;     /* removes scroll arrow */
+    max-height: 400px;   
+    overflow: hidden;    
 }
 
 
