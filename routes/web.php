@@ -15,6 +15,10 @@ Route::get('/db-debug', function () {
 });
 
 
+Route::get('/test', function() {
+    return view('dashboard.base');
+});
+
 
 
 Route::get('/debug-cloudinary', function () {
@@ -103,7 +107,7 @@ Route::match(['get', 'post'], '/admin/bookings', function (Request $request) {
 
             if (Hash::check($password, $hash)) {
                 $request->session()->put('is_admin', true);
-                return redirect('/admin/bookings');
+                return redirect('/admin/analytics');
             } else {
                 return back()->withErrors(['password' => 'Incorrect password']);
             }
@@ -161,19 +165,52 @@ Route::get('/admin/export-all-contacts', function () {
     return 'Export email for all submissions sent successfully.';
 });
 
-Route::post('/admin/export-contacts', function () {
-    Artisan::call('contacts:export');
-    return redirect()->back()->with('success', 'Contacts exported and emailed successfully.');
-})
-    ->name('admin.export.contacts')
-    ->middleware('web');
+// Route::post('/admin/export-contacts', function () {
+//     Artisan::call('contacts:export');
+//     return redirect()->back()->with('success', 'Contacts exported and emailed successfully.');
+// })
+//     ->name('admin.export.contacts')
+//     ->middleware('web');
 
+// Route::get('/admin/export-contacts', function () {
+//     Artisan::call('contacts:export');
+//     return 'Exported and sent!';
+// })->middleware('web');
+
+
+// Export Contacts - Show loader page
 Route::get('/admin/export-contacts', function () {
-    Artisan::call('contacts:export');
-    return 'Exported and sent!';
-})->middleware('web');
+    return view('admin.export-contacts'); 
+})->name('admin.export.contacts.page')->middleware('web');
+
+// Export Contacts - Actual export endpoint
+Route::post('/admin/export-contacts', function () {
+    try {
+        Artisan::call('contacts:export');
+        return response()->json([
+            'success' => true,
+            'message' => 'Contacts exported and emailed successfully.'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Error exporting contacts: ' . $e->getMessage()
+        ], 500);
+    }
+})->name('admin.export.contacts')->middleware('web');
+
+
+
+Route::get('/admin/contacts', [BookingController::class, 'adminContact'])->name('admin.contact');
+Route::get('/admin/analytics', [BookingController::class, 'analytics'])->name('admin.analytics');
+   Route::get('/inquiries', [BookingController::class, 'manageInquiries'])->name('inquiries.manage');
+    Route::get('/inquiries/{inquiry}', [BookingController::class, 'showInquiry'])->name('inquiries.show');
+    Route::delete('/inquiries/{inquiry}', [BookingController::class, 'deleteInquiry'])->name('inquiries.delete');
+    Route::post('/inquiries/bulk-delete', [BookingController::class, 'bulkDeleteInquiries'])->name('inquiries.bulk-delete');
+    Route::get('/inquiries/export', [BookingController::class, 'exportInquiries'])->name('inquiries.export');
 
 // destinations routes
+Route::get('/add/new/destination', [DestinationController::class, 'addNewDestination'])->name('add.new.destination');
 Route::get('/booking-inquiry', [DestinationController::class, 'makeArequest'])->name('make-a-request');
 Route::post('/book-travel-agency', [DestinationController::class, 'bookTravelRequest'])->name('book-travel-agency');
 Route::post('/admin/destinations', [DestinationController::class, 'store'])->name('admin.destinations.store');
@@ -186,5 +223,5 @@ Route::delete('/admin/destinations/{destination}', [DestinationController::class
 // Admin logout
 Route::get('/admin/logout', function () {
     session()->forget('is_admin');
-    return redirect('/admin/bookings');
+    return redirect('/admin/analytics');
 })->name('admin.logout');

@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="rSBLaKuyJYlzkYhTRAtkovhIuggQiRwM7KRGSD096BU" />
     <meta name="msvalidate.01" content="B2BC30B3F709B7093851C0D27E5BFA0A" />
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
-   <title>@yield('title', 'Travel Agency')</title>
+   <title>@yield('title', 'Global Trotting Travel')</title>
 
     @vite('resources/css/app.css')
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
