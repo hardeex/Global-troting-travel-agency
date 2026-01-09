@@ -223,5 +223,5 @@ Route::delete('/admin/destinations/{destination}', [DestinationController::class
 // Admin logout
 Route::get('/admin/logout', function () {
     session()->forget('is_admin');
-    return redirect('/admin/analytics');
+    return redirect('/');
 })->name('admin.logout');

@@ -1,3 +1,4 @@
+
 @extends('dashboard.base')
 
 @section('title', 'Manage Destinations')
@@ -34,6 +35,8 @@
     </div>
 </div>
 
+
+@include('feedback')
         <!-- Success/Error Messages -->
         @if(session('success'))
             <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg" role="alert">
@@ -78,6 +81,10 @@
                             <!-- Price Badge -->
                             <div class="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
                                 {{ number_format($destination->price) }}
+                            </div>
+                            <!-- Status Badge -->
+                            <div class="absolute top-3 left-3 {{ $destination->status === 'private' ? 'bg-amber-600' : 'bg-green-600' }} text-white px-3 py-1 rounded-full text-xs font-semibold capitalize">
+                                {{ $destination->status }}
                             </div>
                         </div>
 
@@ -186,6 +193,8 @@
     </div>
 </div>
 
+
+
 <!-- Edit Modal -->
 <div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
     <div class="bg-white rounded-xl shadow-xl max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
@@ -214,6 +223,15 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Country</label>
                         <input type="text" name="country" id="edit_country" required 
                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <select name="status" id="edit_status" required 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
                     </div>
                     
                     <div>
@@ -259,6 +277,23 @@
                         <input type="date" name="end_date" id="edit_end_date" required
                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
+
+                    <div>
+    <label class="block text-sm font-medium text-gray-700">Status</label>
+    <select name="status"
+            class="w-full mt-1 border rounded-md p-2"
+            required>
+        <option value="public"
+            {{ old('status', $destination->status) === 'public' ? 'selected' : '' }}>
+            Public
+        </option>
+        <option value="private"
+            {{ old('status', $destination->status) === 'private' ? 'selected' : '' }}>
+            Private
+        </option>
+    </select>
+</div>
+
                 </div>
                 
                 <div class="mb-6">
@@ -349,6 +384,14 @@ function showDestinationModal(destinationId) {
                     <p class="text-gray-900">${destination.country}</p>
                 </div>
                 <div>
+                    <label class="block text-sm font-medium text-gray-500">Status</label>
+                    <p class="text-gray-900 capitalize">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${destination.status === 'private' ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800'}">
+                            ${destination.status || 'public'}
+                        </span>
+                    </p>
+                </div>
+                <div>
                     <label class="block text-sm font-medium text-gray-500">Price</label>
                     <p class="text-gray-900">$${Number(destination.price).toLocaleString()}</p>
                 </div>
@@ -393,6 +436,7 @@ function showEditModal(destination) {
     // Populate form fields
     document.getElementById('edit_title').value = destination.title;
     document.getElementById('edit_country').value = destination.country;
+    document.getElementById('edit_status').value = destination.status || 'public';
     document.getElementById('edit_price').value = destination.price;
     document.getElementById('edit_adults').value = destination.adults;
     document.getElementById('edit_nights').value = destination.nights;

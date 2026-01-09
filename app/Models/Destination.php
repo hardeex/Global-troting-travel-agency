@@ -10,6 +10,7 @@ class Destination extends Model
         'price',
         'country',
         'title',
+        'status',
         'short_description',
         'details',
         'image_url',

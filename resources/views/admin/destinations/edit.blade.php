@@ -14,7 +14,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             {{-- Price --}}
             <div>
-                <label class="block text-sm font-medium text-gray-700">Price</label>
+                <label class="block text-sm font-medium text-gray-700">Price </label>
                 <input type="number" name="price" value="{{ old('price', $destination->price) }}"
                        class="w-full mt-1 border rounded-md p-2" required>
             </div>
@@ -75,6 +75,9 @@
                        value="{{ old('end_date', $destination->end_date->toDateString()) }}"
                        class="w-full mt-1 border rounded-md p-2" required>
             </div>
+
+
+            
 
             {{-- Adults --}}
             <div>

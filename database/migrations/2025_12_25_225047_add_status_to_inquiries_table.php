@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::table('inquiries', function (Blueprint $table) {
             $table->string('status')
                   ->default('unread')
-                  ->after('id'); // adjust position if needed
+                  ->after('id'); 
         });
     }
 
