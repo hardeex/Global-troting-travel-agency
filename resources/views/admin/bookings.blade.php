@@ -18,7 +18,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Booking Dashboard</h1>
+                        <h1 class="text-2xl font-bold text-gray-800">Booking Dashboard </h1>
                         <p class="text-gray-600 text-sm sm:text-base">Manage all bookings and destinations</p>
                     </div>
                 </div>
@@ -213,7 +213,7 @@
                     $uid = uniqid();
                 @endphp
 
-                <div x-data="{ open_{{ $uid }}: false }" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
+                <div x-data="{ open_{{ $uid }}: false, showDelete_{{ $uid }}: false }" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
                     <div class="p-6">
                         <div class="flex items-start justify-between gap-4">
                             <div class="flex-1 min-w-0">
@@ -301,8 +301,8 @@
                                 @endif
                             </div>
 
-                            <!-- View Details Button -->
-                            <div class="flex-shrink-0">
+                            <!-- Action Buttons -->
+                            <div class="flex-shrink-0 flex gap-2">
                                 <button @click="open_{{ $uid }} = true"
                                         class="inline-flex items-center px-4 py-2 border-2 border-sky-200 rounded-lg text-sm font-medium text-sky-700 bg-sky-50 hover:bg-sky-100 hover:border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 transition-all duration-200">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -311,17 +311,26 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                               d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                     </svg>
-                                    View Details
+                                    View
+                                </button>
+                                
+                                <button @click="showDelete_{{ $uid }} = true"
+                                        class="inline-flex items-center px-4 py-2 border-2 border-red-200 rounded-lg text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 hover:border-red-300 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all duration-200">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Modal -->
+                    <!-- View Details Modal -->
                     <div x-show="open_{{ $uid }}" x-cloak
-                         class="fixed inset-0  z-50 flex items-center justify-center p-4"
+                         class="fixed inset-0 z-50 flex items-center justify-center p-4"
                          @click.self="open_{{ $uid }} = false">
-                        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-auto overflow-hidden" @click.stop>
+                        <div class="fixed inset-0 transition-opacity"></div>
+                        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-auto overflow-hidden relative z-10" @click.stop>
                             <div class="bg-gradient-to-r from-sky-500 to-blue-600 p-6 flex justify-between items-center">
                                 <h4 class="text-xl font-bold text-white">Submission Details</h4>
                                 <button @click="open_{{ $uid }} = false" class="text-white hover:text-gray-200 transition">
@@ -382,6 +391,57 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Delete Confirmation Modal -->
+                    <div x-show="showDelete_{{ $uid }}" x-cloak
+                         class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                         @click.self="showDelete_{{ $uid }} = false">
+                        <div class="fixed inset-0  transition-opacity"></div>
+                        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-auto overflow-hidden relative z-10" @click.stop>
+                            <div class="bg-gradient-to-r from-red-500 to-red-600 p-6">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="ml-4 text-xl font-bold text-white">Confirm Deletion</h4>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <p class="text-gray-700 mb-6">
+                                    Are you sure you want to delete this booking submission? This action cannot be undone.
+                                </p>
+                                <div class="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
+                                    <div class="flex items-center mb-2">
+                                        <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                        <span class="text-sm font-semibold text-gray-900">{{ e($data['name'] ?? 'N/A') }}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <span class="text-sm text-gray-600">{{ e($data['email'] ?? 'N/A') }}</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button @click="showDelete_{{ $uid }} = false"
+                                            class="flex-1 px-4 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition-colors duration-200">
+                                        Cancel
+                                    </button>
+                                    <button @click="deleteSubmission({{ $submission->id }})"
+                                            class="flex-1 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @empty
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
@@ -430,5 +490,30 @@
 <style>
     [x-cloak] { display: none !important; }
 </style>
+
+<script>
+function deleteSubmission(id) {
+    fetch(`/admin/bookings/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.reload();
+        } else {
+            alert('Failed to delete submission');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while deleting the submission');
+    });
+}
+</script>
 
 @endsection

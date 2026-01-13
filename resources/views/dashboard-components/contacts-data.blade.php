@@ -18,8 +18,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Booking Dashboard</h1>
-                        <p class="text-gray-600 text-sm sm:text-base">Manage all bookings and destinations</p>
+                        <h1 class="text-2xl font-bold text-gray-800">Booking Dashboard </h1>
+                        <p class="text-gray-600 text-sm sm:text-base">Manage all bookings and destinations </p>
                     </div>
                 </div>
 

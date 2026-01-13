@@ -285,7 +285,7 @@ public function deleteInquiry(Inquiry $inquiry)
 {
     try {
         $inquiry->delete();
-        return redirect()->route('admin.inquiries.manage')
+        return redirect()->back()
             ->with('success', 'Inquiry deleted successfully.');
     } catch (Exception $e) {
         Log::error('Failed to delete inquiry', [

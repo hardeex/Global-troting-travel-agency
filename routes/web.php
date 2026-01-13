@@ -135,6 +135,17 @@ Route::match(['get', 'post'], '/admin/bookings', function (Request $request) {
     return view('admin.bookings', compact('submissions'));
 })->name('admin.bookings');
 
+
+Route::delete('/admin/bookings/{id}', function ($id) {
+    if (!session('is_admin')) {
+        return response()->json(['error' => 'Unauthorized'], 403);
+    }
+    
+    DB::table('form_submissions')->where('id', $id)->delete();
+    
+    return response()->json(['success' => true]);
+})->name('admin.bookings.delete');
+
 // method to handle email export...
 Route::get('/admin/export-all-contacts', function () {
     $submissions = DB::table('form_submissions')->orderByDesc('created_at')->get();
