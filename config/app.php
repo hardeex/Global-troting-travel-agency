@@ -128,4 +128,11 @@ return [
     'export_recipients' => explode(',', env('EXPORT_RECIPIENTS')),
 
 
+    'geo_restriction' => [
+    'enabled' => env('GEO_RESTRICTION_ENABLED', true),
+    'allowed_countries' => ['GB'],
+    'bypass_for_admin' => true,
+],
+
+
 ];

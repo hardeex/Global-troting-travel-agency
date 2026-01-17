@@ -29,7 +29,7 @@
                     </p>
 
                     <div class="mt-2">
-                        <a href="{{ route('make-a-request') }}" 
+                        <a href="https://nathanielcopelandcampbell.inteletravel.uk/" target="_blank" 
                            class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 w-full sm:w-auto text-center group">
                             <span>Book Now</span>
                             <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
