@@ -137,14 +137,26 @@
                             <p class="text-slate-600">Fill out the form below and we'll get back to you within 24 hours.</p>
                         </div>
 
-                        <form action="{{ route('form.submit') }}" method="POST" class="space-y-6" 
+                        @include('feedback')
+
+                        {{-- <form action="{{ route('form.submit') }}" method="POST" class="space-y-6" 
                               x-data="{ 
                                   bookingType: 'contact', 
                                   isLoading: false,
                                   showTypeFields: false 
                               }"
-                              @submit="isLoading = true">
+                              @submit="isLoading = true"> --}}
+
+                              <form action="{{ route('form.submit') }}" method="POST" class="space-y-6" 
+      x-data="{ 
+          bookingType: 'contact', 
+          isLoading: false,
+          showTypeFields: false 
+      }">
+      
                             @csrf
+
+                            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
                             <!-- Personal Information -->
                             <div class="grid md:grid-cols-2 gap-6">
@@ -413,54 +425,45 @@
         </div>
     </div>
 </section>
-
-<!-- Trust Section -->
-{{-- <section class="py-16 bg-white border-t border-slate-200">
-    <div class="container mx-auto px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                        </svg>
-                    </div>
-                    <h4 class="font-bold text-slate-800 text-lg mb-2">Secure Booking</h4>
-                    <p class="text-slate-600 text-sm">Your information is protected with industry-standard encryption</p>
-                </div>
-                <div>
-                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h4 class="font-bold text-slate-800 text-lg mb-2">Quick Response</h4>
-                    <p class="text-slate-600 text-sm">Get a response within 24 hours on business days</p>
-                </div>
-                <div>
-                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h4 class="font-bold text-slate-800 text-lg mb-2">Expert Advice</h4>
-                    <p class="text-slate-600 text-sm">Get personalized recommendations from travel specialists</p>
-                </div>
-                <div>
-                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h4 class="font-bold text-slate-800 text-lg mb-2">Worldwide Coverage</h4>
-                    <p class="text-slate-600 text-sm">Access to destinations and services around the globe</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> --}}
-
 <!-- Alpine.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js" defer></script>
+
+<!-- reCAPTCHA Script -->
+<script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+
+<script>
+document.addEventListener('alpine:init', () => {
+    // Wait for Alpine to be ready
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[action="{{ route('form.submit') }}"]');
+    
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            
+            grecaptcha.ready(function() {
+                grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {action: 'contact_form'})
+                    .then(function(token) {
+                        console.log('reCAPTCHA token generated:', token.substring(0, 50) + '...');
+                        document.getElementById('g-recaptcha-response').value = token;
+                        
+                        // Submit the form
+                        form.submit();
+                    })
+                    .catch(function(error) {
+                        console.error('reCAPTCHA error:', error);
+                        submitButton.disabled = false;
+                        alert('reCAPTCHA verification failed. Please refresh the page and try again.');
+                    });
+            });
+        });
+    }
+});
+</script>
 
 @endsection

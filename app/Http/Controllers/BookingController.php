@@ -11,84 +11,295 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Rules\RecaptchaRule;
+use Illuminate\Support\Facades\RateLimiter;
+
 
 class BookingController extends Controller
 {
+    // public function submit(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'name' => 'required|string|max:100',
+    //         'email' => 'required|email|max:150',
+    //         'phone' => 'nullable|string|max:30',
+    //         'preferred_contact' => 'nullable|string|max:20',
+    //         'booking_type' => 'required|string|in:contact,car,flight,hotel,activity,custom',
+    //         'message' => 'nullable|string|max:2000',
+
+    //         'car_pickup_location' => 'nullable|string|max:150',
+    //         'car_dropoff_location' => 'nullable|string|max:150',
+    //         'car_pickup_date' => 'nullable|date',
+    //         'car_dropoff_date' => 'nullable|date|after_or_equal:car_pickup_date',
+    //         'driver_age' => 'nullable|integer|min:18',
+
+    //         'flight_departure' => 'nullable|string|max:150',
+    //         'flight_arrival' => 'nullable|string|max:150',
+    //         'flight_departure_date' => 'nullable|date',
+    //         'flight_return_date' => 'nullable|date|after_or_equal:flight_departure_date',
+    //         'flight_adults' => 'nullable|integer|min:1',
+    //         'flight_children' => 'nullable|integer|min:0',
+    //         'flight_class' => 'nullable|string|max:30',
+
+    //         'hotel_location' => 'nullable|string|max:150',
+    //         'hotel_checkin' => 'nullable|date',
+    //         'hotel_checkout' => 'nullable|date|after_or_equal:hotel_checkin',
+    //         'hotel_rooms' => 'nullable|integer|min:1',
+    //         'hotel_guests' => 'nullable|integer|min:1',
+
+    //         'activity_location' => 'nullable|string|max:150',
+    //         'activity_type' => 'nullable|string|max:150',
+    //         'activity_date' => 'nullable|date',
+    //         'activity_people' => 'nullable|integer|min:1',
+
+    //         'custom_destination' => 'nullable|string|max:150',
+    //         'custom_start' => 'nullable|date',
+    //         'custom_end' => 'nullable|date|after_or_equal:custom_start',
+    //         'custom_budget' => 'nullable|string|max:100',
+    //         'custom_style' => 'nullable|string|max:50',
+    //     ]);
+
+    //     try {
+    //         $emailsRaw = env('RECEIVER_EMAILS', '');
+
+    //         // Parse, trim, and validate emails
+    //         $emails = array_filter(
+    //             array_map(function ($email) {
+    //                 $email = trim($email);
+    //                 return filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : null;
+    //             }, explode(',', $emailsRaw)),
+    //         );
+
+    //         // Log parsed emails
+    //         Log::info('Parsed receiver emails:', $emails);
+
+    //         if (!empty($emails)) {
+    //             Mail::to($emails)->send(new BookingRequestMail($validated));
+    //             Log::info('Booking request email sent successfully.');
+    //         } else {
+    //             Log::error('No valid recipient emails found in RECEIVER_EMAILS. Raw value: ' . $emailsRaw);
+    //         }
+    //     } catch (\Exception $e) {
+    //         Log::error('Mail sending failed: ' . $e->getMessage());
+    //     }
+
+    //     // Save to database
+    //     DB::table('form_submissions')->insert([
+    //         'payload' => json_encode($validated),
+    //         'created_at' => now(),
+    //         'updated_at' => now(),
+    //     ]);
+
+    //     return back()->with('success', 'Your request has been sent! We’ll be in touch soon.');
+    // }
+
+
+
     public function submit(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|max:150',
-            'phone' => 'nullable|string|max:30',
-            'preferred_contact' => 'nullable|string|max:20',
-            'booking_type' => 'required|string|in:contact,car,flight,hotel,activity,custom',
-            'message' => 'nullable|string|max:2000',
-
-            'car_pickup_location' => 'nullable|string|max:150',
-            'car_dropoff_location' => 'nullable|string|max:150',
-            'car_pickup_date' => 'nullable|date',
-            'car_dropoff_date' => 'nullable|date|after_or_equal:car_pickup_date',
-            'driver_age' => 'nullable|integer|min:18',
-
-            'flight_departure' => 'nullable|string|max:150',
-            'flight_arrival' => 'nullable|string|max:150',
-            'flight_departure_date' => 'nullable|date',
-            'flight_return_date' => 'nullable|date|after_or_equal:flight_departure_date',
-            'flight_adults' => 'nullable|integer|min:1',
-            'flight_children' => 'nullable|integer|min:0',
-            'flight_class' => 'nullable|string|max:30',
-
-            'hotel_location' => 'nullable|string|max:150',
-            'hotel_checkin' => 'nullable|date',
-            'hotel_checkout' => 'nullable|date|after_or_equal:hotel_checkin',
-            'hotel_rooms' => 'nullable|integer|min:1',
-            'hotel_guests' => 'nullable|integer|min:1',
-
-            'activity_location' => 'nullable|string|max:150',
-            'activity_type' => 'nullable|string|max:150',
-            'activity_date' => 'nullable|date',
-            'activity_people' => 'nullable|integer|min:1',
-
-            'custom_destination' => 'nullable|string|max:150',
-            'custom_start' => 'nullable|date',
-            'custom_end' => 'nullable|date|after_or_equal:custom_start',
-            'custom_budget' => 'nullable|string|max:100',
-            'custom_style' => 'nullable|string|max:50',
+{
+    // Honeypot check - if filled, it's a bot
+    if ($request->filled('website')) {
+        Log::warning('Bot detected via honeypot', [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent()
         ]);
+        
+        // Fake success response to confuse bot
+        return back()->with('success', 'Your request has been sent! We\'ll be in touch soon.');
+    }
 
-        try {
-            $emailsRaw = env('RECEIVER_EMAILS', '');
+    // Rate limiting - max 3 submissions per IP every 5 minutes
+    $key = 'form-submit:' . $request->ip();
+    if (RateLimiter::tooManyAttempts($key, 3)) {
+        $seconds = RateLimiter::availableIn($key);
+        
+        return back()->withErrors([
+            'error' => "Too many submissions. Please try again in {$seconds} seconds."
+        ]);
+    }
 
-            // Parse, trim, and validate emails
-            $emails = array_filter(
-                array_map(function ($email) {
-                    $email = trim($email);
-                    return filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : null;
-                }, explode(',', $emailsRaw)),
-            );
+    // Validate form data including reCAPTCHA
+    $validated = $request->validate([
+        'g-recaptcha-response' => ['required', new RecaptchaRule],
+        'name' => 'required|string|max:100',
+        'email' => 'required|email|max:150',
+        'phone' => 'nullable|string|max:30',
+        'preferred_contact' => 'nullable|string|max:20',
+        'booking_type' => 'required|string|in:contact,car,flight,hotel,activity,custom',
+        'message' => 'nullable|string|max:2000',
 
-            // Log parsed emails
-            Log::info('Parsed receiver emails:', $emails);
+        // Car rental fields
+        'car_pickup_location' => 'nullable|string|max:150',
+        'car_dropoff_location' => 'nullable|string|max:150',
+        'car_pickup_date' => 'nullable|date',
+        'car_dropoff_date' => 'nullable|date|after_or_equal:car_pickup_date',
+        'driver_age' => 'nullable|integer|min:18',
 
-            if (!empty($emails)) {
-                Mail::to($emails)->send(new BookingRequestMail($validated));
-                Log::info('Booking request email sent successfully.');
-            } else {
-                Log::error('No valid recipient emails found in RECEIVER_EMAILS. Raw value: ' . $emailsRaw);
-            }
-        } catch (\Exception $e) {
-            Log::error('Mail sending failed: ' . $e->getMessage());
-        }
+        // Flight fields
+        'flight_departure' => 'nullable|string|max:150',
+        'flight_arrival' => 'nullable|string|max:150',
+        'flight_departure_date' => 'nullable|date',
+        'flight_return_date' => 'nullable|date|after_or_equal:flight_departure_date',
+        'flight_adults' => 'nullable|integer|min:1',
+        'flight_children' => 'nullable|integer|min:0',
+        'flight_class' => 'nullable|string|max:30',
 
-        // Save to database
+        // Hotel fields
+        'hotel_location' => 'nullable|string|max:150',
+        'hotel_checkin' => 'nullable|date',
+        'hotel_checkout' => 'nullable|date|after_or_equal:hotel_checkin',
+        'hotel_rooms' => 'nullable|integer|min:1',
+        'hotel_guests' => 'nullable|integer|min:1',
+
+        // Activity fields
+        'activity_location' => 'nullable|string|max:150',
+        'activity_type' => 'nullable|string|max:150',
+        'activity_date' => 'nullable|date',
+        'activity_people' => 'nullable|integer|min:1',
+
+        // Custom package fields
+        'custom_destination' => 'nullable|string|max:150',
+        'custom_start' => 'nullable|date',
+        'custom_end' => 'nullable|date|after_or_equal:custom_start',
+        'custom_budget' => 'nullable|string|max:100',
+        'custom_style' => 'nullable|string|max:50',
+    ]);
+
+    // Hit rate limiter
+    RateLimiter::hit($key, 300); // 5 minutes
+
+    // Check for spam patterns
+    $isSpam = $this->isSuspiciousSubmission($validated);
+
+    if ($isSpam) {
+        Log::warning('Suspicious form submission detected', [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'data' => $validated
+        ]);
+        
+        // Save as spam but don't send email
         DB::table('form_submissions')->insert([
             'payload' => json_encode($validated),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'is_spam' => true,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        return back()->with('success', 'Your request has been sent! We’ll be in touch soon.');
+        
+        // Fake success to confuse bot
+        return back()->with('success', 'Your request has been sent! We\'ll be in touch soon.');
     }
+
+    // Send email to recipients
+    try {
+        $emailsRaw = env('RECEIVER_EMAILS', '');
+
+        // Parse, trim, and validate emails
+        $emails = array_filter(
+            array_map(function ($email) {
+                $email = trim($email);
+                return filter_var($email, FILTER_VALIDATE_EMAIL) ? $email : null;
+            }, explode(',', $emailsRaw)),
+        );
+
+        // Log parsed emails
+        Log::info('Parsed receiver emails:', $emails);
+
+        if (!empty($emails)) {
+            Mail::to($emails)->send(new BookingRequestMail($validated));
+            Log::info('Booking request email sent successfully.');
+        } else {
+            Log::error('No valid recipient emails found in RECEIVER_EMAILS. Raw value: ' . $emailsRaw);
+        }
+    } catch (\Exception $e) {
+        Log::error('Mail sending failed: ' . $e->getMessage());
+    }
+
+    // Save legitimate submission to database
+    DB::table('form_submissions')->insert([
+        'payload' => json_encode($validated),
+        'ip_address' => $request->ip(),
+        'user_agent' => $request->userAgent(),
+        'is_spam' => false,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+
+    return back()->with('success', 'Your request has been sent! We\'ll be in touch soon.');
+}
+
+/**
+ * Check if submission contains spam patterns
+ */
+private function isSuspiciousSubmission(array $data): bool
+{
+    // Common spam keywords
+    $spamKeywords = [
+        'viagra', 'cialis', 'casino', 'porn', 'sex', 'bitcoin', 
+        'crypto', 'forex', 'loan', 'seo service', 'buy now',
+        'click here', 'limited time', 'earn money', 'work from home',
+        'make money fast', 'free money', 'weight loss', 'male enhancement'
+    ];
+    
+    // Combine text fields for checking
+    $textFields = array_filter([
+        $data['name'] ?? '',
+        $data['email'] ?? '',
+        $data['message'] ?? '',
+    ]);
+    
+    $allText = strtolower(implode(' ', $textFields));
+    
+    // Check for spam keywords
+    foreach ($spamKeywords as $keyword) {
+        if (str_contains($allText, strtolower($keyword))) {
+            return true;
+        }
+    }
+
+    // Check for URLs in name field (common bot pattern)
+    if (isset($data['name']) && preg_match('/(http|https|www\.|\.com|\.net|\.org|\.ru|\.cn)/i', $data['name'])) {
+        return true;
+    }
+
+    // Check for excessive URLs in message (more than 2)
+    if (isset($data['message'])) {
+        $urlCount = preg_match_all('/(http|https|www\.)/i', $data['message']);
+        if ($urlCount > 2) {
+            return true;
+        }
+    }
+
+    // Check for gibberish/random text (very short words repeatedly)
+    if (isset($data['message']) && strlen($data['message']) > 50) {
+        $words = explode(' ', $data['message']);
+        $shortWords = array_filter($words, fn($w) => strlen($w) <= 2);
+        
+        // If more than 50% of words are 1-2 characters, likely spam
+        if (count($shortWords) > count($words) * 0.5) {
+            return true;
+        }
+    }
+
+    // Check for suspicious email patterns
+    if (isset($data['email'])) {
+        $suspiciousEmailPatterns = [
+            '/[0-9]{5,}@/',  // Too many numbers before @
+            '/@.*\.ru$/',     // Russian domains (common for spam)
+            '/@.*\.cn$/',     // Chinese domains
+        ];
+        
+        foreach ($suspiciousEmailPatterns as $pattern) {
+            if (preg_match($pattern, $data['email'])) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
 
     public function adminContact()
     {

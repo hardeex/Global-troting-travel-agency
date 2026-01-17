@@ -9,7 +9,7 @@
     <meta name="msvalidate.01" content="B2BC30B3F709B7093851C0D27E5BFA0A" />
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
    <title>@yield('title', 'Global Trotting Travel')</title>
-
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
     @vite('resources/css/app.css')
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset('images/global-throthlelogo.jpeg') }}">

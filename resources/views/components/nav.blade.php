@@ -16,8 +16,8 @@
             <!-- Desktop Navigation -->
             <div class="hidden md:block">
                 <div class="ml-10 flex items-center space-x-6">
-                      <a href="{{route('index')}}"
-                        class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                      {{-- <a href="{{route('index')}}"
+                        class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Home</a> --}}
                       
                     <a href="{{route('about')}}"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">About</a>
@@ -28,10 +28,10 @@
 
                         <a href="{{route('make-a-request')}}"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Schedule With Us</a>
-                    {{-- <a href="{{ route('admin.bookings') }}"
+                    <a href="{{ route('admin.bookings') }}"
                         class="bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-cyan-500 transition-colors">
                         Manage Booking
-                    </a> --}}
+                    </a>
                 </div>
             </div>
 

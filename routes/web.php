@@ -9,6 +9,7 @@ use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Http;
 
 Route::get('/db-debug', function () {
     return config('database.connections.mysql');
@@ -89,6 +90,37 @@ Route::get('/sitemap', function () {
     ]);
 });
 
+
+Route::get('/test-recaptcha', function() {
+    return view('test-recaptcha');
+});
+
+
+// routes/web.php
+Route::post('/test-recaptcha-verify', function(Request $request) {
+    $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        'secret' => config('services.recaptcha.secret_key'),
+        'response' => $request->input('token'),
+        'remoteip' => $request->ip()
+    ]);
+
+    return response()->json([
+        'google_response' => $response->json(),
+        'token_received' => $request->input('token') ? 'Yes' : 'No',
+        'token_length' => strlen($request->input('token') ?? ''),
+    ]);
+});
+
+
+// routes/web.php
+Route::get('/check-recaptcha-config', function() {
+    return response()->json([
+        'site_key' => config('services.recaptcha.site_key'),
+        'secret_key_exists' => !empty(config('services.recaptcha.secret_key')),
+        'secret_key_length' => strlen(config('services.recaptcha.secret_key')),
+        'secret_key_preview' => substr(config('services.recaptcha.secret_key'), 0, 10) . '...',
+    ]);
+});
 
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
