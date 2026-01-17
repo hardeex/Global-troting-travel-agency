@@ -28,9 +28,9 @@
 
                         <a href="{{route('make-a-request')}}"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Schedule With Us</a>
-                    <a href="{{ route('admin.bookings') }}"
+                    <a href="https://nathanielcopelandcampbell.inteletravel.uk/" target="_blank"
                         class="bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-cyan-500 transition-colors">
-                        Manage Booking
+                        Book Now
                     </a>
                 </div>
             </div>
@@ -70,10 +70,10 @@
                 class="text-blue-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Plan Booking</a>
 
 
-            {{-- <a href="{{ route('admin.bookings') }}"
+            <a href="https://nathanielcopelandcampbell.inteletravel.uk/" target="_blank"
                 class="bg-gradient-to-r from-blue-500 to-cyan-400 text-white block px-3 py-2 rounded-md text-base font-medium text-center mt-2">
-                Manage Booking
-            </a> --}}
+                Book Now
+            </a>
         </div>
     </div>
 </nav>
