@@ -10,6 +10,36 @@ use Illuminate\Support\Facades\Log;
 
 class RestrictToUK
 {
+    /**
+     * List of allowed country codes (ISO 3166-1 alpha-2)
+     */
+    private const ALLOWED_COUNTRIES = [
+        'GB', // United Kingdom
+        'US', // United States
+        'CA', // Canada
+        'AU', // Australia
+        'NZ', // New Zealand
+        'IE', // Ireland
+        'DE', // Germany
+        'FR', // France
+        'ES', // Spain
+        'IT', // Italy
+        'NL', // Netherlands
+        'BE', // Belgium
+        'CH', // Switzerland
+        'AT', // Austria
+        'SE', // Sweden
+        'NO', // Norway
+        'DK', // Denmark
+        'FI', // Finland
+        'PT', // Portugal
+        'SG', // Singapore
+        'AE', // United Arab Emirates
+        'JP', // Japan
+        'KR', // South Korea
+        'HK', // Hong Kong
+    ];
+
     public function handle(Request $request, Closure $next)
     {
         // Skip for admin routes and local development
@@ -18,20 +48,21 @@ class RestrictToUK
         }
 
         $ip = $request->ip();
-        
+
         // Cache the country check for 24 hours per IP
         $country = Cache::remember("geo_country_{$ip}", 86400, function () use ($ip) {
             return $this->getCountryFromIP($ip);
         });
 
-        // Allow UK, or if we can't determine (fail open for better UX)
-        if ($country === 'GB' || $country === null) {
+        // Allow if country is in the allowed list, or if we can't determine (fail open for better UX)
+        if (in_array($country, self::ALLOWED_COUNTRIES) || $country === null) {
             return $next($request);
         }
 
-        // Redirect or show message to non-UK users
+        // Redirect or show message to users from restricted countries
         return response()->view('errors.geo-restricted', [
-            'country' => $country
+            'country' => $country,
+            'allowed_countries' => self::ALLOWED_COUNTRIES
         ], 403);
     }
 
@@ -57,7 +88,6 @@ class RestrictToUK
                 $data = $response->json();
                 return $data['countryCode'] ?? null;
             }
-
         } catch (\Exception $e) {
             Log::warning("Geolocation check failed for IP {$ip}: " . $e->getMessage());
         }
