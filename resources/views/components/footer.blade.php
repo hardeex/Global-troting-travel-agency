@@ -375,7 +375,7 @@
                         ABTA Membership
                     </h4>
                     <div class="grid md:grid-cols-2 gap-6 text-sm">
-                        <div class="text-gray-300 leading-relaxed space-y-3">
+                        {{-- <div class="text-gray-300 leading-relaxed space-y-3">
                             <p>
                                 Find out more 
                                 <a href="http://abta.com/find-a-member" target="_blank" class="text-purple-400 hover:text-purple-300 underline font-medium">HERE</a>
@@ -386,7 +386,21 @@
                             <p>
                                 We are obliged to maintain a high standard of service to you by ABTA's Code of Conduct.
                             </p>
-                        </div>
+                        </div> --}}
+
+                        <div class="text-gray-300 leading-relaxed space-y-3">
+    <p>
+        Find out more 
+        <a href="http://abta.com/find-a-member" target="_blank" class="text-purple-400 hover:text-purple-300 underline font-medium">here</a>.
+    </p>
+    <p>
+        GlobeTrottingTravelUK is a member of ABTA. As part of this membership, we help holidaymakers get the most from their travel experience and support them if things do not go according to plan.
+    </p>
+    <p>
+        We are required to maintain a high standard of service in accordance with ABTA’s Code of Conduct.
+    </p>
+</div>
+
                         <div class="text-gray-300 leading-relaxed space-y-2">
                             <p class="font-semibold text-white mb-2">Contact ABTA:</p>
                             <p>30 Park Street, London SE1 9EQ</p>

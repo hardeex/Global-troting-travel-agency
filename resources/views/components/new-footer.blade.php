@@ -132,7 +132,7 @@
                 <!-- ABTA Membership Details -->
                 <div class="bg-gray-50 p-8 rounded-lg">
                     <h4 class="font-semibold text-gray-900 mb-5 text-lg">ABTA Membership</h4>
-                    <div class="text-gray-700 space-y-4 leading-loose text-base">
+                    {{-- <div class="text-gray-700 space-y-4 leading-loose text-base">
                         <p>Find out more <a href="http://abta.com/find-a-member" target="_blank" class="text-gray-900 underline hover:no-underline">HERE</a></p>
                         <p>GlobeTrottingTravelUK is a Member of ABTA. ABTA and ABTA Members help holidaymakers to get the most from their travel and assist them when things do not go according to plan.</p>
                         <p>We are obliged to maintain a high standard of service to you by ABTA's Code of Conduct.</p>
@@ -143,7 +143,37 @@
                             <p><a href="https://www.abta.com" target="_blank" class="text-gray-900 underline hover:no-underline">www.abta.com</a></p>
                             <p class="mt-3">For further information about ABTA, the Code of Conduct and the arbitration scheme available to you if you have a complaint, contact ABTA at the address above.</p>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    <div class="text-gray-700 space-y-4 leading-loose text-base">
+    <p>
+        Find out more 
+        <a href="http://abta.com/find-a-member" target="_blank" class="text-gray-900 underline hover:no-underline">here</a>.
+    </p>
+
+    <p>
+        GlobeTrottingTravelUK is a member of ABTA. As part of this membership, we help holidaymakers get the most from their travel experience and support them when things do not go according to plan.
+    </p>
+
+    <p>
+        We are required to maintain a high standard of service in accordance with ABTA’s Code of Conduct.
+    </p>
+
+    <div class="mt-6 pt-6 border-t border-gray-300">
+        <p class="font-semibold text-gray-900 mb-3">Contact ABTA:</p>
+        <p>30 Park Street, London SE1 9EQ</p>
+        <p>Tel: 020 3117 0500</p>
+        <p>
+            <a href="https://www.abta.com" target="_blank" class="text-gray-900 underline hover:no-underline">
+                www.abta.com
+            </a>
+        </p>
+        <p class="mt-3">
+            For further information about ABTA, including the Code of Conduct and the arbitration scheme available if you have a complaint, please contact ABTA at the address above.
+        </p>
+    </div>
+</div>
+
                 </div>
 
                 <!-- Links to Other Websites -->
