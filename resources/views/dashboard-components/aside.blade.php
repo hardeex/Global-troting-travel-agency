@@ -1,17 +1,17 @@
 <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
     <div class="h-full flex flex-col">
         <!-- Logo -->
-        <div class="p-6 border-b">
+        <a href="{{ route('index') }}" class="p-6 border-b">
             <h1 class="text-2xl font-bold text-blue-600">Dashboard</h1>
-        </div>
-        
+        </a>
+
         <!-- Navigation -->
         <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
 
             <!-- Overview -->
-            <a href="{{ route('admin.analytics') }}"
+            <a href="{{ route('admin.dashboard') }}"
                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition
-               {{ Route::currentRouteName() === 'admin.analytics'
+               {{ Route::currentRouteName() === 'admin.dashboard'
                     ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white'
                     : 'text-gray-700 hover:bg-gray-100' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,7 +25,7 @@
 
             
             <!-- Add New Destination -->
-            <a href="{{ route('add.new.destination') }}"
+            <a href="{{ route('admin.destinations.create') }}"
                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition
                {{ Route::currentRouteName() === 'add.new.destination'
                     ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white'
@@ -36,6 +36,23 @@
                 </svg>
                 <span class="font-medium">Add New Destination</span>
             </a>
+
+
+             <!-- Manage Destination -->
+            <a href="{{ route('admin.destinations.store') }}"
+               class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition
+               {{ Route::currentRouteName() === 'admin.destinations.store'
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white'
+                    : 'text-gray-700 hover:bg-gray-100' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="font-medium">Manage Destination</span>
+            </a>
+
 
             <!-- Export Contacts -->
             <a href="{{ route('admin.export.contacts.page') }}"
@@ -63,23 +80,9 @@
                 <span class="font-medium">Manage Contact & Bookings</span>
             </a>
 
-            <!-- Manage Destination -->
-            <a href="{{ route('admin.destinations.store') }}"
-               class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition
-               {{ Route::currentRouteName() === 'admin.destinations.store'
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white'
-                    : 'text-gray-700 hover:bg-gray-100' }}">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                </svg>
-                <span class="font-medium">Manage Destination</span>
-            </a>
-
+           
             <!-- Manage Inquiries -->
-            <a href="{{ route('inquiries.manage') }}"
+            <a href="{{ route('admin.inquiries.manage') }}"
                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition
                {{ Route::currentRouteName() === 'inquiries.manage'
                     ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white'

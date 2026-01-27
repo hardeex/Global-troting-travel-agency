@@ -83,7 +83,7 @@
 
     <!-- Filters and Search -->
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
-        <form method="GET" action="{{ route('inquiries.manage') }}" class="space-y-4">
+        <form method="GET" action="{{ route('admin.inquiries.manage') }}" class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Search -->
                 <div>
@@ -144,7 +144,7 @@
                     <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition-colors">
                         Apply Filters
                     </button>
-                    <a href="{{ route('inquiries.manage') }}" class="px-6 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg transition-colors">
+                    <a href="{{ route('admin.inquiries.manage') }}" class="px-6 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg transition-colors">
                         Reset
                     </a>
                 </div>
@@ -163,7 +163,7 @@
                     Delete Selected
                 </button>
             </div>
-            <a href="{{ route('inquiries.export', request()->all()) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors">
+            <a href="{{ route('admin.inquiries.export', request()->all()) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                 </svg>
@@ -221,7 +221,7 @@
                         </td>
                         <td class="px-4 py-4">
                             <div class="flex items-center gap-2">
-                                <a href="{{ route('inquiries.show', $inquiry->id) }}" 
+                                <a href="{{ route('admin.inquiries.show', $inquiry->id) }}" 
                                    class="p-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg transition-colors" 
                                    title="View Details">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -229,7 +229,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                     </svg>
                                 </a>
-                                <form action="{{ route('inquiries.delete', $inquiry->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this inquiry?')">
+                                <form action="{{ route('admin.inquiries.delete', $inquiry->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this inquiry?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="p-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-colors" title="Delete">
@@ -306,7 +306,7 @@ function bulkDelete() {
     
     if (!confirm(`Are you sure you want to delete ${ids.length} inquiries?`)) return;
     
-    fetch('{{ route("inquiries.bulk-delete") }}', {
+    fetch('{{ route("admin.inquiries.bulk-delete") }}', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

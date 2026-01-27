@@ -39,7 +39,10 @@
 <body class="bg-gray-50">
 
     <!-- Navigation -->
+    {{-- @include('components.nav') --}}
+    @if (!request()->routeIs('login', 'register', 'password.*'))
     @include('components.nav')
+@endif
 
 
     @yield('content')
@@ -48,7 +51,11 @@
     @include('components.footer') --}}
 
 
+    {{-- @include('components.new-footer') --}}
+
+    @if (!request()->routeIs('login', 'register', 'password.*'))
     @include('components.new-footer')
+@endif
 
 
 

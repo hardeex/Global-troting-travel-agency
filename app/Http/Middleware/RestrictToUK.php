@@ -10,63 +10,108 @@ use Illuminate\Support\Facades\Log;
 
 class RestrictToUK
 {
-    public function handle(Request $request, Closure $next)
+   public function handle(Request $request, Closure $next)
     {
-        // Skip for admin routes and local development
+        Log::info('🌍 Geo middleware triggered', [
+            'path' => $request->path(),
+            'ip_detected' => $request->ip(),
+            'env' => app()->environment(),
+        ]);
+
         if ($request->is('admin/*') || app()->environment('local')) {
+            Log::info('⏭ Geo check skipped (admin route or local env)');
             return $next($request);
         }
 
         $ip = $request->ip();
-        
-        // Cache the country check for 24 hours per IP
+
         $country = Cache::remember("geo_country_{$ip}", 86400, function () use ($ip) {
+            Log::info("📡 Fetching country from APIs for IP: {$ip}");
             return $this->getCountryFromIP($ip);
         });
 
-        // Allow UK, or if we can't determine (fail open for better UX)
+        Log::info('🌎 Country detection result', [
+            'ip' => $ip,
+            'country' => $country,
+        ]);
+
         if ($country === 'GB' || $country === null) {
+            Log::info('✅ Access allowed by geo middleware');
             return $next($request);
         }
 
-        // Redirect or show message to non-UK users
+        Log::warning('⛔ Access BLOCKED by geo middleware', [
+            'ip' => $ip,
+            'country' => $country,
+            'path' => $request->path(),
+        ]);
+
         return response()->view('errors.geo-restricted', [
             'country' => $country
         ], 403);
     }
 
-    private function getCountryFromIP($ip)
-    {
-        // Skip private/local IPs
-        if ($this->isPrivateIP($ip)) {
-            return null;
-        }
 
-        try {
-            // Option 1: Free ipapi.co (1000 requests/day)
-            $response = Http::timeout(3)->get("https://ipapi.co/{$ip}/country/");
-            
-            if ($response->successful()) {
-                return trim($response->body());
-            }
-
-            // Option 2: Fallback to ip-api.com (free, no key needed)
-            $response = Http::timeout(3)->get("http://ip-api.com/json/{$ip}?fields=countryCode");
-            
-            if ($response->successful()) {
-                $data = $response->json();
-                return $data['countryCode'] ?? null;
-            }
-
-        } catch (\Exception $e) {
-            Log::warning("Geolocation check failed for IP {$ip}: " . $e->getMessage());
-        }
-
-        return null; // Fail open - allow if we can't determine
+   private function getCountryFromIP($ip)
+{
+    if ($this->isPrivateIP($ip)) {
+        Log::info("🏠 Private IP detected: {$ip}");
+        return null;
     }
 
-    private function isPrivateIP($ip)
-    {
-        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false;
+    try {
+        Log::info("🌐 Calling ipapi.co for {$ip}");
+        $response = Http::timeout(3)->get("https://ipapi.co/{$ip}/country/");
+
+        Log::info('ipapi response', [
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ]);
+
+        if ($response->successful()) {
+            return trim($response->body());
+        }
+
+        Log::info("🌐 Falling back to ip-api.com for {$ip}");
+        $response = Http::timeout(3)->get("http://ip-api.com/json/{$ip}?fields=countryCode");
+
+        Log::info('ip-api response', [
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            return $data['countryCode'] ?? null;
+        }
+
+    } catch (\Exception $e) {
+        Log::error("❌ Geo API exception", [
+            'ip' => $ip,
+            'error' => $e->getMessage(),
+        ]);
     }
+
+    Log::warning("⚠️ Could not determine country for {$ip}");
+    return null;
+}
+
+
+
+   private function isPrivateIP($ip)
+{
+    $isPrivate = filter_var(
+        $ip,
+        FILTER_VALIDATE_IP,
+        FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+    ) === false;
+
+    Log::info('🔍 Private IP check', [
+        'ip' => $ip,
+        'is_private' => $isPrivate,
+    ]);
+
+    return $isPrivate;
+}
+
 }
