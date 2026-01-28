@@ -22,6 +22,7 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/destinations', [HomeController::class, 'allDestinations'])->name('destinations');
+Route::get('/destination/{slug}', [HomeController::class, 'showDestination'])->name('destination.show');
 Route::get('/privacy/policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/terms/conditions', [HomeController::class, 'termsConditions'])->name('terms.conditions');
 

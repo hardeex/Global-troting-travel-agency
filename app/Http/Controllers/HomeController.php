@@ -20,67 +20,109 @@ class HomeController extends Controller
         return view('welcome', compact('destinations'));
     }
 
-   private function getRecentDestinations()
-{
-    return Destination::where('status', 'public')
-        ->latest()
-        ->take(4)
-        ->get()
-        ->map(function ($destination) {
-            // Add gradient colors for visual appeal
-            $gradients = [
-                'from-emerald-400 to-cyan-500',
-                'from-purple-400 to-pink-500',
-                'from-orange-400 to-red-500',
-                'from-blue-400 to-indigo-500',
-                'from-green-400 to-blue-500',
-                'from-pink-400 to-rose-500',
-                'from-yellow-400 to-orange-500',
-                'from-indigo-400 to-purple-500',
-            ];
+    private function getRecentDestinations()
+    {
+        return Destination::where('status', 'public')
+            ->latest()
+            ->take(4)
+            ->get()
+            ->map(function ($destination) {
+                // Add gradient colors for visual appeal
+                $gradients = [
+                    'from-emerald-400 to-cyan-500',
+                    'from-purple-400 to-pink-500',
+                    'from-orange-400 to-red-500',
+                    'from-blue-400 to-indigo-500',
+                    'from-green-400 to-blue-500',
+                    'from-pink-400 to-rose-500',
+                    'from-yellow-400 to-orange-500',
+                    'from-indigo-400 to-purple-500',
+                ];
 
-            // Only add gradient if not already set
-            if (!$destination->gradient) {
-                $destination->gradient = $gradients[array_rand($gradients)];
-            }
+                // Only add gradient if not already set
+                if (!$destination->gradient) {
+                    $destination->gradient = $gradients[array_rand($gradients)];
+                }
 
-            return $destination;
-        });
-}
-
+                return $destination;
+            });
+    }
 
     public function allDestinations(Request $request)
     {
-        Log::info('The list all destination method is iniitated');
+        Log::info('The list all destination method is initiated');
         Log::info('The incoming request', $request->all());
 
         $destinations = $this->getAllDestinations();
         Log::info('All destinations fetched:', ['count' => $destinations->count(), 'current_page' => $destinations->currentPage()]);
 
-        // dd($destinations);
-        // exit();
-
         return view('admin.destinations.all-destinations', compact('destinations'));
     }
 
-   private function getAllDestinations()
-{
-    $destinations = Destination::where('status', 'public')
-        ->latest()
-        ->paginate(8);
+    private function getAllDestinations()
+    {
+        $destinations = Destination::where('status', 'public')
+            ->latest()
+            ->paginate(8);
 
-    // Transform each destination in the paginated collection
-    $destinations->getCollection()->transform(function ($destination) {
-        return $this->addDestinationEnhancements($destination);
-    });
+        // Transform each destination in the paginated collection
+        $destinations->getCollection()->transform(function ($destination) {
+            return $this->addDestinationEnhancements($destination);
+        });
 
-    return $destinations;
-}
+        return $destinations;
+    }
+
+    /**
+     * Show a single destination by slug
+     */
+    public function showDestination($slug)
+    {
+        try {
+            $destination = Destination::where('slug', $slug)
+                ->where('status', 'public')
+                ->firstOrFail();
+
+            // Add gradient enhancement
+            $destination = $this->addDestinationEnhancements($destination);
+
+            // Get related destinations (same country or similar price range)
+            $relatedDestinations = Destination::where('status', 'public')
+                ->where('id', '!=', $destination->id)
+                ->where(function ($query) use ($destination) {
+                    $query->where('country', $destination->country)
+                        ->orWhereBetween('price', [
+                            $destination->price * 0.7,
+                            $destination->price * 1.3,
+                        ]);
+                })
+                ->latest()
+                ->take(3)
+                ->get()
+                ->map(function ($dest) {
+                    return $this->addDestinationEnhancements($dest);
+                });
+
+            return view('pages.destination-details', compact('destination', 'relatedDestinations'));
+            
+        } catch (ModelNotFoundException $e) {
+            abort(404, 'Destination not found');
+        }
+    }
 
     private function addDestinationEnhancements($destination)
     {
         // Add gradient colors for visual appeal
-        $gradients = ['from-emerald-400 to-cyan-500', 'from-purple-400 to-pink-500', 'from-orange-400 to-red-500', 'from-blue-400 to-indigo-500', 'from-green-400 to-blue-500', 'from-pink-400 to-rose-500', 'from-yellow-400 to-orange-500', 'from-indigo-400 to-purple-500'];
+        $gradients = [
+            'from-emerald-400 to-cyan-500',
+            'from-purple-400 to-pink-500',
+            'from-orange-400 to-red-500',
+            'from-blue-400 to-indigo-500',
+            'from-green-400 to-blue-500',
+            'from-pink-400 to-rose-500',
+            'from-yellow-400 to-orange-500',
+            'from-indigo-400 to-purple-500',
+        ];
 
         // Only add gradient if not already set
         if (!$destination->gradient) {
@@ -159,7 +201,7 @@ class HomeController extends Controller
             $message .= "Customer Email: {$validated['email']}\n";
             $message .= 'Customer Phone: ' . ($validated['phone'] ?? 'Not provided') . "\n";
 
-            // 🔹 SAVE INQUIRY FIRST (ALWAYS)
+            // Save inquiry first (always)
             $inquiry = Inquiry::create([
                 'destination_id' => $destination->id,
                 'first_name' => $validated['first_name'],
@@ -171,7 +213,7 @@ class HomeController extends Controller
                 'user_agent' => $request->userAgent(),
             ]);
 
-            // 🔹 ATTEMPT TO SEND EMAIL (NON-BLOCKING)
+            // Attempt to send email (non-blocking)
             try {
                 foreach ($recipients as $recipient) {
                     Mail::raw($message, function ($mail) use ($recipient, $subject, $validated) {
@@ -182,7 +224,7 @@ class HomeController extends Controller
                     });
                 }
             } catch (\Throwable $mailException) {
-                // Log mail failure but DO NOT fail request
+                // Log mail failure but do not fail request
                 Log::error('Interest email failed to send', [
                     'destination_id' => $destination->id,
                     'email' => $validated['email'],
@@ -228,8 +270,6 @@ class HomeController extends Controller
             );
         }
     }
-
-  
 
     public function about()
     {

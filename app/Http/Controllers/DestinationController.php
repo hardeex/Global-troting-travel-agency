@@ -35,107 +35,7 @@ class DestinationController extends Controller
         return view('admin.destinations.make-a-request');
     }
 
-    // public function bookTravelRequest(Request $request)
-    // {
-    //     Log::info('Book travel request received...');
-    //     Log::info('Incoming request data:', $request->all());
-
-    //     $rules = [
-    //         'full_name' => 'required|string|max:255',
-    //         'email' => 'required|email|max:255',
-    //         'phone' => 'required|string|max:20',
-    //         'nationality' => 'nullable|string|max:100',
-    //         'nationality_other' => 'nullable|string|max:100',
-    //         'destination' => 'required|string|max:255',
-    //         'destination_other' => 'nullable|string|max:255',
-    //         'trip_type' => 'nullable|string|max:100',
-    //         'trip_type_other' => 'nullable|string|max:100',
-    //         'departure_date' => 'nullable|date|after_or_equal:today',
-    //         'return_date' => 'nullable|date|after:departure_date',
-    //         'adults' => 'nullable|integer|min:1',
-    //         'children' => 'nullable|integer|min:0',
-    //         'infants' => 'nullable|integer|min:0',
-    //         'accommodation' => 'nullable|string|max:100',
-    //         'accommodation_other' => 'nullable|string|max:100',
-    //         'budget' => 'nullable|string|max:50',
-    //         'services' => 'nullable|array',
-    //         'services.*' => 'string',
-    //         'special_requests' => 'nullable|string|max:1000',
-    //     ];
-
-    //     $validator = Validator::make($request->all(), $rules);
-
-    //     if ($validator->fails()) {
-    //         Log::error('Validation failed with errors:', $validator->errors()->toArray());
-    //         Log::error('Invalid input data:', $request->all());
-
-    //         // You can redirect back with errors or return JSON
-    //         return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Please check the form and fix the highlighted errors.');
-    //     }
-
-    //     $validated = $validator->validated();
-    //     Log::info('Validation passed successfully:', $validated);
-
-    //     if (($validated['nationality'] ?? '') === 'other') {
-    //         $validated['nationality'] = $validated['nationality_other'] ?? 'Other';
-    //     }
-
-    //     if (($validated['destination'] ?? '') === 'other') {
-    //         $validated['destination'] = $validated['destination_other'] ?? 'Other';
-    //     }
-
-    //     if (($validated['trip_type'] ?? '') === 'other') {
-    //         $validated['trip_type'] = $validated['trip_type_other'] ?? 'Other';
-    //     }
-
-    //     if (($validated['accommodation'] ?? '') === 'other') {
-    //         $validated['accommodation'] = $validated['accommodation_other'] ?? 'Other';
-    //     }
-
-    //     if (isset($validated['services'])) {
-    //         $validated['services'] = json_encode($validated['services']);
-    //     }
-
-    //     try {
-    //         $booking = Booking::create($validated);
-    //         Log::info('Booking created successfully with ID: ' . $booking->id);
-    //     } catch (Exception $e) {
-    //         Log::error('Failed to save booking to database: ' . $e->getMessage());
-    //         return redirect()->back()->with('error', 'Something went wrong while saving your booking. Please try again later.');
-    //     }
-
-    //     try {
-    //         $receiverEmails = explode(',', env('RECEIVER_EMAILS', 'support@globetrottingtraveluk.com,globetrottingtraveluk@gmail.com'));
-
-    //         foreach ($receiverEmails as $email) {
-    //             try {
-    //                 Mail::to(trim($email))->send(new BookingNotification($booking));
-    //             } catch (Exception $e) {
-    //                 Log::error('Failed to send admin notification email: ' . $e->getMessage());
-    //             }
-    //         }
-
-    //         try {
-    //             Mail::to($validated['email'] ?? null)->send(new BookingNotification($booking, true));
-    //         } catch (Exception $exception) {
-    //             Log::error('Failed to send confirmation email to customer:', [
-    //                 'exception' => $exception->getMessage(),
-    //                 'trace' => $exception->getTraceAsString(),
-    //             ]);
-    //         }
-    //     } catch (Exception $e) {
-    //         Log::error('Mail process failed: ' . $e->getMessage());
-    //     }
-
-    //     return redirect()
-    //         ->route('index')
-    //         ->with([
-    //             'success' => 'Your booking has been submitted successfully! We will contact you shortly.',
-    //             'email_warning' => isset($exception) ? 'However, we were unable to send a confirmation email. Please check back or contact us if needed.' : null,
-    //         ]);
-    // }
-
-
+ 
     public function bookTravelRequest(Request $request)
 {
     Log::info('Book travel request received...');
@@ -286,7 +186,110 @@ class DestinationController extends Controller
         return view('dashboard-components.add-destination');
     }
 
-    public function store(Request $request)
+    // public function store(Request $request)
+    // {
+    //     Log::debug('Entering DestinationController@store');
+
+    //     $validated = $request->validate([
+    //         'price' => 'required|numeric',
+    //         'country' => 'required|string|max:255',
+    //         'title' => 'required|string|max:255',
+    //         'short_description' => 'required|string|max:255',
+    //         'details' => 'required|string',
+    //         'image' => 'required|image|max:5120',
+    //         'start_date' => 'required|date',
+    //         'end_date' => 'required|date|after_or_equal:start_date',
+    //         'adults' => 'required|integer|min:1',
+    //         'nights' => 'required|integer|min:1',
+    //     ]);
+
+    //     $imageUrl = null;
+    //     $retries = 3;
+    //     $attempts = 0;
+    //     $uploadSuccess = false;
+
+    //     while ($attempts < $retries && !$uploadSuccess) {
+    //         try {
+    //             $attempts++;
+    //             Log::info("Upload attempt #{$attempts} starting");
+
+    //             $file = $request->file('image');
+    //             if (!$file->isValid()) {
+    //                 throw new Exception('Uploaded file is not valid');
+    //             }
+
+    //             // Log file info
+    //             Log::debug('File info:', [
+    //                 'originalName' => $file->getClientOriginalName(),
+    //                 'mimeType' => $file->getClientMimeType(),
+    //                 'size' => $file->getSize(),
+    //             ]);
+
+    //             // Upload via Cloudinary API
+    //             $uploadResult = new UploadApi()->upload($file->getRealPath(), [
+    //                 'folder' => 'destinations',
+    //                 'public_id' => uniqid('dest_'),
+    //                 'resource_type' => 'image',
+    //             ]);
+
+    //             //Log::debug('Cloudinary upload response:', $uploadResult);
+
+    //             if (!empty($uploadResult['secure_url'])) {
+    //                 $imageUrl = $uploadResult['secure_url'];
+    //                 $uploadSuccess = true;
+    //                 Log::info("Upload successful on attempt #{$attempts}", ['secure_url' => $imageUrl]);
+    //             } else {
+    //                 throw new Exception('Cloudinary upload did not return a secure_url');
+    //             }
+    //         } catch (Exception $e) {
+    //             Log::error("Upload attempt #{$attempts} failed", [
+    //                 'error' => $e->getMessage(),
+    //                 'trace' => $e->getTraceAsString(),
+    //             ]);
+
+    //             if ($attempts < $retries) {
+    //                 Log::info('Retrying upload — attempt #' . ($attempts + 1));
+    //                 sleep(1);
+    //             }
+    //         }
+    //     }
+
+    //     if (!$uploadSuccess) {
+    //         Log::warning('All upload attempts failed; returning error to user');
+    //         return back()->withInput()->with('error', 'Image upload failed after multiple attempts.');
+    //     }
+
+    //     // After upload succeeded:
+    //     $destination = null;
+    //     try {
+    //         $destination = Destination::create([
+    //             'price' => $validated['price'],
+    //             'country' => $validated['country'],
+    //             'title' => $validated['title'],
+    //             'short_description' => $validated['short_description'],
+    //             'details' => $validated['details'],
+    //             'image_url' => $imageUrl,
+    //             'start_date' => $validated['start_date'],
+    //             'end_date' => $validated['end_date'],
+    //             'adults' => $validated['adults'],
+    //             'nights' => $validated['nights'],
+    //         ]);
+    //         Log::info('Destination record created', ['destination_id' => $destination->id]);
+    //     } catch (Exception $e) {
+    //         Log::error('Failed to create destination record', [
+    //             'error' => $e->getMessage(),
+    //             'trace' => $e->getTraceAsString(),
+    //         ]);
+    //         return back()->withInput()->with('error', 'Failed to save destination. Please try again.');
+    //     }
+
+    //     Log::debug('Exiting DestinationController@store successfully');
+    //     return redirect()->back()->with('success', 'Destination added successfully.');
+    // }
+
+
+
+     public function store(Request $request)
     {
         Log::debug('Entering DestinationController@store');
 
@@ -332,8 +335,6 @@ class DestinationController extends Controller
                     'resource_type' => 'image',
                 ]);
 
-                //Log::debug('Cloudinary upload response:', $uploadResult);
-
                 if (!empty($uploadResult['secure_url'])) {
                     $imageUrl = $uploadResult['secure_url'];
                     $uploadSuccess = true;
@@ -359,9 +360,10 @@ class DestinationController extends Controller
             return back()->withInput()->with('error', 'Image upload failed after multiple attempts.');
         }
 
-        // After upload succeeded:
+        // After upload succeeded, create destination with auto-generated slug
         $destination = null;
         try {
+            // Slug will be auto-generated by the model's boot method
             $destination = Destination::create([
                 'price' => $validated['price'],
                 'country' => $validated['country'],
@@ -374,7 +376,11 @@ class DestinationController extends Controller
                 'adults' => $validated['adults'],
                 'nights' => $validated['nights'],
             ]);
-            Log::info('Destination record created', ['destination_id' => $destination->id]);
+            
+            Log::info('Destination record created', [
+                'destination_id' => $destination->id,
+                'slug' => $destination->slug
+            ]);
         } catch (Exception $e) {
             Log::error('Failed to create destination record', [
                 'error' => $e->getMessage(),
@@ -384,9 +390,105 @@ class DestinationController extends Controller
         }
 
         Log::debug('Exiting DestinationController@store successfully');
-        return redirect()->back()->with('success', 'Destination added successfully.');
+        return redirect()->back()->with('success', 'Destination added successfully with slug: ' . $destination->slug);
     }
 
+    public function update(Request $request, $id)
+    {
+        Log::debug('Entering DestinationController@update', ['id' => $id]);
+
+        $destination = Destination::findOrFail($id);
+
+        $validated = $request->validate([
+            'price' => 'required|numeric',
+            'country' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'short_description' => 'required|string|max:255',
+            'details' => 'required|string',
+            'image' => 'nullable|image|max:5120',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'adults' => 'required|integer|min:1',
+            'nights' => 'required|integer|min:1',
+        ]);
+
+        $imageUrl = $destination->image_url;
+
+        // Handle image upload if new image provided
+        if ($request->hasFile('image')) {
+            $retries = 3;
+            $attempts = 0;
+            $uploadSuccess = false;
+
+            while ($attempts < $retries && !$uploadSuccess) {
+                try {
+                    $attempts++;
+                    $file = $request->file('image');
+
+                    if (!$file->isValid()) {
+                        throw new Exception('Uploaded file is not valid');
+                    }
+
+                    $uploadResult = new UploadApi()->upload($file->getRealPath(), [
+                        'folder' => 'destinations',
+                        'public_id' => uniqid('dest_'),
+                        'resource_type' => 'image',
+                    ]);
+
+                    if (!empty($uploadResult['secure_url'])) {
+                        $imageUrl = $uploadResult['secure_url'];
+                        $uploadSuccess = true;
+                        Log::info("Upload successful on attempt #{$attempts}", ['secure_url' => $imageUrl]);
+                    } else {
+                        throw new Exception('Cloudinary upload did not return a secure_url');
+                    }
+                } catch (Exception $e) {
+                    Log::error("Upload attempt #{$attempts} failed", [
+                        'error' => $e->getMessage(),
+                    ]);
+
+                    if ($attempts < $retries) {
+                        sleep(1);
+                    }
+                }
+            }
+
+            if (!$uploadSuccess) {
+                return back()->withInput()->with('error', 'Image upload failed after multiple attempts.');
+            }
+        }
+
+        try {
+            // If title changed, slug will be auto-regenerated by the model
+            $destination->update([
+                'price' => $validated['price'],
+                'country' => $validated['country'],
+                'title' => $validated['title'],
+                'short_description' => $validated['short_description'],
+                'details' => $validated['details'],
+                'image_url' => $imageUrl,
+                'start_date' => $validated['start_date'],
+                'end_date' => $validated['end_date'],
+                'adults' => $validated['adults'],
+                'nights' => $validated['nights'],
+            ]);
+
+            Log::info('Destination updated', [
+                'destination_id' => $destination->id,
+                'slug' => $destination->slug
+            ]);
+        } catch (Exception $e) {
+            Log::error('Failed to update destination', [
+                'error' => $e->getMessage(),
+            ]);
+            return back()->withInput()->with('error', 'Failed to update destination. Please try again.');
+        }
+
+        return redirect()->back()->with('success', 'Destination updated successfully.');
+    }
+
+
+        
     // List all destinations (paginated, for admin dashboard)
     public function index()
     {
@@ -413,7 +515,7 @@ class DestinationController extends Controller
     }
 
     // Handle update
-    public function update(Request $request, Destination $destination)
+    public function update2(Request $request, Destination $destination)
     {
         Log::info('The incoming request for update', $request->all());
         $data = $request->validate([
