@@ -45,6 +45,8 @@ class DestinationController extends Controller
         'full_name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
         'phone' => 'required|string|max:20',
+        'address'=> 'nullable|string|max:200',
+        'form_type' => 'required|string|max:100',
         'nationality' => 'nullable|string|max:100',
         'nationality_other' => 'nullable|string|max:100',
         'destination' => 'required|string|max:255',

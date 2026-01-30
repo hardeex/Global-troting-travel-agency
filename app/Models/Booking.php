@@ -24,5 +24,7 @@ class Booking extends Model
         'budget',
         'services',
         'special_requests',
+        'address',
+        'form_type',
     ];
 }

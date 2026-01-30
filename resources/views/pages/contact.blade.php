@@ -1,5 +1,5 @@
 @extends('components.base')
-@section('title', 'Contact Us - Global Throtting.')
+@section('title', 'Contact Us - Global Trotting')
 
 @section('content')
 
@@ -82,37 +82,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Why Choose Us -->
-                    {{-- <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-lg p-8 text-white">
-                        <h3 class="text-xl font-bold mb-4">Why Choose Us</h3>
-                        <ul class="space-y-3">
-                            <li class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>25+ Years of Travel Expertise</span>
-                            </li>
-                            <li class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>Personalized Service</span>
-                            </li>
-                            <li class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>24/7 Customer Support</span>
-                            </li>
-                            <li class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-green-400 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                </svg>
-                                <span>Best Price Guarantee</span>
-                            </li>
-                        </ul>
-                    </div> --}}
                 </div>
 
                 <!-- Contact Form -->
@@ -204,8 +173,10 @@
                                     <option value="flight">Flight Booking</option>
                                     <option value="hotel">Hotel Reservation</option>
                                     <option value="car">Car Rental</option>
+                                    <option value="cruise">Cruise Vacation</option>
                                     <option value="activity">Tours & Activities</option>
                                     <option value="custom">Custom Package</option>
+                                    <option value="package_tour">Package Tour</option>
                                 </select>
                             </div>
 
@@ -251,16 +222,56 @@
                                                    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
                                         </div>
                                     </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-slate-700 mb-2">Cabin Class</label>
-                                        <select name="flight_class" 
-                                                class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
-                                            <option value="">Select class</option>
-                                            <option value="economy">Economy</option>
-                                            <option value="premium_economy">Premium Economy</option>
-                                            <option value="business">Business</option>
-                                            <option value="first">First Class</option>
-                                        </select>
+                                    
+                                    <!-- NEW: Enhanced Flight Preferences -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700 mb-2">
+                                                Cabin Class / Seat Preference
+                                            </label>
+                                            <select name="cabin_preference"
+                                                    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                <option value="">Select preference</option>
+                                                <optgroup label="Cabin Class">
+                                                    <option value="economy">Economy</option>
+                                                    <option value="extra_legroom">Extra Leg Room / Premium</option>
+                                                    <option value="business">Business Class</option>
+                                                    <option value="first">First Class</option>
+                                                </optgroup>
+                                                <optgroup label="Seat Preferences">
+                                                    <option value="aisle">Aisle Seat</option>
+                                                    <option value="middle">Middle Seat</option>
+                                                    <option value="window">Window Seat</option>
+                                                    <option value="bulkhead">Bulkhead</option>
+                                                    <option value="forward">Forward Cabin</option>
+                                                    <option value="wing">Over Wing</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700 mb-2">
+                                                Airline Preference / Frequent Flyer Program
+                                            </label>
+                                            <div class="flex gap-2">
+                                                <select name="airline_preference"
+                                                        class="w-1/2 px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    <option value="">Select airline</option>
+                                                    <option value="aa">American Airlines</option>
+                                                    <option value="ua">United Airlines</option>
+                                                    <option value="dl">Delta Airlines</option>
+                                                    <option value="ba">British Airways</option>
+                                                    <option value="emirates">Emirates</option>
+                                                    <option value="lufthansa">Lufthansa</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+
+                                                <input type="text"
+                                                       name="frequent_flyer_number"
+                                                       placeholder="FFP / Membership No."
+                                                       class="w-1/2 px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -293,6 +304,19 @@
                                             <input type="number" name="hotel_guests" min="1" value="1"
                                                    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
                                         </div>
+                                        
+                                        <!-- NEW: Hotel Preferences -->
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium text-slate-700 mb-2">Hotel Preferences / Frequent Guest Programs</label>
+                                            <input type="text" name="hotel_preferences" placeholder="e.g., Marriott Bonvoy, Hilton Honors"
+                                                   class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                        </div>
+                                        
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium text-slate-700 mb-2">Room Features</label>
+                                            <input type="text" name="hotel_room_features" placeholder="e.g., Ocean view, Suite, All-inclusive, Adults only, Kids club"
+                                                   class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                        </div>
                                     </div>
                                 </div>
 
@@ -323,6 +347,34 @@
                                         <div>
                                             <label class="block text-sm font-medium text-slate-700 mb-2">Driver Age</label>
                                             <input type="number" name="driver_age" min="18" 
+                                                   class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                        </div>
+                                        
+                                        <!-- NEW: Car Preferences -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-slate-700 mb-2">Car Category</label>
+                                            <select name="car_category"
+                                                    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                <option value="">Select category</option>
+                                                <option value="compact">Compact</option>
+                                                <option value="mid_size">Mid Size</option>
+                                                <option value="full_size">Full Size</option>
+                                                <option value="luxury">Luxury</option>
+                                                <option value="suv">SUV</option>
+                                                <option value="van">Van/Minivan</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium text-slate-700 mb-2">Car Preferences / Frequent Renter Programs</label>
+                                            <input type="text" name="car_preferences" placeholder="e.g., Hertz Gold Plus, Avis Preferred"
+                                                   class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                        </div>
+                                        
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium text-slate-700 mb-2">Add-Ons</label>
+                                            <input type="text" name="car_addons" placeholder="e.g., GPS, Child seat, Additional driver"
                                                    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
                                         </div>
                                     </div>
@@ -391,19 +443,177 @@
                                                     <option value="budget">Budget-Friendly</option>
                                                     <option value="family">Family</option>
                                                     <option value="romantic">Romantic</option>
+                                                    <option value="sightseeing">Sightseeing/History</option>
+                                                    <option value="culture">Culture/Arts</option>
+                                                    <option value="beach">Beach/Sun</option>
+                                                    <option value="active">Active/Sports</option>
+                                                    <option value="wine_culinary">Wine/Culinary</option>
+                                                    <option value="shopping">Shopping</option>
+                                                    <option value="spa">Spa</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- NEW: Cruise Vacation Fields -->
+                                <div x-show="bookingType === 'cruise'" class="bg-slate-50 rounded-xl p-6 space-y-4">
+                                    <h4 class="font-semibold text-slate-800 text-lg mb-4">Cruise Details</h4>
+                                    <div class="space-y-4">
+                                        <div class="grid md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Cruise Preferences / Frequent Cruiser Programs</label>
+                                                <input type="text" name="cruise_preferences" placeholder="e.g., Royal Caribbean Crown & Anchor"
+                                                       class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Cruise Itinerary</label>
+                                                <input type="text" name="cruise_itinerary" placeholder="e.g., Caribbean, Mediterranean"
+                                                       class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Cruise Length (Nights)</label>
+                                                <input type="number" name="cruise_length" min="1" placeholder="e.g., 7"
+                                                       class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Departure Date</label>
+                                                <input type="date" name="cruise_departure_date" 
+                                                       class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Pre and Post Cruise Nights</label>
+                                                <select name="cruise_pre_post_nights" 
+                                                        class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    <option value="">Select option</option>
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Cabin Class</label>
+                                                <select name="cruise_cabin_class" 
+                                                        class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    <option value="">Select cabin class</option>
+                                                    <option value="interior">Interior</option>
+                                                    <option value="ocean_view">Ocean View</option>
+                                                    <option value="balcony">Balcony</option>
+                                                    <option value="suite">Suite</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Beverage Plan</label>
+                                                <select name="cruise_beverage_plan" 
+                                                        class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    <option value="">Select option</option>
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Beverage Plan Type</label>
+                                                <input type="text" name="cruise_beverage_plan_type" placeholder="e.g., Premium, Deluxe"
+                                                       class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- NEW: Package Tour Fields -->
+                                <div x-show="bookingType === 'package_tour'" class="bg-slate-50 rounded-xl p-6 space-y-4">
+                                    <h4 class="font-semibold text-slate-800 text-lg mb-4">Package Tour Details</h4>
+                                    <div class="space-y-4">
+                                        <div class="grid md:grid-cols-2 gap-4">
+                                            <div class="md:col-span-2">
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Country or Countries of Interest</label>
+                                                <input type="text" name="package_countries" placeholder="e.g., Italy, France, Spain"
+                                                       class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Tour Type</label>
+                                                <select name="package_tour_type" 
+                                                        class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    <option value="">Select type</option>
+                                                    <option value="escorted">Escorted</option>
+                                                    <option value="independent">Independent</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Activity Level</label>
+                                                <select name="package_activity_level" 
+                                                        class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    <option value="">Select level</option>
+                                                    <option value="low">Low</option>
+                                                    <option value="moderate">Moderate</option>
+                                                    <option value="high">High</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Start Date</label>
+                                                <input type="date" name="package_start_date" 
+                                                       class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium text-slate-700 mb-2">Duration (Days)</label>
+                                                <input type="number" name="package_duration" min="1" placeholder="e.g., 10"
+                                                       class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- NEW: Additional Information Section -->
+                            <div class="space-y-4">
+                                <h4 class="font-semibold text-slate-800 text-lg">Additional Travel Information</h4>
+                                
+                                <div>
+                                    <label for="hotels_enjoyed" class="block text-sm font-medium text-slate-700 mb-2">What hotels have you stayed in and enjoyed?</label>
+                                    <textarea id="hotels_enjoyed" name="hotels_enjoyed" rows="2" 
+                                              placeholder="Share your favorite hotel experiences..."
+                                              class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white resize-none"></textarea>
+                                </div>
+
+                                <div>
+                                    <label for="cruises_resorts_enjoyed" class="block text-sm font-medium text-slate-700 mb-2">What cruise lines and resorts have you enjoyed before, if any?</label>
+                                    <textarea id="cruises_resorts_enjoyed" name="cruises_resorts_enjoyed" rows="2" 
+                                              placeholder="Tell us about your cruise and resort experiences..."
+                                              class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white resize-none"></textarea>
+                                </div>
+
+                                <div>
+                                    <label for="travel_activities" class="block text-sm font-medium text-slate-700 mb-2">What activities do you enjoy when travelling?</label>
+                                    <textarea id="travel_activities" name="travel_activities" rows="2" 
+                                              placeholder="Share your favorite travel activities..."
+                                              class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white resize-none"></textarea>
+                                </div>
+                            </div>
+
                             <!-- Message -->
                             <div>
-                                <label for="message" class="block text-sm font-semibold text-slate-700 mb-2">Additional Details</label>
+                                <label for="message" class="block text-sm font-semibold text-slate-700 mb-2">Additional Details / Notes</label>
                                 <textarea id="message" name="message" rows="5" 
                                           placeholder="Tell us more about your travel plans, special requirements, or any questions you may have..."
                                           class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white resize-none"></textarea>
+                            </div>
+
+                            <!-- NEW: Marketing Consent -->
+                            <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                                <div class="flex items-start space-x-3">
+                                    <input type="checkbox" id="marketing_consent" name="marketing_consent" value="1"
+                                           class="mt-1 w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500">
+                                    <div class="flex-1">
+                                        <label for="marketing_consent" class="block text-sm font-medium text-slate-800 cursor-pointer">
+                                            <span class="font-semibold">Stay Connected with Exclusive Travel Offers</span>
+                                        </label>
+                                        <p class="text-sm text-slate-600 mt-1">
+                                            Yes, I would like to receive emails, newsletters, and promotional communications about special offers, travel deals, and exclusive packages from Global Trotting Travel UK. You can unsubscribe at any time.
+                                        </p>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-slate-500 mt-3 ml-8">
+                                    By checking this box, you consent to receiving marketing communications. We respect your privacy and will never share your information with third parties. See our <a href="/privacy-policy" class="text-blue-600 hover:underline">Privacy Policy</a> for more details.
+                                </p>
                             </div>
 
                             <!-- Submit Button -->
@@ -432,6 +642,7 @@
         </div>
     </div>
 </section>
+
 <!-- Alpine.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js" defer></script>
 

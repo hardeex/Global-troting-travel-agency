@@ -156,6 +156,15 @@
                                 <input type="tel" id="phone" name="phone" placeholder="+44 7700 900000" 
                                     class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
                             </div>
+
+                             <div>
+                                <label for="address" class="block text-sm font-semibold text-slate-700 mb-2">Address</label>
+                                <input type="text" id="address" name="address" placeholder="23B Baker Street, London, UK" 
+                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
+                            </div>
+
+                            <input type="hidden" name="form_type" value="scheduled_booking">
+
                             {{-- <div>
                                 <label for="nationality" class="block text-sm font-semibold text-slate-700 mb-2">Nationality *</label>
                                 <select id="nationality" name="nationality" onchange="toggleOtherField(this, 'nationality-other-wrapper')" 
