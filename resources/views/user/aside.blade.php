@@ -1,6 +1,6 @@
  <aside id="sidebar" class="fixed left-0 top-0 h-full w-72 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 shadow-2xl">
         <div class="p-6 border-b border-slate-700/50">
-            <div class="flex items-center space-x-3">
+            <a href="{{route('index')}}" class="flex items-center space-x-3">
                 <div class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
                     {{ substr(Auth::user()->name, 0, 1) }}
                 </div>
@@ -8,7 +8,7 @@
                     <h2 class="font-semibold text-lg">{{ Auth::user()->name }}</h2>
                     <p class="text-slate-400 text-sm">{{ Auth::user()->email }}</p>
                 </div>
-            </div>
+            </a>
         </div>
 
         <nav class="p-4 space-y-1">

@@ -1,446 +1,912 @@
-
 @extends('components.base')
 
 @section('content')
-    <script>
-        function toggleOtherField(selectElement, wrapperId) {
-            const wrapper = document.getElementById(wrapperId);
-            const input = wrapper.querySelector('input');
-            
-            if (selectElement.value === 'other') {
-                wrapper.classList.remove('hidden');
-                input.setAttribute('required', 'required');
-            } else {
-                wrapper.classList.add('hidden');
-                input.removeAttribute('required');
-                input.value = '';
-            }
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Lato:wght@300;400;500;600&display=swap');
+    
+    :root {
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+    --color-primary: #0a2540; /* Navy Blue */
+    --color-accent: #0f766e;
+    --color-accent-light: #14b8a6;
+    --color-gold: #d4a574;
+    --color-bg: #f8fafc;
+    --color-surface: #ffffff;
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+}
+
+    body {
+        font-family: var(--font-body);
+        background: var(--color-bg);
+    }
+    
+    /* Hero gradient background */
+    .hero-gradient {
+        background: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #0891b2 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-gradient::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    /* Floating animation */
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
+    .floating {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    /* Fade in animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
         }
-
-        // Auto-calculate trip duration
-        document.addEventListener('DOMContentLoaded', function() {
-            const departureInput = document.getElementById('departure-date');
-            const returnInput = document.getElementById('return-date');
-            const durationDisplay = document.getElementById('trip-duration');
-
-            function calculateDuration() {
-                if (departureInput.value && returnInput.value) {
-                    const departure = new Date(departureInput.value);
-                    const returnDate = new Date(returnInput.value);
-                    const diffTime = Math.abs(returnDate - departure);
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    
-                    if (diffDays > 0) {
-                        durationDisplay.textContent = `${diffDays} night${diffDays > 1 ? 's' : ''}`;
-                        durationDisplay.classList.remove('hidden');
-                    }
-                }
-            }
-
-            departureInput?.addEventListener('change', calculateDuration);
-            returnInput?.addEventListener('change', calculateDuration);
-        });
-    </script>
-
-    <style>
-        .form-step {
-            transition: all 0.3s ease;
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
-        
-        .form-step:hover {
-            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
-        }
+    }
+    
+    .animate-fade-in {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    /* Stagger children */
+    .stagger > * {
+        opacity: 0;
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+    
+    .stagger > *:nth-child(1) { animation-delay: 0.1s; }
+    .stagger > *:nth-child(2) { animation-delay: 0.2s; }
+    .stagger > *:nth-child(3) { animation-delay: 0.3s; }
+    .stagger > *:nth-child(4) { animation-delay: 0.4s; }
+    .stagger > *:nth-child(5) { animation-delay: 0.5s; }
+    .stagger > *:nth-child(6) { animation-delay: 0.6s; }
+    .stagger > *:nth-child(7) { animation-delay: 0.7s; }
+    .stagger > *:nth-child(8) { animation-delay: 0.8s; }
+    
+    /* Form input styles */
+    .form-input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 0.5rem;
+        font-size: 0.9375rem;
+        transition: all 0.2s ease;
+        background: white;
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: var(--color-accent);
+        box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+    }
+    
+    .form-input:hover:not(:focus) {
+        border-color: #cbd5e1;
+    }
+    
+    /* Section card hover */
+    .section-card {
+        transition: all 0.3s ease;
+    }
+    
+    .section-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    /* Checkbox styles */
+    .custom-checkbox {
+        appearance: none;
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 2px solid #cbd5e1;
+        border-radius: 0.375rem;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+    
+    .custom-checkbox:checked {
+        background: var(--color-accent);
+        border-color: var(--color-accent);
+    }
+    
+    .custom-checkbox:checked::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+    
+    /* Progress bar */
+    .progress-bar {
+        height: 4px;
+        background: #e2e8f0;
+        border-radius: 9999px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+        transition: width 0.3s ease;
+    }
+    
+    /* Submit button pulse */
+    @keyframes pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.4); }
+        50% { box-shadow: 0 0 0 10px rgba(15, 118, 110, 0); }
+    }
+    
+    .btn-submit:hover {
+        animation: pulse 2s infinite;
+    }
+    
+    .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+    
+    /* Service card hover effect */
+    .service-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid #e2e8f0;
+    }
+    
+    .service-card:hover {
+        border-color: var(--color-accent-light);
+        background: linear-gradient(135deg, rgba(15, 118, 110, 0.03) 0%, rgba(20, 184, 166, 0.05) 100%);
+        transform: translateY(-2px);
+    }
+    
+    .service-card input:checked ~ div {
+        border-color: var(--color-accent);
+    }
+    
+    /* Honeypot - hidden from users */
+    .honeypot {
+        position: absolute !important;
+        left: -9999px !important;
+        width: 1px !important;
+        height: 1px !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
 
-        .floating-image {
-            animation: float 6s ease-in-out infinite;
-        }
+    /* Loading spinner */
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    
+    .spinner {
+        display: inline-block;
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.6s linear infinite;
+    }
+</style>
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-    </style>
-
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            
-            <!-- Hero Header with Vector Image -->
-            <div class="text-center mb-12 mt-16 relative">
-                <div class="flex justify-center items-center gap-8 mb-8">
-                    <!-- Left decorative image -->
-                    <div class="hidden lg:block floating-image" style="animation-delay: 0s;">
-                        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="60" cy="60" r="60" fill="#EFF6FF"/>
-                            <path d="M60 20C38.9 20 22 36.9 22 58C22 79.1 38.9 96 60 96C81.1 96 98 79.1 98 58C98 36.9 81.1 20 60 20ZM60 88C43.4 88 30 74.6 30 58C30 41.4 43.4 28 60 28C76.6 28 90 41.4 90 58C90 74.6 76.6 88 60 88Z" fill="#3B82F6"/>
-                            <path d="M60 35L65 50H80L68 59L73 74L60 65L47 74L52 59L40 50H55L60 35Z" fill="#60A5FA"/>
-                        </svg>
-                    </div>
-
-                    <!-- Center content -->
-                    <div>
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl mb-4 shadow-lg">
-                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-3">Plan Your Perfect Trip</h1>
-                        <p class="text-lg text-slate-600 max-w-2xl mx-auto">Tell us about your dream trip and we'll create a tailored experience just for you</p>
-                    </div>
-
-                    <!-- Right decorative image -->
-                    <div class="hidden lg:block floating-image" style="animation-delay: 1s;">
-                        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="60" cy="60" r="60" fill="#F0FDFA"/>
-                            <path d="M80 40L60 30L40 40V80L60 90L80 80V40Z" fill="#06B6D4" opacity="0.3"/>
-                            <path d="M60 35L45 42V78L60 85L75 78V42L60 35Z" fill="#14B8A6"/>
-                            <circle cx="60" cy="60" r="8" fill="#F0FDFA"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Progress indicator -->
-                <div class="max-w-2xl mx-auto mb-8">
-                    <div class="flex items-center justify-center gap-2">
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">1</div>
-                            <span class="ml-2 text-sm font-medium text-slate-700 hidden sm:inline">Details</span>
-                        </div>
-                        <div class="w-12 sm:w-16 h-1 bg-blue-200"></div>
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 bg-blue-200 rounded-full flex items-center justify-center text-blue-600 text-sm font-semibold">2</div>
-                            <span class="ml-2 text-sm font-medium text-slate-500 hidden sm:inline">Review</span>
-                        </div>
-                        <div class="w-12 sm:w-16 h-1 bg-slate-200"></div>
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-slate-400 text-sm font-semibold">3</div>
-                            <span class="ml-2 text-sm font-medium text-slate-400 hidden sm:inline">Confirm</span>
-                        </div>
-                    </div>
-                </div>
+<div class="min-h-screen">
+    <!-- Hero Section -->
+    <div class="hero-gradient relative py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <!-- Floating decorative elements -->
+            <div class="absolute top-10 left-10 w-20 h-20 opacity-20 floating" style="animation-delay: 0s;">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" stroke="white" stroke-width="2"/>
+                    <path d="M50 20L60 40L80 45L65 60L68 80L50 70L32 80L35 60L20 45L40 40L50 20Z" fill="white"/>
+                </svg>
             </div>
+            <div class="absolute bottom-10 right-10 w-16 h-16 opacity-20 floating" style="animation-delay: 1.5s;">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="20" width="60" height="60" stroke="white" stroke-width="2" rx="8"/>
+                    <circle cx="50" cy="50" r="15" fill="white"/>
+                </svg>
+            </div>
+            
+            <div class="animate-fade-in">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-6">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h1 style="font-family: var(--font-display); font-size: 3rem; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 1rem;">
+                    Your Journey Begins Here
+                </h1>
+                <p style="font-size: 1.125rem; color: rgba(255, 255, 255, 0.9); max-width: 42rem; margin: 0 auto;">
+                    Share your travel dreams with us and we'll craft the perfect itinerary tailored to your preferences
+                </p>
+            </div>
+        </div>
+    </div>
 
-            @include('feedback')
+    @include('feedback')
 
-            <!-- Main Form -->
-            <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-                <form action="{{route('book-travel-agency')}}" method="post">
-                    @csrf
-                    
-                    <!-- Personal Information -->
-                    <div class="p-6 md:p-8 border-b border-slate-100 form-step">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center mr-4">
-                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+    <!-- Main Form Container -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 pb-20 relative z-20">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden" style="border: 1px solid #e2e8f0;">
+            
+            <form action="{{ route('book-travel-agency') }}" method="POST" id="booking-form">
+                @csrf
+                
+                <!-- Honeypot field for bot detection -->
+                <div class="honeypot" aria-hidden="true">
+                    <label for="website">Website</label>
+                    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                </div>
+                
+                <input type="hidden" name="form_type" value="scheduled_booking">
+                
+                <!-- Progress Bar -->
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%;"></div>
+                </div>
+                
+                <div class="stagger">
+                    <!-- Section 1: Personal Information -->
+                    <div class="section-card p-6 sm:p-8 border-b border-gray-100">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, rgba(15, 118, 110, 0.1) 0%, rgba(20, 184, 166, 0.1) 100%);">
+                                <svg class="w-6 h-6" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
                             </div>
-                            <div>
-                                <h2 class="text-2xl font-bold text-slate-900">Your Information</h2>
-                                <p class="text-sm text-slate-500">Let us know who's traveling</p>
+                            <div class="flex-1">
+                                <h2 style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.25rem;">
+                                    Personal Information
+                                </h2>
+                                <p style="color: #64748b; font-size: 0.9375rem;">
+                                    Let us know who we'll be helping plan this amazing journey
+                                </p>
                             </div>
                         </div>
                         
-                        <div class="grid md:grid-cols-2 gap-5">
+                        <div class="grid sm:grid-cols-2 gap-5">
                             <div>
-                                <label for="full-name" class="block text-sm font-semibold text-slate-700 mb-2">Full Name *</label>
-                                <input type="text" id="full-name" name="full_name" placeholder="John Doe" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
+                                <label for="full_name" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Full Name <span style="color: #ef4444;">*</span>
+                                </label>
+                                <input type="text" id="full_name" name="full_name" 
+                                       value="{{ old('name', auth()->check() ? auth()->user()->name : '') }}"
+                                       class="form-input" 
+                                       placeholder="Enter your full name" 
+                                       required>
+                                @error('full_name')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
+                            
                             <div>
-                                <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email Address *</label>
-                                <input type="email" id="email" name="email" placeholder="john@example.com" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
+                                <label for="email" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Email Address <span style="color: #ef4444;">*</span>
+                                </label>
+                                <input type="email" id="email" name="email" 
+                                        value="{{ old('email', auth()->check() ? auth()->user()->email : '') }}"
+                                       class="form-input" 
+                                       placeholder="your@email.com" 
+                                       required>
+                                @error('email')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
+                            
                             <div>
-                                <label for="phone" class="block text-sm font-semibold text-slate-700 mb-2">Phone Number *</label>
-                                <input type="tel" id="phone" name="phone" placeholder="+44 7700 900000" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
+                                <label for="phone" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Phone Number <span style="color: #ef4444;">*</span>
+                                </label>
+                                <input type="tel" id="phone" name="phone" 
+                                       value="{{ old('phone', auth()->check() ? auth()->user()->phone : '') }}"
+                                       class="form-input" 
+                                       placeholder="+44 7700 900000" 
+                                       required>
+                                @error('phone')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
-
-                             <div>
-                                <label for="address" class="block text-sm font-semibold text-slate-700 mb-2">Address</label>
-                                <input type="text" id="address" name="address" placeholder="23B Baker Street, London, UK" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
+                            
+                            <div>
+                                <label for="address" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Address
+                                </label>
+                                <input type="text" id="address" name="address" 
+                                       value="{{ old('address', auth()->check() ? auth()->user()->address : '') }}"
+                                       class="form-input" 
+                                       placeholder="Your full address">
+                                @error('address')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
-
-                            <input type="hidden" name="form_type" value="scheduled_booking">
-
-                            {{-- <div>
-                                <label for="nationality" class="block text-sm font-semibold text-slate-700 mb-2">Nationality *</label>
-                                <select id="nationality" name="nationality" onchange="toggleOtherField(this, 'nationality-other-wrapper')" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
-                                    <option value="">Select nationality</option>
-                                    <option value="uk">United Kingdom</option>
-                                    <option value="us">United States</option>
-                                    <option value="ca">Canada</option>
-                                    <option value="au">Australia</option>
-                                    <option value="ng">Nigeria</option>
-                                    <option value="other">Other</option>
-                                </select>
-                                <div id="nationality-other-wrapper" class="mt-3 hidden">
-                                    <input type="text" name="nationality_other" placeholder="Please specify your nationality" 
-                                        class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50">
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
 
-                    <!-- Trip Details -->
-                    <div class="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50 form-step">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl flex items-center justify-center mr-4">
-                                <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                    <!-- Section 2: Travel Destination & Dates -->
+                    <div class="section-card p-6 sm:p-8 border-b border-gray-100" style="background: linear-gradient(135deg, rgba(15, 118, 110, 0.02) 0%, rgba(20, 184, 166, 0.03) 100%);">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, rgba(15, 118, 110, 0.1) 0%, rgba(20, 184, 166, 0.1) 100%);">
+                                <svg class="w-6 h-6" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 </svg>
                             </div>
-                            <div>
-                                <h2 class="text-2xl font-bold text-slate-900">Trip Details</h2>
-                                <p class="text-sm text-slate-500">Where and when do you want to go?</p>
+                            <div class="flex-1">
+                                <h2 style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.25rem;">
+                                    Travel Destination & Dates
+                                </h2>
+                                <p style="color: #64748b; font-size: 0.9375rem;">
+                                    Where would you like to explore and when?
+                                </p>
                             </div>
                         </div>
-
-                        <div class="grid md:grid-cols-2 gap-5">
-                            <div class="md:col-span-2">
-                                <label for="destination" class="block text-sm font-semibold text-slate-700 mb-2">Destination *</label>
-                                <select id="destination" name="destination" onchange="toggleOtherField(this, 'destination-other-wrapper')" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white hover:bg-slate-50" required>
-                                    <option value="">Choose your destination</option>
-                                    <option value="paris">🇫🇷 Paris, France</option>
-                                    <option value="rome">🇮🇹 Rome, Italy</option>
-                                    <option value="barcelona">🇪🇸 Barcelona, Spain</option>
-                                    <option value="amsterdam">🇳🇱 Amsterdam, Netherlands</option>
-                                    <option value="london">🇬🇧 London, UK</option>
-                                    <option value="santorini">🇬🇷 Santorini, Greece</option>
-                                    <option value="iceland">🇮🇸 Iceland</option>
-                                    <option value="croatia">🇭🇷 Croatia</option>
-                                    <option value="other">🌍 Other Destination</option>
+                        
+                        <div class="grid sm:grid-cols-2 gap-5">
+                            <div class="sm:col-span-2">
+                                <label for="destination" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Destination of Interest <span style="color: #ef4444;">*</span>
+                                </label>
+                                <select id="destination" name="destination" 
+                                        class="form-input" 
+                                        onchange="toggleOtherField(this, 'destination-other-wrapper')" 
+                                        required>
+                                    <option value="">Select your dream destination</option>
+                                    <option value="paris">Paris, France</option>
+                                    <option value="rome">Rome, Italy</option>
+                                    <option value="barcelona">Barcelona, Spain</option>
+                                    <option value="amsterdam">Amsterdam, Netherlands</option>
+                                    <option value="london">London, UK</option>
+                                    <option value="santorini">Santorini, Greece</option>
+                                    <option value="iceland">Iceland</option>
+                                    <option value="dubai">Dubai, UAE</option>
+                                    <option value="maldives">Maldives</option>
+                                    <option value="bali">Bali, Indonesia</option>
+                                    <option value="tokyo">Tokyo, Japan</option>
+                                    <option value="new_york">New York, USA</option>
+                                    <option value="other">Other Destination</option>
                                 </select>
                                 <div id="destination-other-wrapper" class="mt-3 hidden">
-                                    <input type="text" name="destination_other" placeholder="Please specify your destination" 
-                                        class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white">
+                                    <input type="text" name="destination_other" 
+                                           class="form-input" 
+                                           placeholder="Please specify your destination">
                                 </div>
+                                @error('destination')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
+                            
                             <div>
-                                <label for="departure-date" class="block text-sm font-semibold text-slate-700 mb-2">Departure Date *</label>
-                                <input type="date" id="departure-date" name="departure_date" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white hover:bg-slate-50" required>
+                                <label for="departure_date" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Departure Date <span style="color: #ef4444;">*</span>
+                                </label>
+                                <input type="date" id="departure_date" name="departure_date" 
+                                       value="{{ old('departure_date') }}" 
+                                       class="form-input" 
+                                       min="{{ date('Y-m-d') }}"
+                                       required>
+                                @error('departure_date')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
+                            
                             <div>
-                                <label for="return-date" class="block text-sm font-semibold text-slate-700 mb-2">Return Date *</label>
-                                <input type="date" id="return-date" name="return_date" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white hover:bg-slate-50" required>
-                                <p id="trip-duration" class="text-sm text-blue-600 font-medium mt-2 hidden"></p>
+                                <label for="return_date" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Return Date
+                                </label>
+                                <input type="date" id="return_date" name="return_date" 
+                                       value="{{ old('return_date') }}" 
+                                       class="form-input"
+                                       min="{{ date('Y-m-d') }}">
+                                <p id="trip-duration" class="text-sm mt-2 font-medium" style="color: var(--color-accent);"></p>
+                                @error('return_date')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
-                            <div class="md:col-span-2">
-                                <label for="trip-type" class="block text-sm font-semibold text-slate-700 mb-2">Trip Type *</label>
-                                <select id="trip-type" name="trip_type" onchange="toggleOtherField(this, 'trip-type-other-wrapper')" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white hover:bg-slate-50" required>
-                                    <option value="">Select trip type</option>
-                                    <option value="adventure">🏔️ Adventure & Hiking</option>
-                                    <option value="beach">🏖️ Beach & Relaxation</option>
-                                    <option value="cultural">🏛️ Cultural & Historical</option>
-                                    <option value="luxury">💎 Luxury Getaway</option>
-                                    <option value="family">👨‍👩‍👧 Family Vacation</option>
-                                    <option value="honeymoon">💑 Honeymoon</option>
-                                    <option value="other">✨ Other</option>
+                            
+                            <div class="sm:col-span-2">
+                                <label for="trip_type" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Trip Type
+                                </label>
+                                <select id="trip_type" name="trip_type" 
+                                        class="form-input" 
+                                        onchange="toggleOtherField(this, 'trip-type-other-wrapper')">
+                                    <option value="">Select your trip style</option>
+                                    <option value="adventure">Adventure & Hiking</option>
+                                    <option value="beach">Beach & Relaxation</option>
+                                    <option value="cultural">Cultural & Historical</option>
+                                    <option value="luxury">Luxury Getaway</option>
+                                    <option value="family">Family Vacation</option>
+                                    <option value="honeymoon">Honeymoon / Romantic</option>
+                                    <option value="business">Business Travel</option>
+                                    <option value="other">Other</option>
                                 </select>
                                 <div id="trip-type-other-wrapper" class="mt-3 hidden">
-                                    <input type="text" name="trip_type_other" placeholder="Please specify trip type" 
-                                        class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white">
+                                    <input type="text" name="trip_type_other" 
+                                           class="form-input" 
+                                           placeholder="Please specify trip type">
                                 </div>
+                                @error('trip_type')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            
+                            <div class="sm:col-span-2">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" name="flexible_dates" value="yes" class="custom-checkbox">
+                                    <span class="text-sm font-medium group-hover:text-teal-700 transition" style="color: var(--color-primary);">
+                                        My travel dates are flexible
+                                    </span>
+                                </label>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Travelers & Budget -->
-                    <div class="p-6 md:p-8 border-b border-slate-100 form-step">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl flex items-center justify-center mr-4">
-                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    <!-- Section 3: Travelers & Budget -->
+                    <div class="section-card p-6 sm:p-8 border-b border-gray-100">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, rgba(212, 165, 116, 0.2) 100%);">
+                                <svg class="w-6 h-6" style="color: var(--color-gold);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                                 </svg>
                             </div>
-                            <div>
-                                <h2 class="text-2xl font-bold text-slate-900">Travelers & Budget</h2>
-                                <p class="text-sm text-slate-500">How many people and what's your budget?</p>
+                            <div class="flex-1">
+                                <h2 style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.25rem;">
+                                    Travelers & Budget
+                                </h2>
+                                <p style="color: #64748b; font-size: 0.9375rem;">
+                                    Tell us about your travel party and budget expectations
+                                </p>
                             </div>
                         </div>
-
-                        <div class="grid md:grid-cols-3 gap-5 mb-6">
+                        
+                        <div class="grid sm:grid-cols-3 gap-5 mb-6">
                             <div>
-                                <label for="adults" class="block text-sm font-semibold text-slate-700 mb-2">Adults (18+) *</label>
-                                <input type="number" id="adults" name="adults" min="1" value="1" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
+                                <label for="adults" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Adults (18+) <span style="color: #ef4444;">*</span>
+                                </label>
+                                <input type="number" id="adults" name="adults" 
+                                       value="{{ old('adults', 1) }}" 
+                                       min="1" 
+                                       class="form-input" 
+                                       required>
+                                @error('adults')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
+                            
                             <div>
-                                <label for="children" class="block text-sm font-semibold text-slate-700 mb-2">Children (2-17)</label>
-                                <input type="number" id="children" name="children" min="0" value="0" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white">
+                                <label for="children" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Children (2-17)
+                                </label>
+                                <input type="number" id="children" name="children" 
+                                       value="{{ old('children', 0) }}" 
+                                       min="0" 
+                                       class="form-input">
+                                @error('children')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
+                            
                             <div>
-                                <label for="infants" class="block text-sm font-semibold text-slate-700 mb-2">Infants (0-2)</label>
-                                <input type="number" id="infants" name="infants" min="0" value="0" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white">
+                                <label for="infants" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Infants (0-2)
+                                </label>
+                                <input type="number" id="infants" name="infants" 
+                                       value="{{ old('infants', 0) }}" 
+                                       min="0" 
+                                       class="form-input">
+                                @error('infants')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
-
-                        <div class="grid md:grid-cols-2 gap-5">
+                        
+                        <div class="grid sm:grid-cols-2 gap-5">
                             <div>
-                                <label for="accommodation" class="block text-sm font-semibold text-slate-700 mb-2">Accommodation *</label>
-                                <select id="accommodation" name="accommodation" onchange="toggleOtherField(this, 'accommodation-other-wrapper')" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
-                                    <option value="">Select accommodation</option>
-                                    <option value="hotel-3">⭐⭐⭐ 3-Star Hotel</option>
-                                    <option value="hotel-4">⭐⭐⭐⭐ 4-Star Hotel</option>
-                                    <option value="hotel-5">⭐⭐⭐⭐⭐ 5-Star Luxury</option>
-                                    <option value="resort">🏝️ Resort</option>
-                                    <option value="villa">🏡 Private Villa</option>
-                                    <option value="apartment">🏢 Apartment</option>
-                                    <option value="other">🏨 Other</option>
+                                <label for="budget" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Vacation Budget Per Person (GBP) <span style="color: #ef4444;">*</span>
+                                </label>
+                                <select id="budget" name="budget" class="form-input" required>
+                                    <option value="">Select your budget range</option>
+                                    <option value="budget">£500 - £1,500 (Budget-Friendly)</option>
+                                    <option value="moderate">£1,500 - £3,000 (Moderate)</option>
+                                    <option value="premium">£3,000 - £5,000 (Premium)</option>
+                                    <option value="luxury">£5,000+ (Luxury)</option>
+                                </select>
+                                @error('budget')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            
+                            <div>
+                                <label for="accommodation" class="block text-sm font-semibold mb-2" style="color: var(--color-primary);">
+                                    Preferred Accommodation
+                                </label>
+                                <select id="accommodation" name="accommodation" 
+                                        class="form-input" 
+                                        onchange="toggleOtherField(this, 'accommodation-other-wrapper')">
+                                    <option value="">Select accommodation type</option>
+                                    <option value="hotel-3">3-Star Hotel</option>
+                                    <option value="hotel-4">4-Star Hotel</option>
+                                    <option value="hotel-5">5-Star Luxury Hotel</option>
+                                    <option value="resort">Resort</option>
+                                    <option value="villa">Private Villa</option>
+                                    <option value="apartment">Apartment / Airbnb</option>
+                                    <option value="boutique">Boutique Hotel</option>
+                                    <option value="other">Other</option>
                                 </select>
                                 <div id="accommodation-other-wrapper" class="mt-3 hidden">
-                                    <input type="text" name="accommodation_other" placeholder="Please specify accommodation type" 
-                                        class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white">
+                                    <input type="text" name="accommodation_other" 
+                                           class="form-input" 
+                                           placeholder="Please specify accommodation type">
                                 </div>
-                            </div>
-                            <div>
-                                <label for="budget" class="block text-sm font-semibold text-slate-700 mb-2">Budget per Person (GBP) *</label>
-                                <select id="budget" name="budget" 
-                                    class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white" required>
-                                    <option value="">Select budget range</option>
-                                    <option value="budget">£500 - £1,500</option>
-                                    <option value="moderate">£1,500 - £3,000</option>
-                                    <option value="premium">£3,000 - £5,000</option>
-                                    <option value="luxury">£5,000+</option>
-                                </select>
+                                @error('accommodation')
+                                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                     </div>
 
-                    <!-- Additional Services -->
-                    <div class="p-6 md:p-8 border-b border-slate-100 bg-slate-50/50 form-step">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl flex items-center justify-center mr-4">
-                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                    <!-- Section 4: Travel Insurance & Services -->
+                    <div class="section-card p-6 sm:p-8 border-b border-gray-100" style="background: linear-gradient(135deg, rgba(15, 118, 110, 0.02) 0%, rgba(20, 184, 166, 0.03) 100%);">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, rgba(15, 118, 110, 0.1) 0%, rgba(20, 184, 166, 0.1) 100%);">
+                                <svg class="w-6 h-6" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                                 </svg>
                             </div>
-                            <div>
-                                <h2 class="text-2xl font-bold text-slate-900">Enhance Your Trip</h2>
-                                <p class="text-sm text-slate-500">Optional services to make your journey smoother</p>
+                            <div class="flex-1">
+                                <h2 style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.25rem;">
+                                    Insurance & Additional Services
+                                </h2>
+                                <p style="color: #64748b; font-size: 0.9375rem;">
+                                    Protect your trip and enhance your experience
+                                </p>
                             </div>
                         </div>
-
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <label class="relative flex items-center p-5 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-blue-300 hover:bg-blue-50/50 transition group">
-                                <input type="checkbox" name="services[]" value="airport-transfer" class="w-5 h-5 text-blue-500 border-slate-300 rounded focus:ring-blue-500">
-                                <div class="ml-4">
-                                    <div class="flex items-center gap-2">
-                                        {{-- <span class="text-2xl">🚗</span> --}}
-                                        <span class="font-semibold text-slate-800">Airport Transfer</span>
-                                    </div>
-                                    <p class="text-sm text-slate-500 mt-1">Door-to-door service</p>
-                                </div>
+                        
+                        <!-- Travel Insurance -->
+                        <div class="mb-6 p-5 rounded-xl" style="background: white; border: 2px solid #e2e8f0;">
+                            <label class="block text-sm font-semibold mb-3" style="color: var(--color-primary);">
+                                Travel Insurance <span style="color: #ef4444;">*</span>
                             </label>
-
-                            <label class="relative flex items-center p-5 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-blue-300 hover:bg-blue-50/50 transition group">
-                                <input type="checkbox" name="services[]" value="travel-insurance" class="w-5 h-5 text-blue-500 border-slate-300 rounded focus:ring-blue-500">
-                                <div class="ml-4">
-                                    <div class="flex items-center gap-2">
-                                        {{-- <span class="text-2xl">🛡️</span> --}}
-                                        <span class="font-semibold text-slate-800">Travel Insurance</span>
-                                    </div>
-                                    <p class="text-sm text-slate-500 mt-1">Peace of mind coverage</p>
-                                </div>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="insurance" value="yes" class="w-4 h-4 text-teal-600" required>
+                                    <span class="text-sm font-medium" style="color: var(--color-primary);">Yes, I want insurance</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="insurance" value="no" class="w-4 h-4 text-teal-600" required>
+                                    <span class="text-sm font-medium" style="color: var(--color-primary);">No, I'll waive insurance</span>
+                                </label>
+                            </div>
+                            <p class="text-xs mt-2" style="color: #64748b;">
+                                Note: If you decline insurance, a signed waiver will be required before travel.
+                            </p>
+                        </div>
+                        
+                        <!-- Additional Services -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-4" style="color: var(--color-primary);">
+                                Select Additional Services (Optional)
                             </label>
-
-                            <label class="relative flex items-center p-5 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-blue-300 hover:bg-blue-50/50 transition group">
-                                <input type="checkbox" name="services[]" value="guided-tours" class="w-5 h-5 text-blue-500 border-slate-300 rounded focus:ring-blue-500">
-                                <div class="ml-4">
-                                    <div class="flex items-center gap-2">
-                                        {{-- <span class="text-2xl">🗺️</span> --}}
-                                        <span class="font-semibold text-slate-800">Guided Tours</span>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <label class="service-card relative flex items-start p-4 rounded-xl cursor-pointer">
+                                    <input type="checkbox" name="services[]" value="airport-transfer" class="custom-checkbox mt-0.5">
+                                    <div class="ml-3">
+                                        <div class="font-semibold text-sm" style="color: var(--color-primary);">Airport Transfer</div>
+                                        <p class="text-xs mt-0.5" style="color: #64748b;">Private door-to-door service</p>
                                     </div>
-                                    <p class="text-sm text-slate-500 mt-1">Expert local guides</p>
-                                </div>
-                            </label>
-
-                            <label class="relative flex items-center p-5 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-blue-300 hover:bg-blue-50/50 transition group">
-                                <input type="checkbox" name="services[]" value="car-rental" class="w-5 h-5 text-blue-500 border-slate-300 rounded focus:ring-blue-500">
-                                <div class="ml-4">
-                                    <div class="flex items-center gap-2">
-                                        {{-- <span class="text-2xl">🚘</span> --}}
-                                        <span class="font-semibold text-slate-800">Car Rental</span>
+                                </label>
+                                
+                                <label class="service-card relative flex items-start p-4 rounded-xl cursor-pointer">
+                                    <input type="checkbox" name="services[]" value="guided-tours" class="custom-checkbox mt-0.5">
+                                    <div class="ml-3">
+                                        <div class="font-semibold text-sm" style="color: var(--color-primary);">Guided Tours</div>
+                                        <p class="text-xs mt-0.5" style="color: #64748b;">Expert local guides & experiences</p>
                                     </div>
-                                    <p class="text-sm text-slate-500 mt-1">Explore at your pace</p>
-                                </div>
-                            </label>
+                                </label>
+                                
+                                <label class="service-card relative flex items-start p-4 rounded-xl cursor-pointer">
+                                    <input type="checkbox" name="services[]" value="car-rental" class="custom-checkbox mt-0.5">
+                                    <div class="ml-3">
+                                        <div class="font-semibold text-sm" style="color: var(--color-primary);">Car Rental</div>
+                                        <p class="text-xs mt-0.5" style="color: #64748b;">Explore at your own pace</p>
+                                    </div>
+                                </label>
+                                
+                                <label class="service-card relative flex items-start p-4 rounded-xl cursor-pointer">
+                                    <input type="checkbox" name="services[]" value="visa-assistance" class="custom-checkbox mt-0.5">
+                                    <div class="ml-3">
+                                        <div class="font-semibold text-sm" style="color: var(--color-primary);">Visa Assistance</div>
+                                        <p class="text-xs mt-0.5" style="color: #64748b;">Help with visa applications</p>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Special Requests -->
-                    <div class="p-6 md:p-8 border-b border-slate-100 form-step">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-green-50 to-green-100 rounded-xl flex items-center justify-center mr-4">
-                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                    <!-- Section 5: Special Requests -->
+                    <div class="section-card p-6 sm:p-8 border-b border-gray-100">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(167, 139, 250, 0.1) 100%);">
+                                <svg class="w-6 h-6" style="color: #8b5cf6;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
                                 </svg>
                             </div>
-                            <div>
-                                <h2 class="text-2xl font-bold text-slate-900">Special Requests</h2>
-                                <p class="text-sm text-slate-500">Anything else we should know?</p>
+                            <div class="flex-1">
+                                <h2 style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.25rem;">
+                                    Special Requests & Preferences
+                                </h2>
+                                <p style="color: #64748b; font-size: 0.9375rem;">
+                                    Share any special requirements or preferences to personalize your trip
+                                </p>
                             </div>
                         </div>
-                        <textarea id="special-requests" name="special_requests" rows="5" 
-                            placeholder="Tell us about dietary requirements, accessibility needs, special celebrations, or any other preferences..." 
-                            class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-slate-50 hover:bg-white resize-none"></textarea>
+                        
+                        <textarea id="special_requests" name="special_requests" rows="6" 
+                                  class="form-input resize-none" 
+                                  placeholder="Please tell us about:
+• Dietary requirements or food allergies
+• Accessibility needs or mobility considerations
+• Special celebrations (birthday, anniversary, honeymoon)
+• Activities or experiences you'd like to include
+• Any other preferences or concerns we should know about">{{ old('special_requests') }}</textarea>
+                        @error('special_requests')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Section 6: Marketing Consent & reCAPTCHA -->
+                    <div class="section-card p-6 sm:p-8" style="background: linear-gradient(135deg, rgba(15, 118, 110, 0.02) 0%, rgba(20, 184, 166, 0.03) 100%);">
+                        <div class="space-y-5">
+                            <!-- Marketing Consent -->
+                            <div class="p-5 rounded-xl" style="background: white; border: 2px solid #e2e8f0;">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" name="marketing_consent" value="1" class="custom-checkbox mt-1" id="marketing_consent" required>
+                                    <label for="marketing_consent" class="flex-1 cursor-pointer">
+                                        <span class="block text-sm font-semibold mb-1" style="color: var(--color-primary);">
+                                            Stay Inspired: Subscribe to Our Travel Newsletter
+                                        </span>
+                                        <p class="text-xs leading-relaxed" style="color: #64748b;">
+                                            Receive exclusive travel deals, destination guides, and insider tips delivered to your inbox. 
+                                            You can unsubscribe at any time. We respect your privacy and will never share your information with third parties.
+                                        </p>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- reCAPTCHA v3 Notice -->
+                            <div class="flex justify-center items-center gap-2 p-4 rounded-xl" style="background: rgba(15, 118, 110, 0.05); border: 1px solid rgba(15, 118, 110, 0.1);">
+                                <svg class="w-5 h-5 flex-shrink-0" style="color: var(--color-accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                                <p class="text-xs" style="color: #64748b;">
+                                    This site is protected by reCAPTCHA and the Google 
+                                    <a href="https://policies.google.com/privacy" target="_blank" class="underline hover:no-underline" style="color: var(--color-accent);">Privacy Policy</a> and 
+                                    <a href="https://policies.google.com/terms" target="_blank" class="underline hover:no-underline" style="color: var(--color-accent);">Terms of Service</a> apply.
+                                </p>
+                            </div>
+                            @error('g-recaptcha-response')
+                                <p class="text-red-600 text-sm text-center">{{ $message }}</p>
+                            @enderror
+                            
+                            <!-- Terms Notice -->
+                            <div class="text-center">
+                                <p class="text-xs leading-relaxed" style="color: #64748b;">
+                                    By submitting this form, you agree to our 
+                                    <a href="#" class="font-medium hover:underline" style="color: var(--color-accent);">Terms of Service</a> 
+                                    and 
+                                    <a href="#" class="font-medium hover:underline" style="color: var(--color-accent);">Privacy Policy</a>.
+                                    Your information is secure and will only be used to process your booking request.
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Submit Section -->
-                    <div class="p-6 md:p-8 bg-gradient-to-br from-blue-50 to-cyan-50">
+                    <div class="p-6 sm:p-8" style="background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);">
                         <div class="max-w-2xl mx-auto text-center mb-6">
-                            <h3 class="text-lg font-semibold text-slate-900 mb-2">Ready to Start Your Adventure?</h3>
-                            <p class="text-sm text-slate-600">We'll review your request and get back to you within 24 hours with a personalized quote</p>
+                            <h3 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">
+                                Ready to Embark on Your Adventure?
+                            </h3>
+                            <p style="font-size: 0.9375rem; color: rgba(255, 255, 255, 0.95);">
+                                We'll review your request and contact you within 24 hours with a personalized quote and itinerary
+                            </p>
                         </div>
                         
-                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-5 px-8 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-500/30 flex items-center justify-center text-lg group">
-                            <span>Submit Booking Request</span>
-                            <svg class="w-6 h-6 ml-3 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        <button type="submit" 
+                                id="submit-button"
+                                class="btn-submit w-full sm:w-auto mx-auto flex items-center justify-center gap-3 px-10 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-105 active:scale-95" 
+                                style="background: white; color: var(--color-accent); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);">
+                            <span id="button-text">Submit Booking Request</span>
+                            <svg id="button-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                             </svg>
+                            <span id="button-spinner" class="spinner hidden"></span>
                         </button>
                         
-                        {{-- <p class="text-center text-sm text-slate-500 mt-4">
-                            🔒 Secure booking • By submitting, you agree to our 
-                            <a href="#" class="text-blue-600 hover:underline">Terms & Conditions</a> --}}
-                        </p>
+                        <div class="mt-6 flex items-center justify-center gap-6 text-sm" style="color: rgba(255, 255, 255, 0.9);">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Secure & Encrypted
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                No Payment Required
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </div>
-
-            <!-- Trust Badges -->
-            {{-- <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div class="bg-white rounded-xl p-4 shadow-sm">
-                    <div class="text-3xl mb-2">⚡</div>
-                    <div class="text-sm font-semibold text-slate-800">Quick Response</div>
-                    <div class="text-xs text-slate-500">Within 24 hours</div>
                 </div>
-                <div class="bg-white rounded-xl p-4 shadow-sm">
-                    <div class="text-3xl mb-2">🛡️</div>
-                    <div class="text-sm font-semibold text-slate-800">Secure Booking</div>
-                    <div class="text-xs text-slate-500">Protected payments</div>
-                </div>
-                <div class="bg-white rounded-xl p-4 shadow-sm">
-                    <div class="text-3xl mb-2">💯</div>
-                    <div class="text-sm font-semibold text-slate-800">Best Price</div>
-                    <div class="text-xs text-slate-500">Guaranteed value</div>
-                </div>
-                <div class="bg-white rounded-xl p-4 shadow-sm">
-                    <div class="text-3xl mb-2">⭐</div>
-                    <div class="text-sm font-semibold text-slate-800">Expert Support</div>
-                    <div class="text-xs text-slate-500">24/7 assistance</div>
-                </div>
-            </div> --}}
+            </form>
         </div>
     </div>
+</div>
+
+<!-- reCAPTCHA v3 Script -->
+<script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}" async defer></script>
+
+<script>
+    // Toggle "Other" input fields
+    function toggleOtherField(selectElement, wrapperId) {
+        const wrapper = document.getElementById(wrapperId);
+        const input = wrapper.querySelector('input');
+        
+        if (selectElement.value === 'other') {
+            wrapper.classList.remove('hidden');
+            input.setAttribute('required', 'required');
+        } else {
+            wrapper.classList.add('hidden');
+            input.removeAttribute('required');
+            input.value = '';
+        }
+    }
+    
+    // Calculate trip duration
+    document.addEventListener('DOMContentLoaded', function() {
+        const departureInput = document.getElementById('departure_date');
+        const returnInput = document.getElementById('return_date');
+        const durationDisplay = document.getElementById('trip-duration');
+        
+        function calculateDuration() {
+            if (departureInput.value && returnInput.value) {
+                const departure = new Date(departureInput.value);
+                const returnDate = new Date(returnInput.value);
+                const diffTime = Math.abs(returnDate - departure);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays > 0) {
+                    durationDisplay.textContent = `✓ ${diffDays} night${diffDays > 1 ? 's' : ''}`;
+                    durationDisplay.classList.remove('hidden');
+                } else {
+                    durationDisplay.classList.add('hidden');
+                }
+            }
+        }
+        
+        departureInput?.addEventListener('change', calculateDuration);
+        returnInput?.addEventListener('change', calculateDuration);
+        
+        // Progress bar animation
+        const form = document.getElementById('booking-form');
+        const progress = document.getElementById('progress');
+        
+        // Calculate progress based on filled inputs
+        function updateProgress() {
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+            let filled = 0;
+            
+            inputs.forEach(input => {
+                if (input.type === 'checkbox' || input.type === 'radio') {
+                    const name = input.name;
+                    const checked = form.querySelector(`input[name="${name}"]:checked`);
+                    if (checked) filled++;
+                } else if (input.value.trim() !== '') {
+                    filled++;
+                }
+            });
+            
+            const percentage = (filled / inputs.length) * 100;
+            progress.style.width = percentage + '%';
+        }
+        
+        // Update progress on input
+        form.addEventListener('input', updateProgress);
+        form.addEventListener('change', updateProgress);
+        
+        // Initial progress check
+        updateProgress();
+        
+        // reCAPTCHA v3 Form Submission
+        const bookingForm = document.getElementById('booking-form');
+        const submitButton = document.getElementById('submit-button');
+        const buttonText = document.getElementById('button-text');
+        const buttonIcon = document.getElementById('button-icon');
+        const buttonSpinner = document.getElementById('button-spinner');
+        
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Disable button and show loading state
+                submitButton.disabled = true;
+                buttonText.textContent = 'Processing...';
+                buttonIcon.classList.add('hidden');
+                buttonSpinner.classList.remove('hidden');
+                
+                // Execute reCAPTCHA v3
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {
+                        action: 'booking_submit'
+                    }).then(function(token) {
+                        // Check if token input already exists
+                        let tokenInput = bookingForm.querySelector('input[name="g-recaptcha-response"]');
+                        
+                        if (!tokenInput) {
+                            // Create and add token to form
+                            tokenInput = document.createElement('input');
+                            tokenInput.type = 'hidden';
+                            tokenInput.name = 'g-recaptcha-response';
+                            bookingForm.appendChild(tokenInput);
+                        }
+                        
+                        tokenInput.value = token;
+                        
+                        // Submit the form
+                        bookingForm.submit();
+                    }).catch(function(error) {
+                        // Re-enable button on error
+                        submitButton.disabled = false;
+                        buttonText.textContent = 'Submit Booking Request';
+                        buttonIcon.classList.remove('hidden');
+                        buttonSpinner.classList.add('hidden');
+                        
+                        alert('reCAPTCHA verification failed. Please try again.');
+                        console.error('reCAPTCHA error:', error);
+                    });
+                });
+            });
+        }
+        
+        // Smooth scroll to first error on page load (if validation errors exist)
+        const firstError = document.querySelector('.text-red-600');
+        if (firstError) {
+            setTimeout(() => {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+    });
+</script>
+
 @endsection
