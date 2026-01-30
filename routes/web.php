@@ -124,6 +124,7 @@ Route::middleware('auth')->group(function () {
     */
     Route::middleware('user')->group(function () {
         Route::get('/dashboard', [UserDashboardController::class, 'userDashboard'])->name('user.dashboard');
+        Route::get('/my-bookings-contacts', [UserDashboardController::class, 'myBookingsAndContacts'])->name('user.bookings.contacts');      
     });
 });
 

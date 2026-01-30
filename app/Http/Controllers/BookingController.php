@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Rules\RecaptchaRule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 
 class BookingController extends Controller
@@ -154,7 +155,7 @@ class BookingController extends Controller
     }
 
 
-    public function submit(Request $request)
+    public function submitNew(Request $request)
 {
     // Honeypot check - if filled, it's a bot
     if ($request->filled('website')) {
@@ -253,7 +254,7 @@ class BookingController extends Controller
         'travel_activities' => 'nullable|string|max:1000',
 
         // Marketing consent
-        'marketing_consent' => 'nullable|boolean',
+        'marketing_consent' => 'required|boolean',
     ]);
 
     // Hit rate limiter
@@ -261,6 +262,7 @@ class BookingController extends Controller
 
     // Check for spam patterns
     $isSpam = $this->isSuspiciousSubmission($validated);
+    
 
     if ($isSpam) {
         Log::warning('Suspicious form submission detected', [
@@ -268,6 +270,9 @@ class BookingController extends Controller
             'user_agent' => $request->userAgent(),
             'data' => $validated,
         ]);
+
+
+        
 
         // Save as spam but don't send email
         DB::table('form_submissions')->insert([
@@ -323,6 +328,175 @@ class BookingController extends Controller
     return back()->with('success', 'Your request has been sent! We\'ll be in touch soon.');
 }
 
+
+
+
+public function submit(Request $request)
+{
+    // 1. Honeypot check - bot trap
+    if ($request->filled('website')) {
+        Log::warning('Bot detected via honeypot', [
+            'ip'        => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
+
+        // Fake success to not alert the bot
+        return back()->with('success', 'Your request has been sent! We\'ll be in touch soon.');
+    }
+
+    // 2. Rate limiting: max 3 submissions per IP in 5 minutes
+    $key = 'form-submit:' . $request->ip();
+    if (RateLimiter::tooManyAttempts($key, 3)) {
+        $seconds = RateLimiter::availableIn($key);
+
+        return back()->withErrors([
+            'error' => "Too many submissions. Please try again in {$seconds} seconds.",
+        ]);
+    }
+
+    // 3. Validation
+    $validated = $request->validate([
+        'g-recaptcha-response' => ['required', new RecaptchaRule()],
+
+        'name'                 => 'required|string|max:100',
+        'email'                => 'required|email|max:150',
+        'phone'                => 'nullable|string|max:30',
+        'preferred_contact'    => 'nullable|string|max:20',
+
+        'booking_type'         => 'required|string|in:contact,car,flight,hotel,activity,custom,cruise,package_tour',
+        'message'              => 'nullable|string|max:2000',
+
+        // Car rental fields
+        'car_pickup_location'  => 'nullable|string|max:150',
+        'car_dropoff_location' => 'nullable|string|max:150',
+        'car_pickup_date'      => 'nullable|date',
+        'car_dropoff_date'     => 'nullable|date|after_or_equal:car_pickup_date',
+        'driver_age'           => 'nullable|integer|min:18',
+        'car_preferences'      => 'nullable|string|max:150',
+        'car_addons'           => 'nullable|string|max:200',
+        'car_category'         => 'nullable|string|max:50',
+
+        // Flight fields
+        'flight_departure'     => 'nullable|string|max:150',
+        'flight_arrival'       => 'nullable|string|max:150',
+        'flight_departure_date'=> 'nullable|date',
+        'flight_return_date'   => 'nullable|date|after_or_equal:flight_departure_date',
+        'flight_adults'        => 'nullable|integer|min:1',
+        'flight_children'      => 'nullable|integer|min:0',
+        'cabin_preference'     => 'nullable|string|max:50',
+        'airline_preference'   => 'nullable|string|max:100',
+        'frequent_flyer_number'=> 'nullable|string|max:50',
+
+        // Hotel fields
+        'hotel_location'       => 'nullable|string|max:150',
+        'hotel_checkin'        => 'nullable|date',
+        'hotel_checkout'       => 'nullable|date|after_or_equal:hotel_checkin',
+        'hotel_rooms'          => 'nullable|integer|min:1',
+        'hotel_guests'         => 'nullable|integer|min:1',
+        'hotel_preferences'    => 'nullable|string|max:150',
+        'hotel_room_features'  => 'nullable|string|max:200',
+
+        // Activity fields
+        'activity_location'    => 'nullable|string|max:150',
+        'activity_type'        => 'nullable|string|max:150',
+        'activity_date'        => 'nullable|date',
+        'activity_people'      => 'nullable|integer|min:1',
+
+        // Custom package fields
+        'custom_destination'   => 'nullable|string|max:150',
+        'custom_start'         => 'nullable|date',
+        'custom_end'           => 'nullable|date|after_or_equal:custom_start',
+        'custom_budget'        => 'nullable|string|max:100',
+        'custom_style'         => 'nullable|string|max:50',
+
+        // Cruise fields
+        'cruise_preferences'   => 'nullable|string|max:150',
+        'cruise_itinerary'     => 'nullable|string|max:150',
+        'cruise_length'        => 'nullable|integer|min:1',
+        'cruise_departure_date'=> 'nullable|date',
+        'cruise_pre_post_nights'=> 'nullable|string|in:yes,no',
+        'cruise_cabin_class'   => 'nullable|string|max:50',
+        'cruise_beverage_plan' => 'nullable|string|in:yes,no',
+        'cruise_beverage_plan_type' => 'nullable|string|max:100',
+
+        // Package tour fields
+        'package_countries'    => 'nullable|string|max:200',
+        'package_tour_type'    => 'nullable|string|in:escorted,independent',
+        'package_activity_level'=> 'nullable|string|in:low,moderate,high',
+        'package_start_date'   => 'nullable|date',
+        'package_duration'     => 'nullable|integer|min:1',
+
+        // Additional travel info
+        'hotels_enjoyed'       => 'nullable|string|max:1000',
+        'cruises_resorts_enjoyed' => 'nullable|string|max:1000',
+        'travel_activities'    => 'nullable|string|max:1000',
+
+        // Marketing consent
+        'marketing_consent'    => 'required|boolean',
+    ]);
+
+    // Hit the rate limiter
+    RateLimiter::hit($key, 300); // 5 minutes
+
+    // Spam detection
+    $isSpam = $this->isSuspiciousSubmission($validated);
+
+    // Get current authenticated user (null if guest)
+    $user = Auth::user();
+
+    // Prepare data for insertion
+    $submissionData = [
+        'payload'           => json_encode($validated),
+        'email'             => $validated['email'],           // extracted for fast querying
+        'ip_address'        => $request->ip(),
+        'user_agent'        => $request->userAgent(),
+        'is_spam'           => $isSpam,
+        'marketing_consent' => $request->boolean('marketing_consent'),
+        'user_id'           => $user?->id,                    // links to user if logged in
+        'created_at'        => now(),
+        'updated_at'        => now(),
+    ];
+
+    // Log suspicious submissions
+    if ($isSpam) {
+        Log::warning('Suspicious form submission detected', [
+            'ip'         => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'email'      => $validated['email'],
+            'booking_type' => $validated['booking_type'] ?? 'unknown',
+        ]);
+    }
+
+    // Send notification email (only for non-spam)
+    if (!$isSpam) {
+        try {
+            $emailsRaw = env('RECEIVER_EMAILS', '');
+            $emails = array_filter(
+                array_map('trim', explode(',', $emailsRaw)),
+                fn($email) => filter_var($email, FILTER_VALIDATE_EMAIL)
+            );
+
+            if (!empty($emails)) {
+                Mail::to($emails)->send(new BookingRequestMail($validated));
+                Log::info('Booking request email sent successfully', ['to' => $emails]);
+            } else {
+                Log::warning('No valid recipient emails configured in RECEIVER_EMAILS');
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to send booking email', [
+                'error' => $e->getMessage(),
+                'email' => $validated['email'],
+            ]);
+            // Note: we still save the submission even if email fails
+        }
+    }
+
+    // Save the submission (spam or not)
+    DB::table('form_submissions')->insert($submissionData);
+
+    // Always return success to user
+    return back()->with('success', 'Your request has been sent! We\'ll be in touch soon.');
+}
 
     /**
      * Check if submission contains spam patterns

@@ -138,18 +138,38 @@
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="name" class="block text-sm font-semibold text-slate-700 mb-2">Full Name *</label>
-                                    <input type="text" id="name" name="name" required 
-                                           class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                   <input
+    type="text"
+    id="name"
+    name="name"
+    required
+    value="{{ old('name', auth()->check() ? auth()->user()->name : '') }}"
+    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white"
+>
+
                                 </div>
                                 <div>
                                     <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email Address *</label>
-                                    <input type="email" id="email" name="email" required 
-                                           class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                 <input
+    type="email"
+    id="email"
+    name="email"
+    required
+    value="{{ old('email', auth()->check() ? auth()->user()->email : '') }}"
+    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white"
+>
+
                                 </div>
                                 <div>
                                     <label for="phone" class="block text-sm font-semibold text-slate-700 mb-2">Phone Number</label>
-                                    <input type="tel" id="phone" name="phone" 
-                                           class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white">
+                                   <input
+    type="tel"
+    id="phone"
+    name="phone"
+    value="{{ old('phone', auth()->check() ? auth()->user()->phone : '') }}"
+    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-all duration-200 bg-white"
+>
+
                                 </div>
                                 <div>
                                     <label for="preferred_contact" class="block text-sm font-semibold text-slate-700 mb-2">Preferred Contact Method</label>
@@ -600,7 +620,7 @@
                             <!-- NEW: Marketing Consent -->
                             <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
                                 <div class="flex items-start space-x-3">
-                                    <input type="checkbox" id="marketing_consent" name="marketing_consent" value="1"
+                                    <input type="checkbox" id="marketing_consent" name="marketing_consent" value="1" required
                                            class="mt-1 w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500">
                                     <div class="flex-1">
                                         <label for="marketing_consent" class="block text-sm font-medium text-slate-800 cursor-pointer">
