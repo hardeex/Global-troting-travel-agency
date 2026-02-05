@@ -10,6 +10,7 @@ class Booking extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         // Personal Information
         'full_name',
         'email',
@@ -18,6 +19,10 @@ class Booking extends Model
         
         // Form metadata
         'form_type',
+        'flexible_dates',
+        'insurance',
+        'marketing_consent',
+        'is_spam',
         
         // Travel Details
         'destination',
@@ -65,25 +70,87 @@ class Booking extends Model
         'updated_at' => 'datetime',
     ];
 
-    /**
-     * Get the total number of travelers
+
+      /* Get the user that made this booking
      */
-    public function getTotalTravelersAttribute(): int
+    public function user()
     {
-        return $this->adults + $this->children + $this->infants;
+        return $this->belongsTo(User::class);
     }
 
     /**
-     * Get the trip duration in days
+     * Check if booking is from a guest
      */
-    public function getTripDurationAttribute(): ?int
+    public function isGuest(): bool
+    {
+        return is_null($this->user_id);
+    }
+
+    /**
+     * Get formatted departure date
+     */
+    public function getFormattedDepartureDateAttribute()
+    {
+        return $this->departure_date?->format('M d, Y');
+    }
+
+    /**
+     * Get formatted return date
+     */
+    public function getFormattedReturnDateAttribute()
+    {
+        return $this->return_date?->format('M d, Y');
+    }
+
+    /**
+     * Calculate trip duration in nights
+     */
+    public function getTripDurationAttribute()
     {
         if ($this->departure_date && $this->return_date) {
             return $this->departure_date->diffInDays($this->return_date);
         }
-        
         return null;
     }
+
+    /**
+     * Get total travelers count
+     */
+    public function getTotalTravelersAttribute()
+    {
+        return ($this->adults ?? 0) + ($this->children ?? 0) + ($this->infants ?? 0);
+    }
+
+    /**
+     * Get decoded services array
+     */
+    public function getServicesListAttribute()
+    {
+        if (is_string($this->services)) {
+            return json_decode($this->services, true) ?? [];
+        }
+        return $this->services ?? [];
+    }
+
+    /**
+     * Get the total number of travelers
+     */
+    // public function getTotalTravelersAttribute(): int
+    // {
+    //     return $this->adults + $this->children + $this->infants;
+    // }
+
+    /**
+     * Get the trip duration in days
+     */
+    // public function getTripDurationAttribute(): ?int
+    // {
+    //     if ($this->departure_date && $this->return_date) {
+    //         return $this->departure_date->diffInDays($this->return_date);
+    //     }
+        
+    //     return null;
+    // }
 
     /**
      * Check if the booking needs insurance waiver

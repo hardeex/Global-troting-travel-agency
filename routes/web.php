@@ -124,7 +124,10 @@ Route::middleware('auth')->group(function () {
     */
     Route::middleware('user')->group(function () {
         Route::get('/dashboard', [UserDashboardController::class, 'userDashboard'])->name('user.dashboard');
-        Route::get('/my-bookings-contacts', [UserDashboardController::class, 'myBookingsAndContacts'])->name('user.bookings.contacts');      
+        Route::get('/my-bookings-contacts', [UserDashboardController::class, 'myBookingsAndContacts'])->name('user.bookings.contacts');          
+        Route::get('/my-inquiries', [UserDashboardController::class, 'myInquiries'])->name('inquiries.index');
+        Route::post('/inquiries/clear-session', [UserDashboardController::class, 'clearGuestSession'])->name('inquiries.clear-session');
+        Route::get('/my-scheduled-trips', [UserDashboardController::class, 'myScheduledTrips'])->name('user.scheduled-trips');
     });
 });
 

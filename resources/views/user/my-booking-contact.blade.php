@@ -244,7 +244,7 @@
                     Start planning your next adventure. Submit a booking request for flights, hotels, car rentals, or custom packages.
                 </p>
                 <div class="mt-8">
-                    <a href="{{ route('home') }}"
+                    <a href="{{ route('index') }}"
                        class="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg font-medium transition-all hover:scale-105"
                        style="background: var(--color-primary); color: white; box-shadow: var(--shadow-md);">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

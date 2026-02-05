@@ -140,28 +140,31 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
-                                    <input type="text" id="firstName" name="firstName" required 
+                                    <input type="text" id="firstName" name="firstName" required value="{{ old('name', auth()->check() ? auth()->user()->name : '') }}"
                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                                            placeholder="John">
                                 </div>
                                 <div>
                                     <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
-                                    <input type="text" id="lastName" name="lastName" required
+                                    <input type="text" id="lastName" name="lastName" required value="{{ old('name', auth()->check() ? auth()->user()->name : '') }}"
                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                                            placeholder="Doe">
                                 </div>
                             </div>
+
+
+                            {{-- <input type="hidden" id="form_type" name="form_type" value="destination_package"> --}}
                             
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                                <input type="email" id="email" name="email" required
+                                <input type="email" id="email" name="email" required value="{{ old('email', auth()->check() ? auth()->user()->email : '') }}"
                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                                        placeholder="john@example.com">
                             </div>
                             
                             <div>
                                 <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                                <input type="tel" id="phone" name="phone"
+                                <input type="tel" id="phone" name="phone" value="{{ old('phone', auth()->check() ? auth()->user()->phone : '') }}"
                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
                                        placeholder="+44 123 456 7890">
                             </div>

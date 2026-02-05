@@ -265,7 +265,7 @@
                     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
                 </div>
                 
-                <input type="hidden" name="form_type" value="scheduled_booking">
+                <input type="hidden" name="form_type" value="scheduled_trip">
                 
                 <!-- Progress Bar -->
                 <div class="progress-bar">
