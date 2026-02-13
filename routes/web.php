@@ -23,7 +23,7 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/destinations', [HomeController::class, 'allDestinations'])->name('destinations');
 Route::get('/destination/{slug}', [HomeController::class, 'showDestination'])->name('destination.show');
-Route::get('/privacy/policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
+//Route::get('/privacy/policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/terms/conditions', [HomeController::class, 'termsConditions'])->name('terms.conditions');
 
 // Booking & Inquiries
@@ -38,6 +38,17 @@ Route::get('/sitemap', function () {
         'Content-Type' => 'application/xml',
     ]);
 });
+
+
+
+
+// Cookie Consent Routes
+Route::post('/cookie-consent', [CookieConsentController::class, 'store'])->name('cookie.consent.store');
+Route::post('/cookie-consent/accept', [CookieConsentController::class, 'accept'])->name('cookie.consent.accept');
+Route::post('/cookie-consent/reject', [CookieConsentController::class, 'reject'])->name('cookie.consent.reject');
+Route::get('/cookie-consent/status', [CookieConsentController::class, 'status'])->name('cookie.consent.status');
+Route::get('/privacy-policy', [CookieConsentController::class, 'privacyPolicy'])->name('privacy.policy');
+
 
 /*
 |--------------------------------------------------------------------------

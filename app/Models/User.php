@@ -22,6 +22,9 @@ class User extends Authenticatable
         'password',
         'phone',
         'role',
+        'cookie_consent',
+    'cookie_settings',
+    'cookie_consent_date',
     ];
 
     /**

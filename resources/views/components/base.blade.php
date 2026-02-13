@@ -58,6 +58,7 @@
 @endif
 
 
+ @include('components.cookie-consent')
 
     @include('components.scroll-to-top')
     <!---- Go to Booking Section--->
