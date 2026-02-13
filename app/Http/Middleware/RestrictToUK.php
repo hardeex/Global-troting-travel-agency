@@ -12,7 +12,7 @@ class RestrictToUK
 {
    public function handle(Request $request, Closure $next)
     {
-        Log::info('🌍 Geo middleware triggered', [
+        Log::info(' Geo middleware triggered', [
             'path' => $request->path(),
             'ip_detected' => $request->ip(),
             'env' => app()->environment(),
@@ -26,21 +26,21 @@ class RestrictToUK
         $ip = $request->ip();
 
         $country = Cache::remember("geo_country_{$ip}", 86400, function () use ($ip) {
-            Log::info("📡 Fetching country from APIs for IP: {$ip}");
+            Log::info("Fetching country from APIs for IP: {$ip}");
             return $this->getCountryFromIP($ip);
         });
 
-        Log::info('🌎 Country detection result', [
+        Log::info(' Country detection result', [
             'ip' => $ip,
             'country' => $country,
         ]);
 
         if ($country === 'GB' || $country === null) {
-            Log::info('✅ Access allowed by geo middleware');
+            Log::info(' Access allowed by geo middleware');
             return $next($request);
         }
 
-        Log::warning('⛔ Access BLOCKED by geo middleware', [
+        Log::warning(' Access BLOCKED by geo middleware', [
             'ip' => $ip,
             'country' => $country,
             'path' => $request->path(),
@@ -55,12 +55,12 @@ class RestrictToUK
    private function getCountryFromIP($ip)
 {
     if ($this->isPrivateIP($ip)) {
-        Log::info("🏠 Private IP detected: {$ip}");
+        Log::info(" Private IP detected: {$ip}");
         return null;
     }
 
     try {
-        Log::info("🌐 Calling ipapi.co for {$ip}");
+        Log::info(" Calling ipapi.co for {$ip}");
         $response = Http::timeout(3)->get("https://ipapi.co/{$ip}/country/");
 
         Log::info('ipapi response', [
@@ -72,7 +72,7 @@ class RestrictToUK
             return trim($response->body());
         }
 
-        Log::info("🌐 Falling back to ip-api.com for {$ip}");
+        Log::info("Falling back to ip-api.com for {$ip}");
         $response = Http::timeout(3)->get("http://ip-api.com/json/{$ip}?fields=countryCode");
 
         Log::info('ip-api response', [
@@ -86,13 +86,13 @@ class RestrictToUK
         }
 
     } catch (\Exception $e) {
-        Log::error("❌ Geo API exception", [
+        Log::error(" Geo API exception", [
             'ip' => $ip,
             'error' => $e->getMessage(),
         ]);
     }
 
-    Log::warning("⚠️ Could not determine country for {$ip}");
+    Log::warning("Could not determine country for {$ip}");
     return null;
 }
 
