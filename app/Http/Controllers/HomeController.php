@@ -594,4 +594,10 @@ private function isSuspiciousInquiry(array $data): bool
     {
         return view('pages.privacy-policy');
     }
+
+
+    public function termsConditions()
+    {
+        return view('pages.terms-condition');
+    }
 }

@@ -17,24 +17,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
-    /**
-     * Admin dashboard
-     */
-    // public function adminDashboard()
-    // {
-    //     if (Auth::user()->role !== 'admin') {
-    //         abort(403, 'Unauthorized action.');
-    //     }
-
-    //     $users = User::where('role', 'user')->latest()->paginate(20);
-    //     $stats = [
-    //         'total_users' => User::where('role', 'user')->count(),
-    //         'total_admins' => User::where('role', 'admin')->count(),
-    //         'recent_users' => User::where('role', 'user')->where('created_at', '>=', now()->subDays(7))->count(),
-    //     ];
-
-    //     return view('admin.dashboard', compact('users', 'stats'));
-    // }
+   
 
     public function adminDashboard()
     {
@@ -106,7 +89,8 @@ class AdminController extends Controller
         $servicesData = Booking::whereNotNull('services')
             ->get()
             ->flatMap(function ($booking) {
-                return json_decode($booking->services, true) ?: [];
+                //return json_decode($booking->services, true) ?: [];
+                return is_array($booking->services) ? $booking->services : (json_decode($booking->services, true) ?: []);
             })
             ->countBy()
             ->sortDesc()
@@ -355,4 +339,169 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Error exporting contacts: ' . $e->getMessage());
         }
     }
+
+
+
+
+/**
+ * Display user management page
+ */
+public function users(Request $request)
+{
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $query = User::query();
+
+    // Search functionality
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%")
+              ->orWhere('phone', 'like', "%{$search}%");
+        });
+    }
+
+    // Filter by role
+    if ($request->filled('role') && $request->role !== 'all') {
+        $query->where('role', $request->role);
+    }
+
+    // Sort
+    $sortBy = $request->get('sort_by', 'created_at');
+    $sortOrder = $request->get('sort_order', 'desc');
+    $query->orderBy($sortBy, $sortOrder);
+
+    // Paginate
+    $users = $query->paginate(15)->withQueryString();
+
+    // Statistics
+    $totalUsers = User::count();
+    $adminUsers = User::where('role', 'admin')->count();
+    $regularUsers = User::where('role', 'user')->count();
+    $recentUsers = User::where('created_at', '>=', now()->subDays(30))->count();
+
+    return view('admin.auth.users', compact(
+        'users',
+        'totalUsers',
+        'adminUsers',
+        'regularUsers',
+        'recentUsers'
+    ));
+}
+
+/**
+ * Update user role
+ */
+public function updateUserRole(Request $request, User $user)
+{
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Unauthorized action.');
+    }
+
+    // Prevent changing own role
+    if ($user->id === Auth::id()) {
+        return back()->with('error', 'You cannot change your own role.');
+    }
+
+    $request->validate([
+        'role' => 'required|in:user,admin'
+    ]);
+
+    $user->update(['role' => $request->role]);
+
+    Log::info('User role updated', [
+        'admin_id' => Auth::id(),
+        'user_id' => $user->id,
+        'old_role' => $user->getOriginal('role'),
+        'new_role' => $request->role,
+    ]);
+
+    return back()->with('success', "User role updated to {$request->role} successfully.");
+}
+
+/**
+ * Delete user
+ */
+public function deleteUser(User $user)
+{
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Unauthorized action.');
+    }
+
+    // Prevent deleting own account
+    if ($user->id === Auth::id()) {
+        return back()->with('error', 'You cannot delete your own account.');
+    }
+
+    $userName = $user->name;
+    $userEmail = $user->email;
+
+    Log::info('User deleted', [
+        'admin_id' => Auth::id(),
+        'deleted_user_id' => $user->id,
+        'deleted_user_email' => $userEmail,
+    ]);
+
+    $user->delete();
+
+    return back()->with('success', "User '{$userName}' has been deleted successfully.");
+}
+
+/**
+ * View user details
+ */
+public function viewUser(User $user)
+{
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Unauthorized action.');
+    }
+
+    // Get user's bookings
+    $bookings = $user->bookings()->latest()->take(10)->get();
+    
+    // Get user's inquiries
+    $inquiries = $user->inquiries()->with('destination')->latest()->take(10)->get();
+
+    return view('admin.auth.user-details', compact('user', 'bookings', 'inquiries'));
+}
+
+/**
+ * Bulk delete users
+ */
+public function bulkDeleteUsers(Request $request)
+{
+    if (Auth::user()->role !== 'admin') {
+        abort(403, 'Unauthorized action.');
+    }
+
+    $request->validate([
+        'user_ids' => 'required|array',
+        'user_ids.*' => 'exists:users,id'
+    ]);
+
+    $userIds = $request->user_ids;
+
+    // Remove current admin's ID from the list
+    $userIds = array_filter($userIds, function ($id) {
+        return $id != Auth::id();
+    });
+
+    if (empty($userIds)) {
+        return back()->with('error', 'No users selected or you cannot delete yourself.');
+    }
+
+    $deletedCount = User::whereIn('id', $userIds)->delete();
+
+    Log::info('Bulk user deletion', [
+        'admin_id' => Auth::id(),
+        'deleted_count' => $deletedCount,
+        'user_ids' => $userIds,
+    ]);
+
+    return back()->with('success', "{$deletedCount} user(s) deleted successfully.");
+}
+
 }

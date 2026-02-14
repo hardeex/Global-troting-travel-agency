@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CookieConsentController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserDashboardController;
@@ -142,6 +143,15 @@ Route::middleware('auth')->group(function () {
         
         // Logout
         Route::get('/logout', [AuthController::class, 'adminLogout'])->name('logout');
+
+
+         // User Management
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::get('/users/{user}', [AdminController::class, 'viewUser'])->name('user.view');
+    Route::patch('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('user.role');
+    Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('user.delete');
+    Route::post('/users/bulk-delete', [AdminController::class, 'bulkDeleteUsers'])->name('users.bulk-delete');
+    
     });
     
     /*

@@ -1,4 +1,4 @@
-<!-- Advanced Cookie Consent Banner with Settings -->
+<!--  Cookie Consent Banner with Settings -->
 <div id="cookieConsent" class="fixed bottom-0 left-0 right-0 z-50 transform translate-y-full transition-transform duration-500 ease-out">
     <div class="bg-white/95 backdrop-blur-lg border-t-4 border-blue-600 shadow-2xl">
         <div class="container mx-auto px-4 py-6">
@@ -257,7 +257,7 @@ function saveCookieConsent(type, settings) {
     localStorage.setItem('cookieConsent', type);
     localStorage.setItem('cookieSettings', JSON.stringify(settings));
     
-    // Optional: Send to server
+    // Send to server
     fetch('/cookie-consent', {
         method: 'POST',
         headers: {
@@ -277,20 +277,20 @@ function applyCookieSettings(settings) {
     if (settings.analytics) {
         console.log('Analytics cookies enabled');
         // Initialize Google Analytics, etc.
-        // gtag('consent', 'update', {'analytics_storage': 'granted'});
+         gtag('consent', 'update', {'analytics_storage': 'granted'});
     } else {
         console.log('Analytics cookies disabled');
-        // gtag('consent', 'update', {'analytics_storage': 'denied'});
+         gtag('consent', 'update', {'analytics_storage': 'denied'});
     }
     
     // Marketing Cookies
     if (settings.marketing) {
         console.log('Marketing cookies enabled');
         // Initialize Facebook Pixel, Google Ads, etc.
-        // gtag('consent', 'update', {'ad_storage': 'granted'});
+         gtag('consent', 'update', {'ad_storage': 'granted'});
     } else {
         console.log('Marketing cookies disabled');
-        // gtag('consent', 'update', {'ad_storage': 'denied'});
+         gtag('consent', 'update', {'ad_storage': 'denied'});
     }
     
     // Functional Cookies

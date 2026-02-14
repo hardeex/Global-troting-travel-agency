@@ -38,7 +38,7 @@ class CookieConsentController extends Controller
             'cookie_settings' => $validated['settings'],
         ]);
 
-        // Optionally store in database for logged-in users
+        // store in database for logged-in users
         if (auth()->check()) {
             auth()->user()->update([
                 'cookie_consent' => $validated['type'],

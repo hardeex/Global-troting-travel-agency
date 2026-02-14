@@ -65,4 +65,15 @@ class User extends Authenticatable
     {
         return $this->role === 'user';
     }
+
+
+    public function bookings()
+{
+    return $this->hasMany(Booking::class);
+}
+
+public function inquiries()
+{
+    return $this->hasMany(Inquiry::class);
+}
 }
