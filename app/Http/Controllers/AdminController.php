@@ -208,7 +208,7 @@ class AdminController extends Controller
      * Export all contacts and send via email
      * Protected by 'admin' middleware in routes
      */
-    public function exportAllContacts(Request $request)
+    public function exportAllContacts2(Request $request)
     {
         Log::info('Export all contacts initiated', [
             'admin_id' => Auth::id(),
@@ -276,6 +276,80 @@ class AdminController extends Controller
         }
     }
 
+
+
+/**
+ * Export all contacts and send via email
+ * Protected by 'admin' middleware in routes
+ */
+public function exportAllContacts(Request $request)
+{
+    Log::info('Export all contacts initiated', [
+        'admin_id' => Auth::id(),
+        'admin_name' => Auth::user()->name,
+        'ip' => $request->ip(),
+    ]);
+
+    try {
+        $submissions = DB::table('form_submissions')->orderByDesc('created_at')->get();
+
+        if ($submissions->isEmpty()) {
+            Log::warning('Export failed - no submissions found', [
+                'admin_id' => Auth::id(),
+            ]);
+
+            return redirect()->back()->with('error', 'No form submissions found.');
+        }
+
+        Log::info('Submissions retrieved for export', [
+            'count' => $submissions->count(),
+            'admin_id' => Auth::id(),
+        ]);
+
+        $exportData = $submissions->map(function ($item) {
+            $payload = json_decode($item->payload, true);
+
+            return [
+                'Name' => $payload['name'] ?? '',
+                'Email' => $payload['email'] ?? '',
+                'Phone' => $payload['phone'] ?? '',
+                'Submitted At' => Carbon::parse($item->created_at)->toDateTimeString(),
+            ];
+        });
+
+        $html = view('emails.contact-export', ['contacts' => $exportData])->render();
+
+        $emails = config('app.export_recipients', [
+            'webmasterjdd@gmail.com',
+            'support@globetrottingtraveluk.com'
+        ]);
+
+        Mail::raw(strip_tags($html), function ($message) use ($html, $emails) {
+            $message->to($emails)
+                ->subject('All Form Submissions Export - ' . now()->format('Y-m-d H:i:s'))
+                ->setBody($html, 'text/html');
+        });
+
+        Log::info('Export email sent successfully', [
+            'admin_id' => Auth::id(),
+            'admin_name' => Auth::user()->name,
+            'recipients' => $emails,
+            'submission_count' => $submissions->count(),
+        ]);
+
+        return redirect()->back()->with('success', 'Export email for all submissions sent successfully.');
+
+    } catch (\Exception $e) {
+        Log::error('Export all contacts failed', [
+            'admin_id' => Auth::id(),
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ]);
+
+        return redirect()->back()->with('error', 'Failed to export contacts: ' . $e->getMessage());
+    }
+}
+
     /**
      * Show export contacts loader page
      * Protected by 'admin' middleware in routes
@@ -295,7 +369,7 @@ class AdminController extends Controller
      * Export contacts via Artisan command
      * Protected by 'admin' middleware in routes
      */
-    public function exportContacts(Request $request)
+    public function exportContacts2(Request $request)
     {
         Log::info('Export contacts command initiated', [
             'admin_id' => Auth::id(),
@@ -340,6 +414,68 @@ class AdminController extends Controller
         }
     }
 
+
+public function exportContacts(Request $request)
+{
+    Log::info('Export contacts command initiated', [
+        'admin_id' => Auth::id(),
+        'admin_name' => Auth::user()->name,
+        'ip' => $request->ip(),
+        'is_ajax' => $request->expectsJson(),
+        'accept_header' => $request->header('Accept'),
+        'content_type' => $request->header('Content-Type'),
+    ]);
+
+    try {
+        // Execute the export command
+        $exitCode = Artisan::call('contacts:export');
+        $output = Artisan::output();
+
+        Log::info('Export contacts command executed', [
+            'admin_id' => Auth::id(),
+            'admin_name' => Auth::user()->name,
+            'exit_code' => $exitCode,
+            'output' => trim($output),
+        ]);
+
+        // Check if command executed successfully
+        if ($exitCode !== 0) {
+            throw new \Exception('Export command failed with exit code: ' . $exitCode);
+        }
+
+        // Return JSON response if requested
+        if ($request->expectsJson()) {
+            Log::info('Returning JSON response for export', [
+                'admin_id' => Auth::id(),
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Contacts exported and emailed successfully.',
+                'output' => trim($output)
+            ]);
+        }
+
+        // Otherwise return redirect
+        return redirect()->back()->with('success', 'Contacts exported and emailed successfully.');
+
+    } catch (\Exception $e) {
+        Log::error('Export contacts command failed', [
+            'admin_id' => Auth::id(),
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+        ]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error exporting contacts: ' . $e->getMessage()
+            ], 500);
+        }
+
+        return redirect()->back()->with('error', 'Error exporting contacts: ' . $e->getMessage());
+    }
+}
 
 
 

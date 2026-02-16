@@ -6,6 +6,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CookieConsentController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UnifiedSubmissionsController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -151,6 +152,26 @@ Route::middleware('auth')->group(function () {
     Route::patch('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('user.role');
     Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('user.delete');
     Route::post('/users/bulk-delete', [AdminController::class, 'bulkDeleteUsers'])->name('users.bulk-delete');
+
+
+      
+    // Unified submissions dashboard
+    Route::get('/submissions', [UnifiedSubmissionsController::class, 'index'])->name('submissions.index');
+    
+    // View individual submission details
+    Route::get('/submissions/{type}/{id}', [UnifiedSubmissionsController::class, 'show'])->name('submissions.show');
+    
+    // Toggle spam status
+    Route::patch('/submissions/{type}/{id}/toggle-spam', [UnifiedSubmissionsController::class, 'toggleSpam'])->name('submissions.toggle-spam');
+    
+    // Delete individual submission
+    Route::delete('/submissions/{type}/{id}', [UnifiedSubmissionsController::class, 'destroy'])->name('submissions.destroy');
+    
+    // Export submissions to CSV
+    Route::get('/submissions/export', [UnifiedSubmissionsController::class, 'export'])->name('submissions.export');
+    
+    // Bulk delete all spam
+    Route::delete('/submissions/bulk/delete-spam', [UnifiedSubmissionsController::class, 'bulkDeleteSpam'])->name('submissions.bulk-delete-spam');
     
     });
     

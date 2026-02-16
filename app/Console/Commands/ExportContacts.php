@@ -55,15 +55,6 @@ class ExportContacts extends Command
         // === 2. Prepare HTML content ===
         $html = view('emails.export_summary', ['submissions' => $submissions])->render();
 
-        // === 3. Send the email ===
-        // Mail::send([], [], function ($message) use ($recipients, $html, $csvContent, $filename) {
-        //     $message->to($recipients)
-        //         ->subject('Automated Export: All Form Submissions')
-        //         ->html($html)
-        //         ->attachData($csvContent, $filename, [
-        //             'mime' => 'text/csv',
-        //         ]);
-        // });
 
         try {
     Mail::send([], [], function ($message) use ($recipients, $html, $csvContent, $filename) {

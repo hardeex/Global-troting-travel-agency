@@ -173,13 +173,34 @@
                             </div>
                         </div>
 
-                        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                        {{-- <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-sm text-gray-600 mb-1">Account Age</p>
                                     <h3 class="text-3xl font-bold text-purple-600">
                                         {{ $user->created_at->diffInDays(now()) }}</h3>
                                     <p class="text-xs text-gray-500 mt-1">days</p>
+                                </div>
+                                <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div> --}}
+
+                        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 mb-1">Account Age</p>
+                                    <h3 class="text-2xl font-bold text-purple-600">
+                                        {{ $user->created_at->diffForHumans(['parts' => 2, 'short' => false]) }}
+                                    </h3>
+                                    <p class="text-xs text-gray-500 mt-1">
+                                        Member since {{ $user->created_at->format('M d, Y') }}
+                                    </p>
                                 </div>
                                 <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
                                     <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor"
