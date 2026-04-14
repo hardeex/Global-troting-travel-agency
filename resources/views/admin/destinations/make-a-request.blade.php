@@ -1058,10 +1058,11 @@
                                         <div>
                                             <p class="text-xs font-semibold uppercase tracking-wider mb-0.5"
                                                 style="color:var(--color-accent)">Meet Your Travel Consultant</p>
-                                            <p class="font-semibold text-sm" style="color:var(--color-primary)">Sarah
-                                                Mitchell</p>
-                                            <p class="text-xs" style="color:#64748b">10+ years crafting bespoke
-                                                itineraries across 60 countries</p>
+                                            <p class="font-semibold text-sm" style="color:var(--color-primary)">Nathaniel
+                                            </p>
+                                            <p class="text-xs" style="color:#64748b">Passionate travel consultant creating
+                                                memorable, tailored trips with care, creativity, and attention to detail.
+                                            </p>
                                             <span class="promise-badge">
                                                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd"
@@ -1089,8 +1090,8 @@
                                         <p class="reviewer">— James & Emma T., London</p>
                                     </div>
 
-                                    {{-- ✦ NEW: 24-hour promise micro-copy --}}
-                                    <div class="p-4 rounded-xl flex items-start gap-3"
+
+                                    {{-- <div class="p-4 rounded-xl flex items-start gap-3"
                                         style="background:rgba(15,118,110,.06);border:1px solid rgba(15,118,110,.15);">
                                         <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color:var(--color-accent)"
                                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1104,7 +1105,7 @@
                                                 personalised quote and itinerary outline within 24 hours of receiving your
                                                 request.</p>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 
