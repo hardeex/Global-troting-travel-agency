@@ -1,352 +1,644 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>User Dashboard - Globe Trotting</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            font-family: 'Karla', sans-serif;
-        }
-        .font-display {
-            font-family: 'Playfair Display', serif;
-        }
-    </style>
-</head>
-<body class="bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 min-h-screen">
-    
-    <!-- Mobile Menu Button -->
-    <button id="mobileMenuToggle" class="fixed top-4 left-4 z-50 lg:hidden bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-        <svg class="w-6 h-6 text-slate-800" id="menuIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-        <svg class="w-6 h-6 text-slate-800 hidden" id="closeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-    </button>
+@extends('user.base')
+@section('title', 'My Dashboard')
+@section('content')
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed left-0 top-0 h-full w-72 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 shadow-2xl">
-        <div class="p-6 border-b border-slate-700/50">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                    {{ substr(Auth::user()->name, 0, 1) }}
-                </div>
-                <div>
-                    <h2 class="font-semibold text-lg">{{ Auth::user()->name }}</h2>
-                    <p class="text-slate-400 text-sm">{{ Auth::user()->email }}</p>
+    <div class="min-h-screen font-['Lato',sans-serif] bg-gray-50">
+        <!-- Hero Section -->
+        <div class="relative bg-gradient-to-br from-teal-700 via-teal-500 to-cyan-600 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="font-['Playfair_Display',serif] text-4xl font-bold text-white mb-2">
+                            Welcome back, {{ $user->name }}!
+                        </h1>
+                        <p class="text-lg text-white/90">
+                            Here's your travel overview and activity summary
+                        </p>
+                    </div>
+                    <div class="hidden md:block">
+                        <div
+                            class="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl">
+                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <nav class="p-4 space-y-1">
-            <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium shadow-md">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                </svg>
-                <span>Dashboard</span>
-            </a>
+        <!-- Main Dashboard -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 pb-20 relative z-20">
 
-            <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-                <span>My Bookings</span>
-            </a>
-
-            <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span>Destinations</span>
-            </a>
-
-            <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span>Payment History</span>
-            </a>
-
-            <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span>Profile Settings</span>
-            </a>
-
-            <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800/50 hover:text-white transition-all duration-200">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span>Help & Support</span>
-            </a>
-        </nav>
-
-        <div class="absolute bottom-0 w-full p-4 border-t border-slate-700/50">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-200 font-medium">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                    </svg>
-                    <span>Logout</span>
-                </button>
-            </form>
-        </div>
-    </aside>
-
-    <!-- Overlay for mobile -->
-    <div id="overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden lg:hidden"></div>
-
-    <!-- Main Content -->
-    <main class="lg:ml-72 min-h-screen p-4 lg:p-8">
-        <!-- Header -->
-        <div class="mb-8 mt-16 lg:mt-0">
-            <h1 class="font-display text-4xl lg:text-5xl font-bold text-slate-900 mb-2">Welcome back, {{ explode(' ', Auth::user()->name)[0] }}!</h1>
-            <p class="text-slate-600 text-lg">Here's what's happening with your travel plans</p>
-        </div>
-
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-            <!-- Card 1 -->
-            <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">+12%</span>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-1">12</h3>
-                <p class="text-slate-600 text-sm">Total Bookings</p>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">Active</span>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-1">3</h3>
-                <p class="text-slate-600 text-sm">Upcoming Trips</p>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">8 Cities</span>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-1">15</h3>
-                <p class="text-slate-600 text-sm">Destinations Visited</p>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <span class="text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">GBP</span>
-                </div>
-                <h3 class="text-2xl font-bold text-slate-900 mb-1">£8,450</h3>
-                <p class="text-slate-600 text-sm">Total Spent</p>
-            </div>
-        </div>
-
-        <!-- Two Column Layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Upcoming Bookings -->
-            <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-md border border-orange-100">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="font-display text-2xl font-bold text-slate-900">Upcoming Bookings</h2>
-                    <a href="#" class="text-orange-500 hover:text-orange-600 font-medium text-sm transition-colors">View All →</a>
-                </div>
-
-                <div class="space-y-4">
-                    <!-- Booking Item 1 -->
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100 hover:shadow-md transition-all duration-200">
-                        <div class="flex items-start space-x-4 mb-3 sm:mb-0">
-                            <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=200" alt="Paris" class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-slate-900 mb-1">Paris Getaway</h3>
-                                <p class="text-sm text-slate-600 mb-2">5 Days, 4 Nights • Hotel + Flights</p>
-                                <div class="flex items-center space-x-2 text-xs text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    <span>Feb 14 - Feb 19, 2026</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2 w-full sm:w-auto">
-                            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">Confirmed</span>
-                        </div>
-                    </div>
-
-                    <!-- Booking Item 2 -->
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 border border-orange-100 hover:shadow-md transition-all duration-200">
-                        <div class="flex items-start space-x-4 mb-3 sm:mb-0">
-                            <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                                <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=200" alt="London" class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-slate-900 mb-1">London Business Trip</h3>
-                                <p class="text-sm text-slate-600 mb-2">3 Days, 2 Nights • Hotel Only</p>
-                                <div class="flex items-center space-x-2 text-xs text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    <span>Mar 5 - Mar 8, 2026</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2 w-full sm:w-auto">
-                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">Pending</span>
-                        </div>
-                    </div>
-
-                    <!-- Booking Item 3 -->
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100 hover:shadow-md transition-all duration-200">
-                        <div class="flex items-start space-x-4 mb-3 sm:mb-0">
-                            <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=200" alt="Barcelona" class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-slate-900 mb-1">Barcelona Summer Holiday</h3>
-                                <p class="text-sm text-slate-600 mb-2">7 Days, 6 Nights • Full Package</p>
-                                <div class="flex items-center space-x-2 text-xs text-slate-500">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                    <span>Jul 12 - Jul 19, 2026</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2 w-full sm:w-auto">
-                            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">Confirmed</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="space-y-6">
-                <!-- Profile Card -->
-                <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 text-white shadow-lg">
-                    <div class="flex items-center space-x-3 mb-4">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
-                            {{ substr(Auth::user()->name, 0, 1) }}
-                        </div>
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Total Bookings -->
+                <div
+                    class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-teal-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
                         <div>
-                            <h3 class="font-semibold text-lg">{{ Auth::user()->name }}</h3>
-                            <p class="text-slate-400 text-sm">Member since 2024</p>
+                            <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Total Bookings</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['total_bookings'] }}</p>
+                        </div>
+                        <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
                         </div>
                     </div>
-                    <div class="space-y-3 pt-4 border-t border-slate-700">
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-400 text-sm">Loyalty Points</span>
-                            <span class="font-semibold text-amber-400">2,450 pts</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-400 text-sm">Member Tier</span>
-                            <span class="font-semibold text-orange-400">Gold</span>
-                        </div>
+                    <div class="mt-4 flex items-center text-sm">
+                        <a href="{{ route('user.bookings.contacts') }}"
+                            class="text-teal-600 hover:text-teal-700 font-medium hover:underline">
+                            View all bookings →
+                        </a>
                     </div>
                 </div>
 
-                <!-- Quick Actions -->
-                <div class="bg-white rounded-2xl p-6 shadow-md border border-orange-100">
-                    <h3 class="font-display text-xl font-bold text-slate-900 mb-4">Quick Actions</h3>
-                    <div class="space-y-3">
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-orange-50 transition-all duration-200 group">
-                            <div class="w-10 h-10 rounded-lg bg-blue-100 group-hover:bg-blue-200 flex items-center justify-center transition-colors">
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                </svg>
-                            </div>
-                            <span class="font-medium text-slate-700 group-hover:text-slate-900">New Booking</span>
-                        </a>
+                <!-- Upcoming Trips -->
+                <div
+                    class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-blue-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Upcoming Trips</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['upcoming_trips'] }}</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-sm text-gray-500">{{ $stats['past_trips'] }} completed trips</span>
+                    </div>
+                </div>
 
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-orange-50 transition-all duration-200 group">
-                            <div class="w-10 h-10 rounded-lg bg-purple-100 group-hover:bg-purple-200 flex items-center justify-center transition-colors">
-                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                            <span class="font-medium text-slate-700 group-hover:text-slate-900">Contact Support</span>
+                <!-- Total Inquiries -->
+                <div
+                    class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-purple-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Total Inquiries</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['total_inquiries'] }}</p>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center text-sm">
+                        <a href="{{ route('inquiries.index') }}"
+                            class="text-purple-600 hover:text-purple-700 font-medium hover:underline">
+                            View all inquiries →
                         </a>
+                    </div>
+                </div>
 
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-orange-50 transition-all duration-200 group">
-                            <div class="w-10 h-10 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center transition-colors">
-                                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                            </div>
-                            <span class="font-medium text-slate-700 group-hover:text-slate-900">View Invoices</span>
-                        </a>
+                <!-- Total Travelers -->
+                <div
+                    class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-orange-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">Total Travelers</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">{{ $stats['total_travelers'] }}</p>
+                        </div>
+                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-sm text-gray-500">Across all bookings</span>
                     </div>
                 </div>
             </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Monthly Activity Chart -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="font-['Playfair_Display',serif] text-xl font-bold text-gray-900 mb-6">Activity Over Time</h3>
+                    <div class="relative h-64 md:h-72">
+                        <canvas id="monthlyActivityChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Destinations Chart -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="font-['Playfair_Display',serif] text-xl font-bold text-gray-900 mb-6">Top Destinations</h3>
+                    @if ($destinationStats->count() > 0)
+                        <div class="relative h-64 md:h-72">
+                            <canvas id="destinationsChart"></canvas>
+                        </div>
+                    @else
+                        <div class="flex items-center justify-center h-64 text-gray-400">
+                            <div class="text-center">
+                                <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                                </svg>
+                                <p class="text-sm">No destination data yet</p>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Charts Row 2 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Trip Types -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="font-['Playfair_Display',serif] text-xl font-bold text-gray-900 mb-6">Trip Types</h3>
+                    @if ($tripTypeStats->count() > 0)
+                        <div class="relative h-56">
+                            <canvas id="tripTypesChart"></canvas>
+                        </div>
+                    @else
+                        <div class="flex items-center justify-center h-56 text-gray-400 text-sm">
+                            No trip type data
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Budget Distribution -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="font-['Playfair_Display',serif] text-xl font-bold text-gray-900 mb-6">Budget Range</h3>
+                    @if ($budgetStats->count() > 0)
+                        <div class="relative h-56">
+                            <canvas id="budgetChart"></canvas>
+                        </div>
+                    @else
+                        <div class="flex items-center justify-center h-56 text-gray-400 text-sm">
+                            No budget data
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Travelers Breakdown -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="font-['Playfair_Display',serif] text-xl font-bold text-gray-900 mb-6">Travelers Type</h3>
+                    @if ($travelerStats['adults'] > 0 || $travelerStats['children'] > 0 || $travelerStats['infants'] > 0)
+                        <div class="relative h-56">
+                            <canvas id="travelersChart"></canvas>
+                        </div>
+                    @else
+                        <div class="flex items-center justify-center h-56 text-gray-400 text-sm">
+                            No traveler data
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Recent Bookings -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-['Playfair_Display',serif] text-xl font-bold text-gray-900">Recent Bookings</h3>
+                        <a href="{{ route('user.bookings.contacts') }}"
+                            class="text-sm text-teal-600 hover:text-teal-700 font-medium hover:underline">
+                            View All
+                        </a>
+                    </div>
+
+                    @if ($recentBookings->count() > 0)
+                        <div class="space-y-4">
+                            @foreach ($recentBookings as $booking)
+                                <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                                    <div
+                                        class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-gray-900 truncate">{{ $booking->destination }}
+                                        </p>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            {{ $booking->departure_date ? $booking->departure_date->format('M d, Y') : 'Date pending' }}
+                                            @if ($booking->total_travelers)
+                                                • {{ $booking->total_travelers }}
+                                                {{ Str::plural('traveler', $booking->total_travelers) }}
+                                            @endif
+                                        </p>
+                                        <p class="text-xs text-gray-400 mt-1">{{ $booking->created_at->diffForHumans() }}
+                                        </p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-center py-12">
+                            <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <p class="text-gray-500 text-sm mb-4">No bookings yet</p>
+                            <a href="{{ route('make-a-request') }}"
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700 transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                                Create Booking
+                            </a>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Recent Inquiries -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-['Playfair_Display',serif] text-xl font-bold text-gray-900">Recent Inquiries</h3>
+                        <a href="{{ route('inquiries.index') }}"
+                            class="text-sm text-purple-600 hover:text-purple-700 font-medium hover:underline">
+                            View All
+                        </a>
+                    </div>
+
+                    @if ($recentInquiries->count() > 0)
+                        <div class="space-y-4">
+                            @foreach ($recentInquiries as $inquiry)
+                                <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                                    <div
+                                        class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-gray-900 truncate">
+                                            {{ $inquiry->destination->name ?? 'General Inquiry' }}
+                                        </p>
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">
+                                            {{ Str::limit($inquiry->message, 80) }}</p>
+                                        <p class="text-xs text-gray-400 mt-1">{{ $inquiry->created_at->diffForHumans() }}
+                                        </p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-center py-12">
+                            <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            </svg>
+                            <p class="text-gray-500 text-sm mb-4">No inquiries yet</p>
+                            <a href="{{ route('contact') }}"
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                                Submit Inquiry
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
-    </main>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <script>
-        // Mobile menu toggle
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const menuIcon = document.getElementById('menuIcon');
-        const closeIcon = document.getElementById('closeIcon');
+        // Chart Colors
+        const colors = {
+            teal: {
+                primary: 'rgba(15, 118, 110, 1)',
+                light: 'rgba(15, 118, 110, 0.2)',
+                gradient: ['rgba(15, 118, 110, 0.8)', 'rgba(20, 184, 166, 0.6)']
+            },
+            purple: {
+                primary: 'rgba(147, 51, 234, 1)',
+                light: 'rgba(147, 51, 234, 0.2)',
+            },
+            blue: {
+                primary: 'rgba(37, 99, 235, 1)',
+                light: 'rgba(37, 99, 235, 0.2)',
+            },
+            multi: [
+                'rgba(15, 118, 110, 0.8)',
+                'rgba(147, 51, 234, 0.8)',
+                'rgba(37, 99, 235, 0.8)',
+                'rgba(234, 88, 12, 0.8)',
+                'rgba(239, 68, 68, 0.8)',
+            ]
+        };
 
-        function toggleMenu() {
-            sidebar.classList.toggle('-translate-x-full');
-            overlay.classList.toggle('hidden');
-            menuIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
-        }
+        // Common chart options for responsiveness
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: true,
+        };
 
-        mobileMenuToggle.addEventListener('click', toggleMenu);
-        overlay.addEventListener('click', toggleMenu);
+        // Monthly Activity Chart
+        const monthlyActivityCtx = document.getElementById('monthlyActivityChart');
+        if (monthlyActivityCtx) {
+            const monthlyData = @json($monthlyActivity);
 
-        // Close sidebar when clicking a link on mobile
-        const sidebarLinks = sidebar.querySelectorAll('a');
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth < 1024) {
-                    toggleMenu();
+            new Chart(monthlyActivityCtx, {
+                type: 'line',
+                data: {
+                    labels: monthlyData.map(item => item.month),
+                    datasets: [{
+                            label: 'Bookings',
+                            data: monthlyData.map(item => item.bookings),
+                            borderColor: colors.teal.primary,
+                            backgroundColor: colors.teal.light,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: colors.teal.primary,
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'Inquiries',
+                            data: monthlyData.map(item => item.inquiries),
+                            borderColor: colors.purple.primary,
+                            backgroundColor: colors.purple.light,
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: colors.purple.primary,
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    ...commonOptions,
+                    aspectRatio: 2,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                font: {
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                display: true,
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 11
+                                },
+                                maxRotation: 45,
+                                minRotation: 0
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
                 }
             });
-        });
+        }
 
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) {
-                sidebar.classList.remove('-translate-x-full');
-                overlay.classList.add('hidden');
-                menuIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
+        // Destinations Chart
+        const destinationsCtx = document.getElementById('destinationsChart');
+        @if ($destinationStats->count() > 0)
+            if (destinationsCtx) {
+                const destinationData = @json($destinationStats);
+
+                new Chart(destinationsCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(destinationData),
+                        datasets: [{
+                            data: Object.values(destinationData),
+                            backgroundColor: colors.multi,
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        aspectRatio: 2,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    padding: 12,
+                                    font: {
+                                        size: 11
+                                    },
+                                    boxWidth: 12
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += context.parsed + ' booking' + (context.parsed !== 1 ? 's' :
+                                        '');
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
             }
-        });
+        @endif
+
+        // Trip Types Chart
+        const tripTypesCtx = document.getElementById('tripTypesChart');
+        @if ($tripTypeStats->count() > 0)
+            if (tripTypesCtx) {
+                const tripTypeData = @json($tripTypeStats);
+
+                new Chart(tripTypesCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(tripTypeData).map(type => type.replace(/_/g, ' ').replace(/\b\w/g, l =>
+                            l.toUpperCase())),
+                        datasets: [{
+                            data: Object.values(tripTypeData),
+                            backgroundColor: colors.multi,
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        aspectRatio: 1.5,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    padding: 10,
+                                    font: {
+                                        size: 10
+                                    },
+                                    boxWidth: 12
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        @endif
+
+        // Budget Chart
+        const budgetCtx = document.getElementById('budgetChart');
+        @if ($budgetStats->count() > 0)
+            if (budgetCtx) {
+                const budgetData = @json($budgetStats);
+
+                new Chart(budgetCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(budgetData).map(budget => budget.replace(/_/g, ' ').replace(/\b\w/g,
+                            l => l.toUpperCase())),
+                        datasets: [{
+                            label: 'Bookings',
+                            data: Object.values(budgetData),
+                            backgroundColor: colors.teal.primary,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        aspectRatio: 1.5,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1,
+                                    font: {
+                                        size: 11
+                                    }
+                                },
+                                grid: {
+                                    display: true,
+                                    drawBorder: false
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    font: {
+                                        size: 10
+                                    },
+                                    maxRotation: 45,
+                                    minRotation: 0
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        @endif
+
+        // Travelers Chart
+        const travelersCtx = document.getElementById('travelersChart');
+        @if ($travelerStats['adults'] > 0 || $travelerStats['children'] > 0 || $travelerStats['infants'] > 0)
+            if (travelersCtx) {
+                const travelerData = @json($travelerStats);
+
+                new Chart(travelersCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Adults', 'Children', 'Infants'],
+                        datasets: [{
+                            data: [travelerData.adults, travelerData.children, travelerData.infants],
+                            backgroundColor: [
+                                'rgba(15, 118, 110, 0.8)',
+                                'rgba(37, 99, 235, 0.8)',
+                                'rgba(234, 88, 12, 0.8)'
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        aspectRatio: 1.5,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    padding: 10,
+                                    font: {
+                                        size: 10
+                                    },
+                                    boxWidth: 12
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += context.parsed + ' traveler' + (context.parsed !== 1 ? 's' :
+                                            '');
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        @endif
     </script>
-</body>
-</html>
+
+@endsection

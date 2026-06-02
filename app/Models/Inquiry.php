@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Inquiry extends Model
 {
     protected $fillable = [
+        'user_id',
         'destination_id',
         'first_name',
         'last_name',
@@ -15,6 +16,7 @@ class Inquiry extends Model
         'message',
         'ip_address',
         'user_agent',
+        'form_type',
     ];
 
     public function destination()

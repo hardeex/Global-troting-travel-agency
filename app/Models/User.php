@@ -22,6 +22,9 @@ class User extends Authenticatable
         'password',
         'phone',
         'role',
+        'cookie_consent',
+    'cookie_settings',
+    'cookie_consent_date',
     ];
 
     /**
@@ -62,4 +65,15 @@ class User extends Authenticatable
     {
         return $this->role === 'user';
     }
+
+
+    public function bookings()
+{
+    return $this->hasMany(Booking::class);
+}
+
+public function inquiries()
+{
+    return $this->hasMany(Inquiry::class);
+}
 }

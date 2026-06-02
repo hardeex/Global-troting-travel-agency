@@ -3,8 +3,10 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CookieConsentController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UnifiedSubmissionsController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -22,7 +24,8 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/destinations', [HomeController::class, 'allDestinations'])->name('destinations');
-Route::get('/privacy/policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
+Route::get('/destination/{slug}', [HomeController::class, 'showDestination'])->name('destination.show');
+//Route::get('/privacy/policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/terms/conditions', [HomeController::class, 'termsConditions'])->name('terms.conditions');
 
 // Booking & Inquiries
@@ -38,6 +41,17 @@ Route::get('/sitemap', function () {
     ]);
 });
 
+
+
+
+// Cookie Consent Routes
+Route::post('/cookie-consent', [CookieConsentController::class, 'store'])->name('cookie.consent.store');
+Route::post('/cookie-consent/accept', [CookieConsentController::class, 'accept'])->name('cookie.consent.accept');
+Route::post('/cookie-consent/reject', [CookieConsentController::class, 'reject'])->name('cookie.consent.reject');
+Route::get('/cookie-consent/status', [CookieConsentController::class, 'status'])->name('cookie.consent.status');
+Route::get('/privacy-policy', [CookieConsentController::class, 'privacyPolicy'])->name('privacy.policy');
+
+
 /*
 |--------------------------------------------------------------------------
 | Guest Routes (Only Accessible When NOT Logged In)
@@ -52,14 +66,30 @@ Route::middleware('guest')->group(function () {
     // Login
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
-    
-    // Password Reset
-    Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
-    Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+   
     
     // Google OAuth
     Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.redirect');
     Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+
+
+
+    // Forgot password form
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])
+        ->name('password.request');
+
+    // Send reset email
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])
+        ->name('password.email');
+
+    // Show reset form
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])
+        ->name('password.reset');
+
+    // Handle reset submission
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+        ->name('password.update');
+
 });
 
 /*
@@ -114,6 +144,35 @@ Route::middleware('auth')->group(function () {
         
         // Logout
         Route::get('/logout', [AuthController::class, 'adminLogout'])->name('logout');
+
+
+         // User Management
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::get('/users/{user}', [AdminController::class, 'viewUser'])->name('user.view');
+    Route::patch('/users/{user}/role', [AdminController::class, 'updateUserRole'])->name('user.role');
+    Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('user.delete');
+    Route::post('/users/bulk-delete', [AdminController::class, 'bulkDeleteUsers'])->name('users.bulk-delete');
+
+
+      
+    // Unified submissions dashboard
+    Route::get('/submissions', [UnifiedSubmissionsController::class, 'index'])->name('submissions.index');
+    
+    // View individual submission details
+    Route::get('/submissions/{type}/{id}', [UnifiedSubmissionsController::class, 'show'])->name('submissions.show');
+    
+    // Toggle spam status
+    Route::patch('/submissions/{type}/{id}/toggle-spam', [UnifiedSubmissionsController::class, 'toggleSpam'])->name('submissions.toggle-spam');
+    
+    // Delete individual submission
+    Route::delete('/submissions/{type}/{id}', [UnifiedSubmissionsController::class, 'destroy'])->name('submissions.destroy');
+    
+    // Export submissions to CSV
+    Route::get('/submissions/export', [UnifiedSubmissionsController::class, 'export'])->name('submissions.export');
+    
+    // Bulk delete all spam
+    Route::delete('/submissions/bulk/delete-spam', [UnifiedSubmissionsController::class, 'bulkDeleteSpam'])->name('submissions.bulk-delete-spam');
+    
     });
     
     /*
@@ -123,6 +182,10 @@ Route::middleware('auth')->group(function () {
     */
     Route::middleware('user')->group(function () {
         Route::get('/dashboard', [UserDashboardController::class, 'userDashboard'])->name('user.dashboard');
+        Route::get('/my-bookings-contacts', [UserDashboardController::class, 'myBookingsAndContacts'])->name('user.bookings.contacts');          
+        Route::get('/my-inquiries', [UserDashboardController::class, 'myInquiries'])->name('inquiries.index');
+        Route::post('/inquiries/clear-session', [UserDashboardController::class, 'clearGuestSession'])->name('inquiries.clear-session');
+        Route::get('/my-scheduled-trips', [UserDashboardController::class, 'myScheduledTrips'])->name('user.scheduled-trips');
     });
 });
 

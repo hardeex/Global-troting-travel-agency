@@ -1,30 +1,30 @@
 @extends('components.base')
-@section('title', 'Login | Globe Trotting')
+@section('title', 'Reset Password | Globe Trotting')
 
 @section('content')
 <div class="relative min-h-screen flex items-center justify-center overflow-hidden">
-    <!-- Animated Background Video/Image -->
+    <!-- Animated Background Image -->
     <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1920&q=80" 
-             alt="London Background" 
+        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&q=80" 
+             alt="Travel Background" 
              class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-blue-900/70 to-blue-800/80"></div>
         
         <!-- Floating Elements Animation -->
         <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl animate-float"></div>
-            <div class="absolute top-40 right-20 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl animate-float-delayed"></div>
-            <div class="absolute bottom-20 left-1/4 w-24 h-24 bg-blue-400/20 rounded-full blur-xl animate-float-slow"></div>
-            <div class="absolute bottom-40 right-1/3 w-28 h-28 bg-white/10 rounded-full blur-2xl animate-float"></div>
+            <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl animate-bounce" style="animation-duration: 6s;"></div>
+            <div class="absolute top-40 right-20 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl animate-pulse" style="animation-duration: 8s;"></div>
+            <div class="absolute bottom-20 left-1/4 w-24 h-24 bg-blue-400/20 rounded-full blur-xl animate-bounce" style="animation-duration: 10s;"></div>
+            <div class="absolute bottom-40 right-1/3 w-28 h-28 bg-white/10 rounded-full blur-2xl animate-pulse" style="animation-duration: 7s;"></div>
         </div>
     </div>
 
-    <!-- Login Container -->
+    <!-- Main Container -->
     <div class="relative z-20 container mx-auto px-4 py-8">
         <div class="max-w-md mx-auto w-full">
             
             <!-- Logo and Header -->
-            <div class="text-center mb-8 animate-fade-in">
+            <div class="text-center mb-8 opacity-0 animate-[fadeIn_0.6s_ease-out_forwards]">
                 <a href="/" class="inline-block">
                     <div class="flex flex-col items-center">
                         <div class="relative">
@@ -43,19 +43,24 @@
                 </a>
             </div>
 
-            <!-- Login Card -->
-            <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 animate-slide-up">
+            <!-- Reset Password Card -->
+            <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 opacity-0 animate-[slideUp_0.6s_ease-out_forwards]" style="animation-delay: 0.2s;">
                 <!-- Header -->
                 <div class="text-center mb-8">
+                    <div class="mx-auto w-16 h-16 bg-gradient-to-r from-blue-100 to-blue-200 rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                        </svg>
+                    </div>
                     <h2 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent mb-2">
-                        Welcome Back
+                        Reset Password
                     </h2>
-                    <p class="text-gray-600">Sign in to continue your journey</p>
+                    <p class="text-gray-600">Create a new password for your account</p>
                 </div>
 
                 <!-- Success Message -->
                 @if(session('success'))
-                    <div class="bg-green-50 border-l-4 border-green-500 text-green-800 px-4 py-3 rounded-lg mb-6 animate-fade-in">
+                    <div class="bg-green-50 border-l-4 border-green-500 text-green-800 px-4 py-3 rounded-lg mb-6 opacity-0 animate-[fadeIn_0.4s_ease-out_forwards]">
                         <div class="flex items-center">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -67,7 +72,7 @@
 
                 <!-- Error Messages -->
                 @if($errors->any())
-                    <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 px-4 py-3 rounded-lg mb-6 animate-shake">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 px-4 py-3 rounded-lg mb-6 animate-[shake_0.5s_ease-in-out]">
                         <ul class="space-y-1">
                             @foreach($errors->all() as $error)
                                 <li class="flex items-start">
@@ -81,29 +86,37 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                <form method="POST" action="{{ route('password.update') }}" class="space-y-6">
                     @csrf
 
-                    <!-- Email -->
+                    <!-- Hidden Token -->
+                    <input type="hidden" name="token" value="{{ $token }}">
+
+                    <!-- Email (Read-only) -->
                     <div class="group">
                         <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
                             Email Address
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
                                 </svg>
                             </div>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}" requiblue autofocus
-                                class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 hover:border-blue-300">
+                            <input type="email" 
+                                   id="email" 
+                                   name="email" 
+                                   value="{{ $email ?? old('email') }}" 
+                                   required 
+                                   readonly
+                                   class="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed">
                         </div>
                     </div>
 
-                    <!-- Password -->
+                    <!-- New Password -->
                     <div class="group">
                         <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
-                            Password
+                            New Password
                         </label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -111,11 +124,45 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                                 </svg>
                             </div>
-                            <input type="password" id="password" name="password" requiblue
-                                class="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 hover:border-blue-300">
-                            <button type="button" onclick="togglePassword('password', 'toggleIcon')" 
-                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors">
-                                <svg id="toggleIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <input type="password" 
+                                   id="password" 
+                                   name="password" 
+                                   required
+                                   placeholder="Enter new password"
+                                   class="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 hover:border-blue-300">
+                            <button type="button" 
+                                    onclick="togglePassword('password', 'toggleIcon1')" 
+                                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors">
+                                <svg id="toggleIcon1" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Must be at least 8 characters long</p>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="group">
+                        <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Confirm Password
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400 group-focus-within:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <input type="password" 
+                                   id="password_confirmation" 
+                                   name="password_confirmation" 
+                                   required
+                                   placeholder="Confirm new password"
+                                   class="w-full pl-10 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 hover:border-blue-300">
+                            <button type="button" 
+                                    onclick="togglePassword('password_confirmation', 'toggleIcon2')" 
+                                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors">
+                                <svg id="toggleIcon2" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                 </svg>
@@ -123,21 +170,32 @@
                         </div>
                     </div>
 
-                    <!-- Remember Me & Forgot Password -->
-                    <div class="flex items-center justify-between">
-                        <label class="flex items-center cursor-pointer group">
-                            <input type="checkbox" name="remember" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer">
-                            <span class="ml-2 text-sm text-gray-700 group-hover:text-blue-600 transition-colors">Remember me</span>
-                        </label>
-                        <a href="{{ route('password.email') }}" class="text-sm text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-all">
-                            Forgot Password?
-                        </a>
+                    <!-- Password Requirements -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <h4 class="text-sm font-semibold text-blue-900 mb-2">Password Requirements:</h4>
+                        <ul class="text-xs text-blue-700 space-y-1">
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                At least 8 characters long
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                Both passwords must match
+                            </li>
+                        </ul>
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit"
                         class="w-full bg-gradient-to-r from-blue-600 via-blue-600 to-blue-700 text-white font-bold py-4 px-6 rounded-xl hover:from-blue-700 hover:via-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2 group">
-                        Sign In
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Reset Password
                         <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                         </svg>
@@ -150,27 +208,17 @@
                         <div class="w-full border-t border-gray-300"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">
-                        <span class="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
+                        <span class="px-4 bg-white text-gray-500 font-medium">Or</span>
                     </div>
                 </div>
 
-                <!-- Google Sign In Button -->
-                <a href="{{ route('google.redirect') }}"
-                    class="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold py-3.5 px-4 rounded-xl hover:bg-gray-50 hover:border-gray-400 hover:shadow-lg transition-all duration-300 transform hover:scale-105 group">
-                    <svg class="w-5 h-5 group-hover:rotate-12 transition-transform" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    Continue with Google
-                </a>
-
-                <!-- Register Link -->
-                <p class="text-center text-gray-600 mt-8">
-                    Don't have an account?
-                    <a href="{{ route('register') }}" class="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-all">
-                        Create Account
+                <!-- Back to Login -->
+                <p class="text-center text-gray-600">
+                    <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-all inline-flex items-center gap-2 group">
+                        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Back to Login
                     </a>
                 </p>
             </div>
@@ -209,27 +257,12 @@ function togglePassword(inputId, iconId) {
 </script>
 
 <style>
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes float-delayed {
-    0%, 100% { transform: translateY(0px) translateX(0px); }
-    50% { transform: translateY(-30px) translateX(10px); }
-}
-
-@keyframes float-slow {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-}
-
-@keyframes fade-in {
+@keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slide-up {
+@keyframes slideUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
@@ -238,30 +271,6 @@ function togglePassword(inputId, iconId) {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-10px); }
     75% { transform: translateX(10px); }
-}
-
-.animate-float {
-    animation: float 6s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-    animation: float-delayed 8s ease-in-out infinite;
-}
-
-.animate-float-slow {
-    animation: float-slow 10s ease-in-out infinite;
-}
-
-.animate-fade-in {
-    animation: fade-in 0.6s ease-out;
-}
-
-.animate-slide-up {
-    animation: slide-up 0.6s ease-out;
-}
-
-.animate-shake {
-    animation: shake 0.5s ease-in-out;
 }
 </style>
 @endsection
