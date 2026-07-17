@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="rSBLaKuyJYlzkYhTRAtkovhIuggQiRwM7KRGSD096BU" />
     <meta name="msvalidate.01" content="B2BC30B3F709B7093851C0D27E5BFA0A" />
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
-   <title>@yield('title', 'Global Trotting Travel')</title>
+    <title>@yield('title', 'Global Trotting Travel')</title>
     <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
     @vite('resources/css/app.css')
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <script src="/js/base.js" defer></script>
     <link rel="stylesheet" href="/css/logo.css">
@@ -34,6 +34,34 @@
         gtag('config', 'G-TRKZDQT8DZ');
     </script>
 
+    {{-- Meta Pixels --}}
+    <!-- Meta Pixel Code -->
+    <script>
+        ! function(f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function() {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '3280223679033151');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=3280223679033151&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+
 </head>
 
 <body class="bg-gray-50">
@@ -41,21 +69,21 @@
     <!-- Navigation -->
     {{-- @include('components.nav') --}}
     @if (!request()->routeIs('login', 'register', 'password.*'))
-    @include('components.nav')
-@endif
+        @include('components.nav')
+    @endif
 
 
     @yield('content')
 
-{{-- 
+    {{--
     @include('components.footer') --}}
 
 
     {{-- @include('components.new-footer') --}}
 
     @if (!request()->routeIs('login', 'register', 'password.*'))
-    @include('components.new-footer')
-@endif
+        @include('components.new-footer')
+    @endif
 
 
 

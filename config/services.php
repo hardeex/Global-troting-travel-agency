@@ -59,4 +59,9 @@ return [
     'redirect' => env('GOOGLE_REDIRECT_URI', env('APP_URL') . '/auth/google/callback'),
 ],
 
+
+    'meta' => [
+        'pixel_id' => env('META_PIXEL_ID'),
+    ],
+
 ];
