@@ -8,58 +8,77 @@
     <meta name="google-site-verification" content="rSBLaKuyJYlzkYhTRAtkovhIuggQiRwM7KRGSD096BU" />
     <meta name="msvalidate.01" content="B2BC30B3F709B7093851C0D27E5BFA0A" />
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
-    <title>@yield('title', 'Global Trotting Travel')</title>
+    <title>@yield('title', 'GlobeTrottle')</title>
+    @hasSection('meta_description')
+        <meta name="description" content="{{ trim(str_replace(["\r", "\n"], ' ', strip_tags($__env->yieldContent('meta_description')))) }}">
+    @endif
+    @hasSection('canonical')
+        <link rel="canonical" href="@yield('canonical')">
+    @endif
+    <meta property="og:title" content="@yield('title', 'GlobeTrottle')">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    @hasSection('meta_description')
+        <meta property="og:description" content="{{ trim(str_replace(["\r", "\n"], ' ', strip_tags($__env->yieldContent('meta_description')))) }}">
+    @endif
+    @hasSection('og_image')
+        <meta property="og:image" content="@yield('og_image')">
+    @endif
+    <meta name="twitter:card" content="summary_large_image">
+    @yield('structured_data')
     <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
     @vite('resources/css/app.css')
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="{{ asset('images/global-throthlelogo.jpeg') }}">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32x32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/apple-touch-icon.png') }}">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <script src="/js/base.js" defer></script>
     <link rel="stylesheet" href="/css/logo.css">
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TRKZDQT8DZ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+    @if(config('services.google_analytics.id'))
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.id') }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
 
-        gtag('config', 'G-TRKZDQT8DZ');
-    </script>
+            gtag('config', '{{ config('services.google_analytics.id') }}');
+        </script>
+    @endif
 
-    {{-- Meta Pixels --}}
-    <!-- Meta Pixel Code -->
-    <script>
-        ! function(f, b, e, v, n, t, s) {
-            if (f.fbq) return;
-            n = f.fbq = function() {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window, document, 'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '3280223679033151');
-        fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=3280223679033151&ev=PageView&noscript=1" /></noscript>
+    @if(config('services.meta.pixel_id'))
+        {{-- Meta Pixels --}}
+        <!-- Meta Pixel Code -->
+        <script>
+            ! function(f, b, e, v, n, t, s) {
+                if (f.fbq) return;
+                n = f.fbq = function() {
+                    n.callMethod ?
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                };
+                if (!f._fbq) f._fbq = n;
+                n.push = n;
+                n.loaded = !0;
+                n.version = '2.0';
+                n.queue = [];
+                t = b.createElement(e);
+                t.async = !0;
+                t.src = v;
+                s = b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t, s)
+            }(window, document, 'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '{{ config('services.meta.pixel_id') }}');
+            fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+                src="https://www.facebook.com/tr?id={{ config('services.meta.pixel_id') }}&ev=PageView&noscript=1" /></noscript>
+    @endif
     <!-- End Meta Pixel Code -->
 
 </head>
@@ -67,19 +86,11 @@
 <body class="bg-gray-50">
 
     <!-- Navigation -->
-    {{-- @include('components.nav') --}}
     @if (!request()->routeIs('login', 'register', 'password.*'))
         @include('components.nav')
     @endif
 
-
     @yield('content')
-
-    {{--
-    @include('components.footer') --}}
-
-
-    {{-- @include('components.new-footer') --}}
 
     @if (!request()->routeIs('login', 'register', 'password.*'))
         @include('components.new-footer')

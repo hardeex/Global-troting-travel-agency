@@ -1,5 +1,7 @@
 @extends('components.base')
-@section('title', 'About Global Throtting.')
+@section('title', 'About Us — GlobeTrottle')
+@section('meta_description', 'Learn about GlobeTrottle, our team, and our mission to make bespoke travel planning simple, affordable and ABTA/ATOL protected.')
+@section('canonical', route('about'))
 
 @section('content')
 <style>

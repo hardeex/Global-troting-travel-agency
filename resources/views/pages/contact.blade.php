@@ -1,5 +1,7 @@
 @extends('components.base')
-@section('title', 'Contact Us - Global Throtting.')
+@section('title', 'Contact Us — GlobeTrottle')
+@section('meta_description', 'Get in touch with the GlobeTrottle team to plan your next trip, ask about an existing booking, or request a personalised travel quote.')
+@section('canonical', route('contact'))
 
 @section('content')
 

@@ -1,5 +1,7 @@
 @extends('components.base')
-@section('title', 'Privacy Policy - Global Trotting.')
+@section('title', 'Privacy Policy — GlobeTrottle')
+@section('meta_description', 'Read the GlobeTrottle privacy policy to understand how we collect, use and protect your personal data.')
+@section('canonical', route('privacy.policy'))
 
 @section('content')
 

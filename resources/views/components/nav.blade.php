@@ -4,7 +4,7 @@
             <!-- Logo - Left Side -->
             <div class="flex items-center flex-shrink-0">
                 <a href="{{ route('index') }}" class="transition-transform duration-200 hover:scale-105">
-                    <img src="/images/global-throthlelogo-new.png" alt="Globe Trotting Logo"
+                    <img src="/images/global-throthlelogo-new.png" alt="GlobeTrottle"
                         class="h-10 sm:h-12 lg:h-14 w-auto object-contain">
                 </a>
             </div>
@@ -18,6 +18,8 @@
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Contact</a>
                     <a href="{{route('destinations')}}"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Destinations</a>
+                    <a href="{{route('blog.index')}}"
+                        class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Blog</a>
                     <a href="{{route('make-a-request')}}"
                         class="text-blue-200 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Schedule With Us</a>
                 </div>
@@ -91,6 +93,10 @@
             <a href="{{route('destinations')}}"
                 class="text-blue-200 hover:text-white hover:bg-slate-800/50 block px-3 py-2 rounded-md text-base font-medium transition-colors">
                 Destinations
+            </a>
+            <a href="{{route('blog.index')}}"
+                class="text-blue-200 hover:text-white hover:bg-slate-800/50 block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                Blog
             </a>
             <a href="{{route('make-a-request')}}"
                 class="text-blue-200 hover:text-white hover:bg-slate-800/50 block px-3 py-2 rounded-md text-base font-medium transition-colors">

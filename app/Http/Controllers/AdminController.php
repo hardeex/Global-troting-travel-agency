@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Destination;
+use App\Models\FormSubmission;
 use App\Models\Inquiry;
 use App\Models\User;
 use Carbon\Carbon;
@@ -135,7 +136,7 @@ class AdminController extends Controller
         ]);
 
         // Build query with filters
-        $query = DB::table('form_submissions');
+        $query = FormSubmission::query();
 
         if ($request->filled('type')) {
             $query->whereJsonContains('payload->booking_type', $request->type);
@@ -180,7 +181,7 @@ class AdminController extends Controller
         ]);
 
         try {
-            $deleted = DB::table('form_submissions')->where('id', $id)->delete();
+            $deleted = FormSubmission::where('id', $id)->delete();
 
             if (!$deleted) {
                 Log::warning('Booking deletion failed - not found', [
@@ -233,7 +234,7 @@ class AdminController extends Controller
         ]);
 
         try {
-            $submissions = DB::table('form_submissions')->orderByDesc('created_at')->get();
+            $submissions = FormSubmission::orderByDesc('created_at')->get();
 
             if ($submissions->isEmpty()) {
                 Log::warning('Export failed - no submissions found', [
@@ -249,7 +250,7 @@ class AdminController extends Controller
             ]);
 
             $exportData = $submissions->map(function ($item) {
-                $payload = json_decode($item->payload, true);
+                $payload = $item->payload;
 
                 return [
                     'Name' => $payload['name'] ?? '',

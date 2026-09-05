@@ -1,5 +1,7 @@
 @extends('components.base')
-@section('title', 'All Destinations')
+@section('title', 'Destinations — GlobeTrottle')
+@section('meta_description', 'Browse our current range of curated travel destinations and packages, and get a personalised quote from GlobeTrottle.')
+@section('canonical', route('destinations'))
 
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">

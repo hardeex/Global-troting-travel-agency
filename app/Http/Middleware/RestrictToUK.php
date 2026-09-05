@@ -23,6 +23,13 @@ class RestrictToUK
             return $next($request);
         }
 
+        if ($this->isKnownCrawler($request->userAgent())) {
+            Log::info('🤖 Geo check skipped (known search engine crawler)', [
+                'user_agent' => $request->userAgent(),
+            ]);
+            return $next($request);
+        }
+
         $ip = $request->ip();
 
         $country = Cache::remember("geo_country_{$ip}", 86400, function () use ($ip) {
@@ -97,6 +104,34 @@ class RestrictToUK
 }
 
 
+
+   private function isKnownCrawler(?string $userAgent): bool
+   {
+        if (!$userAgent) {
+            return false;
+        }
+
+        $crawlers = [
+            'Googlebot',
+            'bingbot',
+            'Slurp', // Yahoo
+            'DuckDuckBot',
+            'Baiduspider',
+            'YandexBot',
+            'facebookexternalhit',
+            'Twitterbot',
+            'LinkedInBot',
+            'Applebot',
+        ];
+
+        foreach ($crawlers as $crawler) {
+            if (stripos($userAgent, $crawler) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+   }
 
    private function isPrivateIP($ip)
 {

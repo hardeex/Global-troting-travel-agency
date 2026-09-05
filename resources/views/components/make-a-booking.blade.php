@@ -18,7 +18,7 @@
                     
                     <p class="text-base sm:text-lg text-slate-600 mb-6 sm:mb-8 leading-relaxed space-y-4">
                         <span class="block">
-                            At Global Trotting, we are passionate about making every journey seamless, stress-free, and memorable.
+                            At GlobeTrottle, we are passionate about making every journey seamless, stress-free, and memorable.
                         </span>
                         <span class="block">
                             Our mission is to provide travelers with effortless booking, reliable support, and affordable travel solutions.

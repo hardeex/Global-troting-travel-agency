@@ -2,14 +2,15 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogCategoryController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,17 +26,25 @@ Route::get('/destinations', [HomeController::class, 'allDestinations'])->name('d
 Route::get('/privacy/policy', [HomeController::class, 'privacyPolicy'])->name('privacy.policy');
 Route::get('/terms/conditions', [HomeController::class, 'termsConditions'])->name('terms.conditions');
 
+// Blog
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/category/{category:slug}', [BlogController::class, 'category'])->name('blog.category');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+
 // Booking & Inquiries
 Route::get('/booking-inquiry', [DestinationController::class, 'makeArequest'])->name('make-a-request');
 Route::post('/book-travel-agency', [DestinationController::class, 'bookTravelRequest'])->name('book-travel-agency');
 Route::post('/submit-form', [BookingController::class, 'submit'])->name('form.submit');
 Route::post('/send-interest', [HomeController::class, 'sendInterestEmail'])->name('send.interest');
 
-// Sitemap
-Route::get('/sitemap', function () {
-    return response()->file(resource_path('views/sitemap.xml'), [
-        'Content-Type' => 'application/xml',
-    ]);
+// Sitemap & robots.txt
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', function () {
+    return response(
+        "User-agent: *\nDisallow:\n\nSitemap: " . url('/sitemap.xml') . "\n",
+        200,
+        ['Content-Type' => 'text/plain']
+    );
 });
 
 /*
@@ -56,7 +65,9 @@ Route::middleware('guest')->group(function () {
     // Password Reset
     Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
-    
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
     // Google OAuth
     Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.redirect');
     Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
@@ -94,12 +105,25 @@ Route::middleware('auth')->group(function () {
         Route::put('/destinations/{destination}', [DestinationController::class, 'update'])->name('destinations.update');
         Route::delete('/destinations/{destination}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
         
+        // Blog Management
+        Route::get('/blog', [BlogPostController::class, 'index'])->name('blog.index');
+        Route::get('/blog/create', [BlogPostController::class, 'create'])->name('blog.create');
+        Route::post('/blog', [BlogPostController::class, 'store'])->name('blog.store');
+        Route::get('/blog/{post}/edit', [BlogPostController::class, 'edit'])->name('blog.edit');
+        Route::put('/blog/{post}', [BlogPostController::class, 'update'])->name('blog.update');
+        Route::delete('/blog/{post}', [BlogPostController::class, 'destroy'])->name('blog.destroy');
+
+        // Blog Categories
+        Route::get('/blog-categories', [BlogCategoryController::class, 'index'])->name('blog.categories.index');
+        Route::post('/blog-categories', [BlogCategoryController::class, 'store'])->name('blog.categories.store');
+        Route::put('/blog-categories/{category}', [BlogCategoryController::class, 'update'])->name('blog.categories.update');
+        Route::delete('/blog-categories/{category}', [BlogCategoryController::class, 'destroy'])->name('blog.categories.destroy');
+
         // Bookings & Inquiries Management
         Route::get('/bookings', [AdminController::class, 'adminBookings'])->name('bookings');
         Route::delete('/bookings/{id}', [AdminController::class, 'deleteBooking'])->name('bookings.delete');
         Route::get('/contacts', [BookingController::class, 'adminContact'])->name('contact');
-        //Route::get('/analytics', [BookingController::class, 'analytics'])->name('analytics');
-        
+
         // Inquiries Management
         Route::get('/inquiries', [BookingController::class, 'manageInquiries'])->name('inquiries.manage');
         Route::get('/inquiries/{inquiry}', [BookingController::class, 'showInquiry'])->name('inquiries.show');
@@ -126,99 +150,3 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-
-// TODO: REMOVE THE ROUTES BELOW IN PRODUCTION
-/*
-|--------------------------------------------------------------------------
-| Development & Debug Routes (TO be Remove in Production)
-|--------------------------------------------------------------------------
-*/
-
-if (app()->environment('local')) {
-    // Database Debug
-    Route::get('/db-debug', function () {
-        return config('database.connections.mysql');
-    });
-    
-    // Test View
-    Route::get('/test', function() {
-        return view('dashboard.base');
-    });
-    
-    // Cloudinary Debug
-    Route::get('/debug-cloudinary', function () {
-        Artisan::call('config:clear');
-        Artisan::call('cache:clear');
-        Artisan::call('config:cache');
-
-        return response()->json([
-            'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-            'api_key'    => env('CLOUDINARY_API_KEY'),
-            'api_secret' => env('CLOUDINARY_API_SECRET') ? 'Set' : 'MISSING',
-        ]);
-    });
-    
-    // Clear Config
-    Route::get('/clear-config', function () {
-        Artisan::call('config:clear');
-        Artisan::call('cache:clear');
-        Artisan::call('config:cache');
-        return 'Config and cache cleared!';
-    });
-    
-    // Email Testing
-    Route::get('/test-email', function () {
-        try {
-            \Illuminate\Support\Facades\Mail::raw('This is a test email to confirm if the mail server is working.', function ($message) {
-                $message->to('globetrottingtraveluk@gmail.com')->subject('Test Email');
-            });
-            return 'Test email sent successfully.';
-        } catch (\Exception $e) {
-            return 'Failed to send test email: ' . $e->getMessage();
-        }
-    });
-    
-    Route::get('/test-brevo', function () {
-        try {
-            $emails = explode(',', env('RECEIVER_EMAILS', 'globetrottingtraveluk@gmail.com'));
-            $emails = array_filter(array_map('trim', $emails));
-            
-            \Illuminate\Support\Facades\Mail::raw('This is a test email for Brevo with multiple recipients.', function ($message) use ($emails) {
-                $message->to($emails)
-                        ->subject('Brevo Multi-Recipient Test')
-                        ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-            });
-            return 'Test email sent to multiple recipients successfully.';
-        } catch (\Exception $e) {
-            return 'Failed to send test email: ' . $e->getMessage();
-        }
-    });
-    
-    // reCAPTCHA Testing
-    Route::get('/test-recaptcha', function() {
-        return view('test-recaptcha');
-    });
-    
-    Route::post('/test-recaptcha-verify', function(Request $request) {
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => config('services.recaptcha.secret_key'),
-            'response' => $request->input('token'),
-            'remoteip' => $request->ip()
-        ]);
-
-        return response()->json([
-            'google_response' => $response->json(),
-            'token_received' => $request->input('token') ? 'Yes' : 'No',
-            'token_length' => strlen($request->input('token') ?? ''),
-        ]);
-    });
-    
-    Route::get('/check-recaptcha-config', function() {
-        return response()->json([
-            'site_key' => config('services.recaptcha.site_key'),
-            'secret_key_exists' => !empty(config('services.recaptcha.secret_key')),
-            'secret_key_length' => strlen(config('services.recaptcha.secret_key')),
-            'secret_key_preview' => substr(config('services.recaptcha.secret_key'), 0, 10) . '...',
-        ]);
-    });
-}

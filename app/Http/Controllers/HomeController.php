@@ -245,4 +245,9 @@ class HomeController extends Controller
     {
         return view('pages.privacy-policy');
     }
+
+    public function termsConditions()
+    {
+        return view('pages.terms-conditions');
+    }
 }

@@ -226,7 +226,7 @@
         <div class="space-y-4">
             @forelse($submissions as $submission)
                 @php
-                    $data = json_decode($submission->payload, true);
+                    $data = $submission->payload;
                     $uid = uniqid();
                 @endphp
 

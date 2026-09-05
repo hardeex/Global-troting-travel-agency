@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Password as PasswordBroker;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Propaganistas\LaravelDisposableEmail\Validation\Indisposable;
@@ -175,10 +177,52 @@ private function redirectBasedOnRole()
             'email' => ['required', 'email', 'exists:users,email'],
         ]);
 
-        // Here you would typically send a password reset email
-        // For now, we'll just return a success message
-        
-        return back()->with('success', 'Password reset link has been sent to your email address.');
+        $status = PasswordBroker::sendResetLink($request->only('email'));
+
+        if ($status === PasswordBroker::RESET_LINK_SENT) {
+            return back()->with('success', 'Password reset link has been sent to your email address.');
+        }
+
+        return back()->withErrors(['email' => __($status)]);
+    }
+
+    /**
+     * Show the reset password form
+     */
+    public function showResetPassword(Request $request, string $token)
+    {
+        return view('auth.reset-password', [
+            'token' => $token,
+            'email' => $request->query('email', ''),
+        ]);
+    }
+
+    /**
+     * Handle the password reset submission
+     */
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', Password::min(8)],
+        ]);
+
+        $status = PasswordBroker::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->password = Hash::make($password);
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === PasswordBroker::PASSWORD_RESET) {
+            return redirect()->route('login')->with('success', 'Your password has been reset successfully.');
+        }
+
+        return back()->withErrors(['email' => __($status)]);
     }
 
     /**

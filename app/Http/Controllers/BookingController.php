@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Mail\BookingRequestMail;
 use App\Models\Booking;
 use App\Models\Destination;
+use App\Models\FormSubmission;
 use App\Models\Inquiry;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Rules\RecaptchaRule;
@@ -100,13 +100,11 @@ class BookingController extends Controller
             ]);
 
             // Save as spam but don't send email
-            DB::table('form_submissions')->insert([
-                'payload' => json_encode($validated),
+            FormSubmission::create([
+                'payload' => $validated,
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
                 'is_spam' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
             ]);
 
             // Fake success to confuse bot
@@ -139,13 +137,11 @@ class BookingController extends Controller
         }
 
         // Save legitimate submission to database
-        DB::table('form_submissions')->insert([
-            'payload' => json_encode($validated),
+        FormSubmission::create([
+            'payload' => $validated,
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
             'is_spam' => false,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         return back()->with('success', 'Your request has been sent! We\'ll be in touch soon.');
