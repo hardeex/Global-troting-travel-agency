@@ -128,6 +128,12 @@ class BlogPostController extends Controller
 
     protected function resolveSlug(array $validated, ?BlogPost $post = null): string
     {
+        // On update, keep the existing slug so the post's URL never changes
+        // unless a new slug is explicitly provided.
+        if ($post && empty($validated['slug'])) {
+            return $post->slug;
+        }
+
         $desiredSlug = !empty($validated['slug']) ? Str::slug($validated['slug']) : $validated['title'];
 
         if ($post && $desiredSlug === $post->slug) {

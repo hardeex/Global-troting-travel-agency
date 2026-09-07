@@ -6,6 +6,7 @@
     <title>@yield('title', 'Admin Back-Office')</title>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="bg-gray-50">
     <!-- Mobile Menu Button -->
@@ -31,20 +32,20 @@
 
             @yield('content')
             <!-- Stats Grid -->
-           
 
-          
+
+
         </div>
     </main>
 
     <script>
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
-        
+
         menuBtn.addEventListener('click', () => {
             sidebar.classList.toggle('-translate-x-full');
         });
-        
+
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', (e) => {
             if (window.innerWidth < 1024) {

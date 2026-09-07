@@ -21,7 +21,7 @@
                 class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition">
         </div>
 
-        <div>
+        {{-- <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
                 URL Slug
                 <span class="text-gray-400 font-normal">(leave blank to auto-generate from the title)</span>
@@ -32,7 +32,7 @@
                     placeholder="auto-generated-from-title"
                     class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition">
             </div>
-        </div>
+        </div> --}}
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
@@ -106,7 +106,8 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-4">
         <h3 class="text-lg font-semibold text-gray-800 border-b pb-4">Content <span class="text-red-500">*</span></h3>
         <div id="editor-container" style="min-height: 320px;">{!! old('content', $post->content ?? '') !!}</div>
-        <textarea name="content" id="content" class="hidden" required></textarea>
+        <textarea name="content" id="content" class="hidden"></textarea>
+        <p id="content-error" class="hidden text-sm text-red-600">Content is required.</p>
     </div>
 
     <!-- SEO -->
@@ -157,7 +158,24 @@
         },
     });
 
-    document.getElementById('blogPostForm').addEventListener('submit', function () {
-        document.getElementById('content').value = quill.root.innerHTML;
+    const contentField = document.getElementById('content');
+    const contentError = document.getElementById('content-error');
+
+    function syncContent() {
+        contentField.value = quill.getText().trim().length ? quill.root.innerHTML : '';
+    }
+
+    quill.on('text-change', syncContent);
+    syncContent();
+
+    document.getElementById('blogPostForm').addEventListener('submit', function (e) {
+        syncContent();
+        if (!contentField.value) {
+            e.preventDefault();
+            contentError.classList.remove('hidden');
+            quill.focus();
+        } else {
+            contentError.classList.add('hidden');
+        }
     });
 </script>
